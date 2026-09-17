@@ -31,3 +31,28 @@ Once installed, generate an image with:
 See the [Banana Claude README](https://github.com/AgriciDaniel/banana-claude)
 and [user guide](https://github.com/AgriciDaniel/banana-claude/blob/main/docs/guide.md)
 for the full workflow, security notes, and upgrade instructions.
+
+## AI Landscape Design skill
+
+`.claude/skills/ai-landscape-design/` is a project skill that turns a single
+architectural image into a landscape scheme: it reads the site, classifies the
+project type (villa, compound, hotel, resort, public park, plaza, campus,
+commercial, civic, masterplan), defines the plantable zones, builds the planting
+layers, distributes site furniture and shade at realistic scale, and outputs one
+design-locked Nano Banana / Gemini image-edit prompt in English with short
+Arabic notes. It can also produce a full Master Landscape Concept from one
+image.
+
+Use it in Claude Code with:
+
+```text
+/ai-landscape-design
+```
+
+or just attach a building photo and ask for landscape in Arabic or English —
+for example "صمم لاندسكيب لهذه الفيلا" or "develop the landscape for this park".
+
+Reference modules live in `.claude/skills/ai-landscape-design/references/`:
+project briefs by type, planting palettes by climate with mature sizes, site
+furniture dimensions and distribution rules, the Master Landscape Concept
+deliverable, and two worked examples.
