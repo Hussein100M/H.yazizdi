@@ -243,6 +243,18 @@ model Payment {
   @@index([status])
 }
 
+// سجل الإجراءات الإدارية الحسّاسة
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String
+  target    String
+  createdAt DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([action])
+}
+
 // سجل أحداث المزوّد — يمنع معالجة نفس الحدث مرتين
 model WebhookEvent {
   id          String   @id @default(cuid())

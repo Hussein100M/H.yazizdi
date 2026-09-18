@@ -244,6 +244,14 @@ exports.Prisma.PaymentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AuditLogScalarFieldEnum = {
+  id: 'id',
+  actorId: 'actorId',
+  action: 'action',
+  target: 'target',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.WebhookEventScalarFieldEnum = {
   id: 'id',
   provider: 'provider',
@@ -337,6 +345,7 @@ exports.Prisma.ModelName = {
   Enrollment: 'Enrollment',
   LessonProgress: 'LessonProgress',
   Payment: 'Payment',
+  AuditLog: 'AuditLog',
   WebhookEvent: 'WebhookEvent',
   Certificate: 'Certificate'
 };

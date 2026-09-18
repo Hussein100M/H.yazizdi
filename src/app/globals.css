@@ -145,6 +145,15 @@ p {
   );
 }
 
+/* علامة العلامة التجارية: مقطع من واجهة الزعانف نفسها */
+.fin-mark {
+  background-image: repeating-linear-gradient(
+    to left,
+    var(--color-crimson) 0 1.5px,
+    transparent 1.5px 4.5px
+  );
+}
+
 .rule-strong {
   height: 1px;
   background: var(--hairline);

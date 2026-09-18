@@ -2,6 +2,7 @@ import "server-only";
 
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { env, isProduction } from "@/lib/env";
@@ -101,15 +102,20 @@ export function toSessionUser(user: User): SessionUser {
   return { id: user.id, email: user.email, fullName: user.fullName, role: user.role };
 }
 
-export async function requireUser(): Promise<SessionUser> {
+/**
+ * تُستخدم في الصفحات والإجراءات: تحوّل الزائر غير المخوَّل بدل أن ترمي خطأ،
+ * فلا تظهر صفحة خطأ مكان صفحة تسجيل الدخول.
+ */
+export async function requireUser(nextPath?: string): Promise<SessionUser> {
   const user = await getCurrentUser();
-  if (!user) throw new AuthError("UNAUTHENTICATED");
+  if (!user) redirect(nextPath ? `/login?next=${encodeURIComponent(nextPath)}` : "/login");
   return user;
 }
 
 export async function requireAdmin(): Promise<SessionUser> {
-  const user = await requireUser();
-  if (user.role !== "ADMIN") throw new AuthError("FORBIDDEN");
+  const user = await getCurrentUser();
+  if (!user) redirect("/login?next=/admin");
+  if (user.role !== "ADMIN") redirect("/dashboard");
   return user;
 }
 
