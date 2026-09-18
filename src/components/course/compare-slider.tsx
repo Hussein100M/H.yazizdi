@@ -4,23 +4,27 @@ import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
 import type { ImageRef } from "@/lib/blocks";
 
-/** مقارنة قبل/بعد بمنزلق — الأداة نفسها التي يوصي بها الدليل قبل تسليم أي صورة. */
+/**
+ * مقارنة قبل/بعد بمنزلق — الأداة نفسها التي يوصي بها الدليل قبل تسليم أي صورة.
+ * «قبل» تشغل الجزء الأيمن (بداية القراءة بالعربية)، و«بعد» الجزء الأيسر.
+ * divider يقاس من الحافة اليسرى الفيزيائية لتبقى الحسابات صحيحة في الاتجاهين.
+ */
 export function CompareSlider({ before, after }: { before: ImageRef; after: ImageRef }) {
-  const [position, setPosition] = useState(50);
+  const [divider, setDivider] = useState(50);
   const frame = useRef<HTMLDivElement>(null);
 
   const moveTo = useCallback((clientX: number) => {
     const rect = frame.current?.getBoundingClientRect();
-    if (!rect) return;
+    if (!rect || rect.width === 0) return;
     const ratio = ((clientX - rect.left) / rect.width) * 100;
-    setPosition(Math.max(0, Math.min(100, ratio)));
+    setDivider(Math.max(0, Math.min(100, ratio)));
   }, []);
 
   return (
     <div>
       <div
         ref={frame}
-        className="plate relative aspect-[3/2] w-full select-none overflow-hidden"
+        className="plate relative aspect-[3/2] w-full touch-none select-none overflow-hidden"
         onPointerDown={(event) => {
           event.currentTarget.setPointerCapture(event.pointerId);
           moveTo(event.clientX);
@@ -36,25 +40,21 @@ export function CompareSlider({ before, after }: { before: ImageRef; after: Imag
           sizes="(max-width: 1024px) 100vw, 760px"
           className="object-cover"
         />
-        <div
-          className="absolute inset-y-0 start-0 overflow-hidden"
-          style={{ width: `${100 - position}%` }}
-        >
-          <div className="absolute inset-y-0 end-0 w-[var(--frame-w)]" style={{ ["--frame-w" as string]: "100vw" }}>
-            <Image
-              src={before.src}
-              alt={before.alt}
-              fill
-              sizes="(max-width: 1024px) 100vw, 760px"
-              className="object-cover"
-              style={{ objectPosition: "center" }}
-            />
-          </div>
+
+        {/* «قبل» تُقصّ من اليسار، فيظهر منها الجزء الأيمن فقط */}
+        <div className="absolute inset-0" style={{ clipPath: `inset(0 0 0 ${divider}%)` }}>
+          <Image
+            src={before.src}
+            alt={before.alt}
+            fill
+            sizes="(max-width: 1024px) 100vw, 760px"
+            className="object-cover"
+          />
         </div>
 
         <div
-          className="pointer-events-none absolute inset-y-0 w-px bg-crimson"
-          style={{ insetInlineStart: `${100 - position}%` }}
+          className="pointer-events-none absolute inset-y-0 w-0.5 bg-crimson"
+          style={{ left: `${divider}%` }}
           aria-hidden
         />
 
@@ -74,8 +74,8 @@ export function CompareSlider({ before, after }: { before: ImageRef; after: Imag
           type="range"
           min={0}
           max={100}
-          value={position}
-          onChange={(event) => setPosition(Number(event.target.value))}
+          value={100 - divider}
+          onChange={(event) => setDivider(100 - Number(event.target.value))}
           className="mt-2 w-full accent-[var(--color-crimson)]"
           aria-label="موضع المقارنة بين الصورتين"
         />

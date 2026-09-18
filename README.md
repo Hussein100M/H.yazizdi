@@ -1,47 +1,155 @@
-# H.yazizdi
+# منصة التصوير المعماري وتحسين التصميم بالذكاء الاصطناعي
 
-## Banana Claude plugin
+منصة تعليمية عربية (RTL) كاملة لدورة **«التصوير المعماري وتحسين التصميم بالذكاء الاصطناعي»** —
+خمس مهارات عملية تشكّل معاً سير عمل واحداً، مع الحفاظ الكامل على الكتلة والنسب وهوية المشروع.
 
-This project uses [Banana Claude](https://github.com/AgriciDaniel/banana-claude),
-a Claude Code plugin for brief-led image generation, editing, and review with
-Google Gemini image models.
+> الذكاء الاصطناعي لا يُعيد تصميم المشروع… بل يُحسّن طريقة رؤيته.
 
-To install it, run these commands in Claude Code:
+كل محتوى الدورة مستخرج من العرض التدريبي الأصلي (٣٧ شريحة + ملاحظات المحاضِر): سبع وحدات،
+خمسة وثلاثون درساً، خمس صيغ برومبت، وقائمة مراجعة جودة من ستة بنود.
 
-```text
-/plugin marketplace add AgriciDaniel/banana-claude
-/plugin install banana-claude@banana-claude-marketplace
-/plugin enable banana-claude@banana-claude-marketplace
-/reload-plugins
+---
+
+## التشغيل محلياً
+
+```bash
+npm install                    # يشغّل prisma generate تلقائياً
+cp .env.example .env           # ثم املأ القيم
+npm run db:migrate             # إنشاء الجداول
+npm run db:seed                # تعبئة الدورة من src/content/course.ts
+npm run dev
 ```
 
-Requirements: Claude Code 2.1.199 or newer, Python 3.11 or newer with
-`python3` on `PATH`, and a Gemini API key for a billing-enabled Google AI
-project. The plugin installs disabled by default because image generation is
-a paid service, and it will prompt you for your Gemini API key on first
-enable (API keys are never stored in this repository or in project
-settings).
+لإنشاء حساب إدارة عند التعبئة:
 
-Once installed, generate an image with:
-
-```text
-/banana-claude:banana generate an urban 16:9 GitHub hero with clean left-side copy space
+```bash
+SEED_ADMIN_EMAIL=you@example.com SEED_ADMIN_PASSWORD='...' npm run db:seed
 ```
 
-See the [Banana Claude README](https://github.com/AgriciDaniel/banana-claude)
-and [user guide](https://github.com/AgriciDaniel/banana-claude/blob/main/docs/guide.md)
-for the full workflow, security notes, and upgrade instructions.
+### متغيّرات البيئة
 
-## Frontend Design skill
+| المتغيّر | مطلوب | الوصف |
+|---|---|---|
+| `DATABASE_URL` | نعم | رابط PostgreSQL |
+| `AUTH_SECRET` | نعم | ٣٢ حرفاً فأكثر — `openssl rand -base64 32` |
+| `NEXT_PUBLIC_SITE_URL` | نعم | العنوان العام (روابط SEO وإعادة تعيين كلمة المرور) |
+| `PAYMENT_PROVIDER` | لا | `manual` (افتراضي) · `stripe` · `moyasar` · `tap` |
+| `PAYMENT_API_KEY` / `PAYMENT_WEBHOOK_SECRET` | عند ربط بوابة | مفاتيح المزوّد |
+| `VIDEO_PROVIDER` / `VIDEO_SIGNING_KEY` | لا | استضافة الفيديو — المنصة تعمل بدونها |
 
-This project bundles the [`frontend-design`](https://github.com/anthropics/skills/tree/main/skills/frontend-design)
-skill from Anthropic's public skills repository at
-`.claude/skills/frontend-design/`. Claude Code loads skills from that
-directory automatically, so anyone who opens this repository gets it with no
-extra install step — it activates when you ask for new UI work or a visual
-redesign, and it can also be invoked by name with `/frontend-design`.
+المتغيّرات تُتحقَّق عند الإقلاع في `src/lib/env.ts`، فينكشف أي نقص فوراً بدل أن يظهر كخطأ غامض.
 
-The files are copied verbatim from upstream (commit `34040c9`) and are
-licensed under Apache 2.0; see
-`.claude/skills/frontend-design/LICENSE.txt`. To update it later, re-copy
-`skills/frontend-design/` from `anthropics/skills`.
+---
+
+## البنية
+
+```
+src/
+  app/
+    (auth)/          تسجيل الدخول · حساب جديد · إعادة تعيين كلمة المرور
+    (app)/dashboard/ لوحة الطالب · الإعدادات · الشهادة
+    learn/           مشغّل الدورة
+    checkout/        الاشتراك ونتائجه
+    admin/           الطلاب · المدفوعات · المحتوى
+    api/webhooks/    إشعار مزوّد الدفع الموقَّع
+    actions/         إجراءات السيرفر (مصادقة · تقدّم · اشتراك · إدارة)
+  components/
+    three/           المبنى الإجرائي والمشهد ثلاثي الأبعاد
+    course/          المنهج · كتل الدرس · المقارنة · القائمة · الشهادة
+    ui/              أزرار · لوحات · تقدّم · حالات (تحميل/خطأ/فراغ)
+  content/course.ts  ← مصدر الحقيقة لمحتوى الدورة
+  config/site.ts     ← العلامة والسعر وبيانات المدرّب
+  lib/               قاعدة البيانات · المصادقة · الوصول · الدفع · الفيديو · التقدّم
+prisma/schema.prisma نموذج البيانات
+```
+
+### تعديل المحتوى
+
+المحتوى مخزّن في قاعدة البيانات، لكن مصدره ملف `src/content/course.ts`.
+عدّل الملف ثم شغّل `npm run db:seed` — التعبئة تحدّث الموجود ولا تكرره،
+وتحسب زمن القراءة التقديري لكل درس من طول محتواه.
+
+---
+
+## الأمن
+
+- **كلمات المرور**: bcrypt بـ ١٢ جولة. لا تُخزَّن كلمة المرور نفسها إطلاقاً.
+- **الجلسات**: في قاعدة البيانات، ويُخزَّن **تجزئة** الرمز لا الرمز، وكذلك تجزئة عنوان الاتصال.
+  الكوكي `httpOnly` + `SameSite=Lax` + `secure` في الإنتاج. تغيير كلمة المرور يُلغي كل الجلسات.
+- **تحديد المعدّل**: خمس محاولات دخول فاشلة لكل بريد/عنوان خلال ربع ساعة، محسوبة في قاعدة
+  البيانات لا في الذاكرة، فتعمل عبر عدة عمليات.
+- **الوصول إلى المحتوى المدفوع**: يُقيَّم على السيرفر في `src/lib/access.ts` **قبل** قراءة أي كتلة
+  محتوى. لا يصل محتوى مدفوع إلى المتصفح ثم يُخفى — لا يُرسَل أصلاً.
+- **الدفع**: إنشاء الطلب لا يمنح وصولاً. الوصول يُفتح من مسارين فقط: إشعار مزوّد موقَّع
+  (مع سجل أحداث يمنع المعالجة المكررة)، أو تأكيد إداري مسجَّل في `AuditLog`.
+- **الطلبات**: كل إجراء سيرفر يتحقق من أن الطلب جاء من نفس الموقع.
+- **الفيديو**: قاعدة البيانات تخزّن معرّف الأصل لدى المزوّد فقط، والرابط القابل للتشغيل
+  يُولَّد على السيرفر لكل جلسة بعد التحقق من الوصول.
+
+---
+
+## الدفع
+
+`PAYMENT_PROVIDER=manual` هو الوضع الافتراضي: يُنشئ طلب اشتراك حقيقياً بحالة «بانتظار التأكيد»،
+ولا يؤكّد دفعة من تلقاء نفسه أبداً. التفعيل يتم من `/admin/payments` بعد تحقق بشري.
+
+لربط بوابة حقيقية، الملف الوحيد الذي يُعدَّل هو `src/lib/payments/gateway-template.ts`:
+أكمل `createCheckout` و`verifyWebhook`، وسجّل المزوّد في `src/lib/payments/index.ts`،
+واضبط `PAYMENT_PROVIDER` ومفاتيحه. لا يتغيّر أي شيء في الواجهة أو في منطق التسجيل.
+
+---
+
+## الفيديو
+
+المنصة تعمل بلا فيديو: الدروس نصوص وصور. عند توفّر الفيديوهات، اضبط `VIDEO_PROVIDER`
+وأكمل `createPlaybackSource` في `src/lib/video.ts`، ثم املأ `videoAssetId` لكل درس.
+مشغّل الفيديو وطبقة الروابط الموقّعة جاهزان ينتظران ذلك.
+
+---
+
+## ثلاثي الأبعاد والأداء
+
+المبنى المرجعي مبنيّ إجرائياً في `src/components/three/finned-mass.tsx` — لا يُحمَّل أي ملف نموذج.
+مبدّل الخامة في الصفحة الرئيسية هو درس الوحدة ٠١ نفسه: الكتلة والنسب وعدد الزعانف ثوابت،
+والسطح وحده يتغيّر. ومبدّل الأجواء هو الوحدة ٠٣.
+
+ثلاث طبقات احتياطية:
+
+1. **لا WebGL** → صور الدليل الأصلية، والمبدّل يظل يعمل عليها.
+2. **`prefers-reduced-motion`** → بلا دوران تلقائي.
+3. **جهاز محدود** (لمس / شاشة ضيقة / أنوية قليلة) → زعانف أقل، بلا ظلال، وكثافة بكسل أقل.
+
+المشهد يُحمَّل عبر `dynamic import`، ولا يُركَّب إلا عند ظهوره في الشاشة.
+
+---
+
+## الأوامر
+
+| الأمر | الوظيفة |
+|---|---|
+| `npm run dev` | تشغيل التطوير |
+| `npm run build` | بناء الإنتاج (يشغّل `prisma generate`) |
+| `npm run typecheck` | فحص الأنواع |
+| `npm run lint` | فحص ESLint |
+| `npm run db:migrate` | ترحيل المخطط (تطوير) |
+| `npm run db:deploy` | تطبيق الترحيلات (إنتاج) |
+| `npm run db:seed` | تعبئة الدورة من ملف المحتوى |
+| `npm run db:studio` | متصفح قاعدة البيانات |
+
+---
+
+## قبل الإطلاق التجاري
+
+راجع `docs/proposed-copy.md` — فيه كل نص لم يرد في العرض التدريبي واقترحته المنصة،
+وعلى رأسه **السعر** و**سيرة المدرّب** و**الصفحات القانونية**.
+
+---
+
+## أدوات المستودع
+
+- **`.claude/skills/frontend-design/`** — سكِل Anthropic للتصميم، محمّل تلقائياً في هذا المستودع.
+- **Banana Claude** — إضافة Claude Code لتوليد وتحرير الصور عبر Gemini:
+  ```text
+  /plugin marketplace add AgriciDaniel/banana-claude
+  /plugin install banana-claude@banana-claude-marketplace
+  ```

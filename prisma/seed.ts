@@ -38,7 +38,7 @@ async function main() {
 
   let moduleOrder = 0;
   for (const moduleSeed of courseSeed.modules) {
-    const module = await prisma.module.upsert({
+    const moduleRow = await prisma.module.upsert({
       where: { courseId_slug: { courseId: course.id, slug: moduleSeed.slug } },
       create: {
         courseId: course.id,
@@ -62,9 +62,9 @@ async function main() {
     let lessonOrder = 0;
     for (const lessonSeed of moduleSeed.lessons) {
       const lesson = await prisma.lesson.upsert({
-        where: { moduleId_slug: { moduleId: module.id, slug: lessonSeed.slug } },
+        where: { moduleId_slug: { moduleId: moduleRow.id, slug: lessonSeed.slug } },
         create: {
-          moduleId: module.id,
+          moduleId: moduleRow.id,
           slug: lessonSeed.slug,
           title: lessonSeed.title,
           titleEn: lessonSeed.titleEn ?? null,

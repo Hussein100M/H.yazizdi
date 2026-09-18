@@ -11,15 +11,15 @@ export function MobileNav({
   links: { href: string; label: string }[];
   isSignedIn: boolean;
 }) {
-  const [open, setOpen] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => setOpen(false), [pathname]);
+  // القائمة مفتوحة فقط على الصفحة التي فُتحت فيها، فتُغلق تلقائياً عند التنقل
+  const [openedAt, setOpenedAt] = useState<string | null>(null);
+  const open = openedAt === pathname;
 
   useEffect(() => {
     if (!open) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") setOpenedAt(null);
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
@@ -29,7 +29,7 @@ export function MobileNav({
     <div className="lg:hidden">
       <button
         type="button"
-        onClick={() => setOpen((value) => !value)}
+        onClick={() => setOpenedAt(open ? null : pathname)}
         aria-expanded={open}
         aria-controls="mobile-menu"
         className="flex h-10 w-10 items-center justify-center border border-[var(--hairline)] rounded-[var(--radius-control)]"

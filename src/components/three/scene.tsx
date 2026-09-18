@@ -1,22 +1,23 @@
 "use client";
 
-import { Canvas, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useState } from "react";
+import { Canvas } from "@react-three/fiber";
+import { useEffect, useMemo } from "react";
 import * as THREE from "three";
 import { createGradientTexture, darken } from "./backdrop";
+import { useBrowserValue } from "@/hooks/use-browser-value";
 import { FinnedMass } from "./finned-mass";
 import type { MaterialVariant, MoodVariant } from "./materials";
 
 /** مستوى جودة يُحسب من الجهاز — لا إعداد يدوي. */
+function detectQuality(): "high" | "low" {
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const narrow = window.innerWidth < 900;
+  const cores = navigator.hardwareConcurrency ?? 4;
+  return coarse || narrow || cores <= 4 ? "low" : "high";
+}
+
 export function useQuality(): "high" | "low" {
-  const [quality, setQuality] = useState<"high" | "low">("low");
-  useEffect(() => {
-    const coarse = window.matchMedia("(pointer: coarse)").matches;
-    const narrow = window.innerWidth < 900;
-    const cores = navigator.hardwareConcurrency ?? 4;
-    setQuality(coarse || narrow || cores <= 4 ? "low" : "high");
-  }, []);
-  return quality;
+  return useBrowserValue<"high" | "low">(detectQuality, "low");
 }
 
 function Lighting({ mood, quality }: { mood: MoodVariant; quality: "high" | "low" }) {
@@ -43,22 +44,21 @@ function Lighting({ mood, quality }: { mood: MoodVariant; quality: "high" | "low
   );
 }
 
+/** الخلفية تُركَّب تصريحياً — لا تعديل مباشر على كائن المشهد. */
 function Backdrop({ mood }: { mood: MoodVariant }) {
-  const scene = useThree((state) => state.scene);
   const texture = useMemo(
     () => createGradientTexture(darken(mood.background, 0.14), mood.background),
     [mood.background],
   );
 
-  useEffect(() => {
-    scene.background = texture;
-    scene.fog = new THREE.Fog(mood.fog, 18, 44);
-    return () => {
-      texture.dispose();
-    };
-  }, [scene, texture, mood.fog]);
+  useEffect(() => () => texture.dispose(), [texture]);
 
-  return null;
+  return (
+    <>
+      <primitive object={texture} attach="background" />
+      <fog attach="fog" args={[mood.fog, 18, 44]} />
+    </>
+  );
 }
 
 function Floor({ mood, quality }: { mood: MoodVariant; quality: "high" | "low" }) {

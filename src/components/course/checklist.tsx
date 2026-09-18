@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
+import { readLocal, useLocalValue, writeLocal } from "@/hooks/use-browser-value";
 
 /**
  * قائمة المراجعة — أداة يستخدمها المتدرب على صوره فعلاً.
@@ -14,32 +15,33 @@ export function Checklist({
   items: { title: string; text: string }[];
 }) {
   const storageKey = `checklist:${id}`;
-  const [checked, setChecked] = useState<boolean[]>(() => items.map(() => false));
+  const raw = useLocalValue(storageKey);
 
-  useEffect(() => {
+  const checked = useMemo(() => {
+    const empty = items.map(() => false);
+    if (!raw) return empty;
     try {
-      const raw = window.localStorage.getItem(storageKey);
-      if (raw) {
-        const parsed: unknown = JSON.parse(raw);
-        if (Array.isArray(parsed) && parsed.length === items.length) {
-          setChecked(parsed.map(Boolean));
-        }
-      }
+      const parsed: unknown = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length === items.length) return parsed.map(Boolean);
     } catch {
-      // التخزين المحلي قد يكون معطّلاً — القائمة تعمل بدونه
+      // قيمة تالفة — نتجاهلها ونبدأ من قائمة فارغة
     }
-  }, [storageKey, items.length]);
+    return empty;
+  }, [raw, items]);
 
   function toggle(index: number) {
-    setChecked((previous) => {
-      const next = previous.map((value, i) => (i === index ? !value : value));
+    const current = readLocal(storageKey);
+    let base = items.map(() => false);
+    if (current) {
       try {
-        window.localStorage.setItem(storageKey, JSON.stringify(next));
+        const parsed: unknown = JSON.parse(current);
+        if (Array.isArray(parsed) && parsed.length === items.length) base = parsed.map(Boolean);
       } catch {
-        // تجاهل: القائمة تبقى صالحة لهذه الجلسة
+        // نبدأ من قائمة فارغة
       }
-      return next;
-    });
+    }
+    const next = base.map((value, i) => (i === index ? !value : value));
+    writeLocal(storageKey, JSON.stringify(next));
   }
 
   const done = checked.filter(Boolean).length;

@@ -8,3 +8,6 @@ build
 next-env.d.ts
 .DS_Store
 /prisma/dev.db
+
+# عميل Prisma المولّد — يُبنى من المخطط عند التثبيت
+/src/generated

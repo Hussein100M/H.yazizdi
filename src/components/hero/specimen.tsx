@@ -4,15 +4,14 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { materialVariants, moodVariants } from "@/components/three/materials";
-import { prefersReducedMotion, supportsWebGL } from "@/components/three/webgl";
+import { supportsWebGL } from "@/components/three/webgl";
 import { useQuality } from "@/components/three/scene";
+import { useBrowserValue, useMediaQuery } from "@/hooks/use-browser-value";
 
 const BuildingScene = dynamic(
   () => import("@/components/three/scene").then((mod) => mod.BuildingScene),
   { ssr: false },
 );
-
-type Mode = "checking" | "webgl" | "images";
 
 /**
  * بطل الصفحة: نفس الكتلة، والخامة وحدها تتغير — وهو درس الوحدة ٠١ يحدث أمام الزائر.
@@ -21,45 +20,45 @@ type Mode = "checking" | "webgl" | "images";
 export function HeroSpecimen() {
   const [materialIndex, setMaterialIndex] = useState(0);
   const [moodIndex, setMoodIndex] = useState(0);
-  const [mode, setMode] = useState<Mode>("checking");
-  const [visible, setVisible] = useState(false);
-  const [reduced, setReduced] = useState(false);
+  const [inView, setInView] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+
   const quality = useQuality();
+  const canUseWebGL = useBrowserValue(supportsWebGL, false);
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   const material = materialVariants[materialIndex] ?? materialVariants[0]!;
   const mood = moodVariants[moodIndex] ?? moodVariants[0]!;
-
-  useEffect(() => {
-    const reducedMotion = prefersReducedMotion();
-    setReduced(reducedMotion);
-    setMode(supportsWebGL() ? "webgl" : "images");
-  }, []);
 
   // لا نرسم شيئاً خارج الشاشة
   useEffect(() => {
     const node = containerRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(Boolean(entry?.isIntersecting)),
+      ([entry]) => setInView(Boolean(entry?.isIntersecting)),
       { rootMargin: "120px" },
     );
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
-  const showCanvas = mode === "webgl" && visible;
+  const showCanvas = canUseWebGL && inView;
 
   return (
     <div className="w-full">
       <div
         ref={containerRef}
-        className="plate relative aspect-[4/3] w-full overflow-hidden bg-[#eef0f3]"
+        className="plate relative aspect-[4/3] w-full overflow-hidden bg-[#e3e7ec]"
       >
         <span className="plate-mark z-20">{material.id === "original" ? "REF" : "ALT"}</span>
 
         {showCanvas ? (
-          <BuildingScene material={material} mood={mood} quality={quality} spin={!reduced} />
+          <BuildingScene
+            material={material}
+            mood={mood}
+            quality={quality}
+            spin={!reducedMotion}
+          />
         ) : (
           <Image
             src={material.image}
@@ -102,7 +101,7 @@ export function HeroSpecimen() {
           </div>
         </fieldset>
 
-        {mode === "webgl" ? (
+        {canUseWebGL ? (
           <fieldset>
             <legend className="text-fine text-[var(--text-muted)]">الأجواء</legend>
             <div className="mt-2 flex gap-2">
