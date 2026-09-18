@@ -79,14 +79,18 @@ export function BuildingScene({
   mood,
   quality,
   spin,
+  active,
 }: {
   material: MaterialVariant;
   mood: MoodVariant;
   quality: "high" | "low";
   spin: boolean;
+  /** يتوقف الرندر تماماً خارج الشاشة أو عند إخفاء التبويب — دون تفكيك المشهد */
+  active: boolean;
 }) {
   return (
     <Canvas
+      frameloop={active ? "always" : "never"}
       shadows={quality === "high"}
       dpr={quality === "high" ? [1, 1.75] : [1, 1.25]}
       camera={{ position: [0.2, 4.4, 11.4], fov: 32 }}

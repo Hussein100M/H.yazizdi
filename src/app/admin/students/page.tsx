@@ -45,8 +45,7 @@ export default async function AdminStudentsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-      <p className="annot">Students</p>
-      <h1 className="mt-2 text-[1.75rem]">الطلاب</h1>
+      <h1 className="text-[1.75rem]">الطلاب</h1>
 
       <div className="plate mt-8 overflow-x-auto">
         <table className="w-full text-start text-fine">

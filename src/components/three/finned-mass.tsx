@@ -60,6 +60,56 @@ function useFinTransforms(quality: "high" | "low") {
   }, [quality]);
 }
 
+/** ترتيب مستقر لا يتغير بين الإطارات — بذرة ثابتة لا Math.random */
+function pseudoRandom(seed: number): number {
+  const value = Math.sin(seed * 12.9898) * 43758.5453;
+  return value - Math.floor(value);
+}
+
+function LitWindows({ config }: { config: NonNullable<MoodVariant["litWindows"]> }) {
+  const mesh = useRef<THREE.InstancedMesh>(null);
+  const dummy = useMemo(() => new THREE.Object3D(), []);
+
+  const cells = useMemo(() => {
+    const size = { w: 0.075, h: 0.17 };
+    const stepX = 0.142 * 2;
+    const stepY = 0.34;
+    const items: [number, number][] = [];
+    const columns = Math.floor((MASS.width - 0.2) / stepX);
+    const rows = Math.floor((MASS.height - 0.3) / stepY);
+    for (let column = 0; column < columns; column += 1) {
+      for (let row = 0; row < rows; row += 1) {
+        if (pseudoRandom(column * 31 + row * 7 + 1) > config.ratio) continue;
+        items.push([
+          -MASS.width / 2 + 0.14 + column * stepX,
+          0.28 + row * stepY,
+        ]);
+      }
+    }
+    return { items, size };
+  }, [config.ratio]);
+
+  useLayoutEffect(() => {
+    const instanced = mesh.current;
+    if (!instanced) return;
+    cells.items.forEach(([x, y], index) => {
+      dummy.position.set(x, y, MASS.depth / 2 + 0.012);
+      dummy.rotation.set(0, 0, 0);
+      dummy.scale.set(1, 1, 1);
+      dummy.updateMatrix();
+      instanced.setMatrixAt(index, dummy.matrix);
+    });
+    instanced.instanceMatrix.needsUpdate = true;
+  }, [cells, dummy]);
+
+  return (
+    <instancedMesh ref={mesh} args={[undefined, undefined, cells.items.length]} key={cells.items.length}>
+      <planeGeometry args={[cells.size.w, cells.size.h]} />
+      <meshBasicMaterial color={config.color} toneMapped={false} />
+    </instancedMesh>
+  );
+}
+
 function WingBody({ color, roughness, metalness }: MaterialVariant["body"]) {
   const geometry = useMemo(() => {
     const shape = new THREE.Shape();
@@ -98,13 +148,16 @@ export function FinnedMass({
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  useFrame((state, delta) => {
+  const BASE_YAW = -0.38;
+
+  useFrame((state) => {
     if (!group.current) return;
-    if (spin) {
-      group.current.rotation.y += delta * 0.055;
-    }
-    // ميل لطيف يتتبع المؤشر — استجابة لفعل المستخدم لا حركة تلقائية
-    const targetX = state.pointer.y * 0.06;
+    // تأرجح محدود حول زاوية الثلاثة أرباع المميزة — لا دوران استعراضي كامل
+    group.current.rotation.y = spin
+      ? BASE_YAW + Math.sin(state.clock.elapsedTime * 0.22) * 0.2
+      : BASE_YAW;
+    // ميل لطيف يتتبع المؤشر — استجابة لفعل المستخدم
+    const targetX = state.pointer.y * 0.05;
     group.current.rotation.x += (targetX - group.current.rotation.x) * 0.05;
   });
 
@@ -144,6 +197,8 @@ export function FinnedMass({
         />
       </mesh>
 
+      {mood.litWindows ? <LitWindows config={mood.litWindows} /> : null}
+
       <WingBody {...material.body} />
 
       {/* الزعانف — عدد وتباعد ثابتان مهما تغيّرت الخامة */}
@@ -160,18 +215,6 @@ export function FinnedMass({
           metalness={material.fin.metalness}
         />
       </instancedMesh>
-
-      {/* نوافذ مضاءة — تظهر في أجواء الغروب فقط */}
-      {mood.windows.intensity > 0 ? (
-        <mesh position={[0, MASS.height / 2, MASS.depth / 2 + 0.005]}>
-          <planeGeometry args={[MASS.width - 0.1, MASS.height - 0.2]} />
-          <meshBasicMaterial
-            color={mood.windows.color}
-            transparent
-            opacity={0.32 * mood.windows.intensity}
-          />
-        </mesh>
-      ) : null}
     </group>
   );
 }

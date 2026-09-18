@@ -43,8 +43,7 @@ export default async function DashboardPage() {
 
     return (
       <div className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-        <p className="annot">Dashboard</p>
-        <h1 className="mt-2 text-[1.75rem]">أهلاً {user.fullName}</h1>
+          <h1 className="text-[1.75rem]">أهلاً {user.fullName}</h1>
 
         {pending ? (
           <div className="plate mt-8 p-6">
@@ -120,8 +119,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-      <p className="annot">Dashboard</p>
-      <h1 className="mt-2 text-[1.75rem]">أهلاً {user.fullName}</h1>
+      <h1 className="text-[1.75rem]">أهلاً {user.fullName}</h1>
 
       <section className="plate mt-8 p-6 sm:p-7">
         <div className="grid gap-6 sm:grid-cols-[1fr_auto] sm:items-end">

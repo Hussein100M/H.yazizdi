@@ -40,8 +40,7 @@ export default async function AdminPaymentsPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-      <p className="annot">Payments</p>
-      <h1 className="mt-2 text-[1.75rem]">المدفوعات</h1>
+      <h1 className="text-[1.75rem]">المدفوعات</h1>
       <p className="mt-3 max-w-[70ch] text-fine text-[var(--text-muted)]">
         تأكيد الدفعة يفتح وصول الطالب فوراً. أكّدها فقط بعد التحقق من وصول المبلغ فعلاً.
       </p>

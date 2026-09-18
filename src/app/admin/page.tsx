@@ -33,8 +33,7 @@ export default async function AdminPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
-      <p className="annot">Admin</p>
-      <h1 className="mt-2 text-[1.75rem]">نظرة عامة</h1>
+      <h1 className="text-[1.75rem]">نظرة عامة</h1>
 
       <ul className="mt-8 grid gap-px border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-2 lg:grid-cols-3">
         {stats.map((stat) => (

@@ -36,8 +36,7 @@ export default function PrivacyPage() {
     <>
       <SiteHeader />
       <main id="main" className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
-        <p className="annot">Privacy</p>
-        <h1 className="mt-2 text-[1.875rem]">سياسة الخصوصية</h1>
+          <h1 className="text-[1.875rem]">سياسة الخصوصية</h1>
 
         <p className="mt-5 border-s-2 border-crimson bg-blush px-4 py-3 text-fine text-crimson-deep">
           نص مقترح يصف سلوك المنصة الفعلي كما هو مبنيّ في الكود. راجعه قانونياً قبل الإطلاق.

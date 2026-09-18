@@ -49,8 +49,7 @@ export default async function AdminContentPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-14 sm:px-6">
-      <p className="annot">Content</p>
-      <h1 className="mt-2 text-[1.75rem]">{course.title}</h1>
+      <h1 className="text-[1.75rem]">{course.title}</h1>
       <p className="mt-3 max-w-[70ch] text-fine text-[var(--text-muted)]">
         المحتوى مخزّن في قاعدة البيانات ويُعاد بناؤه من{" "}
         <span className="annot">src/content/course.ts</span> عند تشغيل التعبئة. الحقول أدناه للقراءة

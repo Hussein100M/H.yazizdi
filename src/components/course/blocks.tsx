@@ -17,7 +17,7 @@ function BlockView({ block, lessonId }: { block: Block; lessonId: string }) {
       return (
         <div>
           {block.eyebrow ? <p className="annot mb-2">{block.eyebrow}</p> : null}
-          <h3 className="text-h3">{block.text}</h3>
+          <h2 className="text-h3">{block.text}</h2>
         </div>
       );
 
@@ -66,9 +66,9 @@ function BlockView({ block, lessonId }: { block: Block; lessonId: string }) {
               {column.eyebrow ? (
                 <p className="text-fine font-medium text-crimson">{column.eyebrow}</p>
               ) : null}
-              <h4 className="mt-1 text-[1.0625rem] font-semibold text-[var(--text-strong)]">
+              <h2 className="mt-1 text-[1.0625rem] font-semibold text-[var(--text-strong)]">
                 {column.title}
-              </h4>
+              </h2>
               {column.items.length > 0 ? (
                 <ul className="mt-3 space-y-2">
                   {column.items.map((item) => (
@@ -95,9 +95,9 @@ function BlockView({ block, lessonId }: { block: Block; lessonId: string }) {
               <span className="font-[family-name:var(--font-annot)] text-[1.125rem] text-crimson">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <h4 className="mt-1.5 text-[1.0625rem] font-semibold text-[var(--text-strong)]">
+              <h2 className="mt-1.5 text-[1.0625rem] font-semibold text-[var(--text-strong)]">
                 {step.title}
-              </h4>
+              </h2>
               <p className="mt-1 text-fine leading-relaxed text-[var(--text-muted)]">{step.text}</p>
             </li>
           ))}

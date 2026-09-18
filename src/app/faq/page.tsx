@@ -28,8 +28,7 @@ export default function FaqPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main id="main" className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
-        <p className="annot">FAQ</p>
-        <h1 className="mt-2 text-[1.875rem]">أسئلة شائعة</h1>
+          <h1 className="text-[1.875rem]">أسئلة شائعة</h1>
 
         <dl className="mt-10 divide-y divide-[var(--hairline)] border-y border-[var(--hairline)]">
           {faqs.map((faq) => (

@@ -239,7 +239,6 @@ export default async function HomePage() {
         {/* ───────── المنهج ───────── */}
         <section id="curriculum" className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
           <SectionHeading
-            annot="Curriculum"
             title="المنهج الكامل"
             lead={`${arabic(course.modules.length)} وحدات · ${arabic(course.lessonCount)} درساً بالعربية. كل وحدة بنفس الهيكل: تقديم، تحدٍّ ومعالجة، خطوات عمل، مثال بصري، وأفضل ممارسات.`}
           />
@@ -260,8 +259,7 @@ export default async function HomePage() {
         <section id="prompts" className="border-y border-[var(--hairline)] bg-[var(--surface-2)]">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
             <SectionHeading
-              annot="Prompt Formulas"
-              title="خمس صيغ برومبت تأخذها معك إلى عملك"
+                title="خمس صيغ برومبت تأخذها معك إلى عملك"
               lead="لكل مهارة صيغة واحدة مختبرة، تُحدّد ما يتغيّر وتُقفل كل ما عداه صراحةً."
             />
             <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -305,7 +303,7 @@ export default async function HomePage() {
         <section className="border-y border-[var(--hairline)] bg-[var(--surface-2)]">
           <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 sm:py-20 md:grid-cols-2">
             <div>
-              <SectionHeading annot="Who it is for" title="لمن هذه الدورة" />
+              <SectionHeading title="لمن هذه الدورة" />
               <ul className="mt-6 space-y-3">
                 {audience.map((item) => (
                   <li key={item} className="flex gap-3 text-[var(--text-body)]">
@@ -316,7 +314,7 @@ export default async function HomePage() {
               </ul>
             </div>
             <div>
-              <SectionHeading annot="Requirements" title="ما تحتاجه قبل البدء" />
+              <SectionHeading title="ما تحتاجه قبل البدء" />
               <ul className="mt-6 space-y-3">
                 {requirements.map((item) => (
                   <li key={item} className="flex gap-3 text-[var(--text-body)]">
@@ -346,7 +344,7 @@ export default async function HomePage() {
               />
             </div>
             <div>
-              <SectionHeading annot="Instructor" title={course.instructor} />
+              <SectionHeading title={course.instructor} />
               <p className="mt-4 max-w-[58ch] leading-[1.9] text-[var(--text-body)]">
                 {course.instructorBio}
               </p>
@@ -365,8 +363,7 @@ export default async function HomePage() {
           <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-20">
             <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-center">
               <div>
-                <p className="annot">Enrolment</p>
-                <h2 className="mt-3 text-[1.75rem] text-[#f4f5f6] sm:text-[var(--text-h2)]">
+                <h2 className=" text-[1.75rem] text-[#f4f5f6] sm:text-[var(--text-h2)]">
                   وصول كامل إلى الوحدات السبع
                 </h2>
                 <ul className="mt-6 space-y-2.5">
@@ -399,7 +396,7 @@ export default async function HomePage() {
 
         {/* ───────── أسئلة شائعة ───────── */}
         <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
-          <SectionHeading annot="FAQ" title="أسئلة شائعة" />
+          <SectionHeading title="أسئلة شائعة" />
           <dl className="mt-8 divide-y divide-[var(--hairline)] border-y border-[var(--hairline)]">
             {faqs.slice(0, 4).map((faq) => (
               <div key={faq.question} className="py-5">

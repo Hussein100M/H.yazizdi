@@ -60,7 +60,8 @@ export type MoodVariant = {
   ambient: { color: string; intensity: number };
   rim: { color: string; intensity: number };
   floor: string;
-  windows: { color: string; intensity: number };
+  /** نوافذ مضاءة — تظهر في أجواء الغروب فقط، كما في صورة الدليل */
+  litWindows: { color: string; ratio: number } | null;
 };
 
 export const moodVariants: MoodVariant[] = [
@@ -73,18 +74,18 @@ export const moodVariants: MoodVariant[] = [
     ambient: { color: "#d4dae2", intensity: 0.5 },
     rim: { color: "#ffffff", intensity: 0.45 },
     floor: "#dce0e6",
-    windows: { color: "#ffffff", intensity: 0 },
+    litWindows: null,
   },
   {
     id: "sunset",
     label: "غروب",
     background: "#3b2c43",
     fog: "#4a3348",
-    key: { color: "#ffb26b", intensity: 2.4, position: [-6, 2.4, 5] },
-    ambient: { color: "#6d5a7a", intensity: 0.75 },
+    key: { color: "#ff9a52", intensity: 1.15, position: [-7, 1.8, 4] },
+    ambient: { color: "#5b4a68", intensity: 0.42 },
     rim: { color: "#ff8c5a", intensity: 1.1 },
-    floor: "#372a40",
-    windows: { color: "#ffdda6", intensity: 1.6 },
+    floor: "#4a3a56",
+    litWindows: { color: "#ffd89a", ratio: 0.45 },
   },
   {
     id: "overcast",
@@ -95,6 +96,6 @@ export const moodVariants: MoodVariant[] = [
     ambient: { color: "#bcc2ca", intensity: 0.85 },
     rim: { color: "#dfe3e8", intensity: 0.3 },
     floor: "#b8bdc4",
-    windows: { color: "#ffffff", intensity: 0 },
+    litWindows: null,
   },
 ];

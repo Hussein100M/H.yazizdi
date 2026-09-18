@@ -38,8 +38,7 @@ export default async function CheckoutPage() {
     <>
       <SiteHeader />
       <main id="main" className="mx-auto max-w-3xl px-4 py-14 sm:px-6">
-        <p className="annot">Checkout</p>
-        <h1 className="mt-2 text-[1.75rem]">إتمام الاشتراك</h1>
+          <h1 className="text-[1.75rem]">إتمام الاشتراك</h1>
 
         <div className="mt-8 grid gap-6 md:grid-cols-[1.3fr_1fr] md:items-start">
           <div className="plate p-6">

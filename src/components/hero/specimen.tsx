@@ -21,6 +21,8 @@ export function HeroSpecimen() {
   const [materialIndex, setMaterialIndex] = useState(0);
   const [moodIndex, setMoodIndex] = useState(0);
   const [inView, setInView] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [tabVisible, setTabVisible] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const quality = useQuality();
@@ -30,19 +32,30 @@ export function HeroSpecimen() {
   const material = materialVariants[materialIndex] ?? materialVariants[0]!;
   const mood = moodVariants[moodIndex] ?? moodVariants[0]!;
 
-  // لا نرسم شيئاً خارج الشاشة
+  // يُركَّب المشهد مرة واحدة عند ظهوره، ثم يتوقف رندره خارج الشاشة بدل تفكيكه
   useEffect(() => {
     const node = containerRef.current;
     if (!node) return;
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(Boolean(entry?.isIntersecting)),
+      ([entry]) => {
+        const visible = Boolean(entry?.isIntersecting);
+        setInView(visible);
+        if (visible) setMounted(true);
+      },
       { rootMargin: "120px" },
     );
     observer.observe(node);
     return () => observer.disconnect();
   }, []);
 
-  const showCanvas = canUseWebGL && inView;
+  // التبويب المخفي لا يستهلك إطارات
+  useEffect(() => {
+    const onChange = () => setTabVisible(document.visibilityState === "visible");
+    document.addEventListener("visibilitychange", onChange);
+    return () => document.removeEventListener("visibilitychange", onChange);
+  }, []);
+
+  const showCanvas = canUseWebGL && mounted;
 
   return (
     <div className="w-full">
@@ -58,6 +71,7 @@ export function HeroSpecimen() {
             mood={mood}
             quality={quality}
             spin={!reducedMotion}
+            active={inView && tabVisible}
           />
         ) : (
           <Image

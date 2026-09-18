@@ -26,8 +26,7 @@ export default async function VerifyCertificatePage({
     <>
       <SiteHeader />
       <main id="main" className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-        <p className="annot">Verification</p>
-        <h1 className="mt-2 text-[1.75rem]">التحقق من شهادة</h1>
+          <h1 className="text-[1.75rem]">التحقق من شهادة</h1>
 
         {certificate ? (
           <>

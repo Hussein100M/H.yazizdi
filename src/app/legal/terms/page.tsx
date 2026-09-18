@@ -36,8 +36,7 @@ export default function TermsPage() {
     <>
       <SiteHeader />
       <main id="main" className="mx-auto max-w-3xl px-4 py-14 sm:px-6 sm:py-20">
-        <p className="annot">Terms</p>
-        <h1 className="mt-2 text-[1.875rem]">شروط الاستخدام</h1>
+          <h1 className="text-[1.875rem]">شروط الاستخدام</h1>
 
         <p className="mt-5 border-s-2 border-crimson bg-blush px-4 py-3 text-fine text-crimson-deep">
           نص مقترح — لم يرد في العرض التدريبي، ولم تراجعه جهة قانونية. راجعه قبل الإطلاق التجاري.

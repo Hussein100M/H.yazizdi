@@ -45,8 +45,7 @@ export default async function CertificatePage() {
   if (!isCourseComplete(progress)) {
     return (
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6">
-        <p className="annot">Certificate</p>
-        <h1 className="mt-2 text-[1.75rem]">شهادتك بانتظار آخر الدروس</h1>
+          <h1 className="text-[1.75rem]">شهادتك بانتظار آخر الدروس</h1>
         <p className="mt-3 text-[var(--text-muted)]">
           تصدر الشهادة تلقائياً فور إكمال جميع دروس الدورة.
         </p>
@@ -77,8 +76,7 @@ export default async function CertificatePage() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-14 sm:px-6">
-      <p className="annot">Certificate</p>
-      <h1 className="mt-2 text-[1.75rem]">شهادة إتمام الدورة</h1>
+      <h1 className="text-[1.75rem]">شهادة إتمام الدورة</h1>
       <p className="mt-3 max-w-[60ch] text-[var(--text-muted)]">
         هذه الشهادة صادرة عن هذه المنصة وتُثبت إكمال محتوى الدورة. لا تمثل أي اعتماد أكاديمي أو
         مهني.

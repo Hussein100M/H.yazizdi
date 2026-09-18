@@ -21,8 +21,7 @@ export default function CertificateLookupPage() {
     <>
       <SiteHeader />
       <main id="main" className="mx-auto max-w-lg px-4 py-20 sm:px-6">
-        <p className="annot">Verification</p>
-        <h1 className="mt-2 text-[1.75rem]">التحقق من شهادة</h1>
+          <h1 className="text-[1.75rem]">التحقق من شهادة</h1>
         <p className="mt-3 text-[var(--text-muted)]">
           أدخل رقم التحقق المطبوع على الشهادة للتأكد من صحتها.
         </p>

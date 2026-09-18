@@ -132,7 +132,6 @@ export default async function CoursePage() {
 
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
           <SectionHeading
-            annot="Outcomes"
             title="ماذا ستستطيع أن تفعل بعد الدورة"
             lead="كل مخرج هنا مرتبط بوحدة كاملة في المنهج، ومقيّد بالمبدأ نفسه: عنصر واحد يتغير وكل ما عداه يُقفل."
           />
@@ -151,7 +150,7 @@ export default async function CoursePage() {
 
         <section className="border-y border-[var(--hairline)] bg-[var(--surface-2)]">
           <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
-            <SectionHeading annot="Curriculum" title="المنهج" />
+            <SectionHeading title="المنهج" />
             <div className="mt-8">
               <Curriculum
                 modules={course.modules}
@@ -164,7 +163,7 @@ export default async function CoursePage() {
 
         <section className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-2">
           <div>
-            <SectionHeading annot="Who it is for" title="لمن هذه الدورة" />
+            <SectionHeading title="لمن هذه الدورة" />
             <ul className="mt-6 space-y-3">
               {audience.map((item) => (
                 <li key={item} className="flex gap-3 text-[var(--text-body)]">
@@ -175,7 +174,7 @@ export default async function CoursePage() {
             </ul>
           </div>
           <div>
-            <SectionHeading annot="Requirements" title="المتطلبات" />
+            <SectionHeading title="المتطلبات" />
             <ul className="mt-6 space-y-3">
               {requirements.map((item) => (
                 <li key={item} className="flex gap-3 text-[var(--text-body)]">
@@ -193,7 +192,7 @@ export default async function CoursePage() {
         <section className="border-t border-[var(--hairline)]">
           <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
             <div className="grid gap-10 md:grid-cols-[1fr_1.4fr] md:items-start">
-              <SectionHeading annot="Instructor" title={course.instructor} />
+              <SectionHeading title={course.instructor} />
               <p className="max-w-[62ch] leading-[1.9] text-[var(--text-body)]">
                 {course.instructorBio}
               </p>
@@ -203,7 +202,7 @@ export default async function CoursePage() {
 
         <section className="border-t border-[var(--hairline)] bg-[var(--surface-2)]">
           <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
-            <SectionHeading annot="FAQ" title="أسئلة شائعة" />
+            <SectionHeading title="أسئلة شائعة" />
             <dl className="mt-8 divide-y divide-[var(--hairline)] border-y border-[var(--hairline)]">
               {faqs.map((faq) => (
                 <div key={faq.question} className="py-5">
