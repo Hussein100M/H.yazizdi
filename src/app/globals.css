@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+/*
+  نظام التصميم — مستمدّ من هوية العرض التدريبي.
+  الفكرة الحاكمة: «لوحة عيّنات» — إطار ثابت النسبة بحاشية شعرة وتأشيرة ركن،
+  تُصفّ في شبكة صارمة ليقارن البصر بينها. الأصل ثابت، والمتغيّر واحد.
+*/
+
+@theme {
+  /* ألوان مأخوذة حرفياً من ملفات العرض */
+  --color-ink: #1f2126;
+  --color-ink-soft: #2b2e35;
+  --color-crimson: #a8141e;
+  --color-crimson-deep: #870f18;
+  --color-paper: #ffffff;
+  --color-paper-2: #fafafb;
+  --color-graphite: #6b6f78;
+  --color-silver: #9a9ea6;
+  --color-rule: #dadce1;
+  --color-blush: #fbe9ea;
+  --color-blush-2: #f6e3e4;
+  --color-blush-3: #f2c9cc;
+
+  --font-sans: var(--font-plex-arabic), system-ui, sans-serif;
+  --font-annot: var(--font-newsreader), Georgia, serif;
+
+  /* سلّم نصي بنسبة ثالثة كبرى */
+  --text-micro: 0.6875rem;
+  --text-fine: 0.8125rem;
+  --text-base: 1rem;
+  --text-lead: 1.1875rem;
+  --text-h3: 1.375rem;
+  --text-h2: 1.875rem;
+  --text-h1: 2.625rem;
+  --text-display: 3.75rem;
+
+  --radius-plate: 0px;
+  --radius-control: 4px;
+}
+
+:root {
+  --surface: var(--color-paper);
+  --surface-2: var(--color-paper-2);
+  --text-strong: var(--color-ink);
+  --text-body: #3c4047;
+  --text-muted: var(--color-graphite);
+  --hairline: var(--color-rule);
+  color-scheme: light;
+}
+
+/* منطقة التعلّم داكنة: العين تركّز على الصورة المعمارية لا على الواجهة */
+[data-surface="ink"] {
+  --surface: var(--color-ink);
+  --surface-2: var(--color-ink-soft);
+  --text-strong: #f4f5f6;
+  --text-body: #c9ccd2;
+  --text-muted: #8f949c;
+  --hairline: #383c44;
+  color-scheme: dark;
+}
+
+* {
+  border-color: var(--hairline);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--surface);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  line-height: 1.75;
+  font-feature-settings: "kern";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--text-strong);
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* أرقام عربية-هندية للسياق العربي، ولاتينية للتأشيرات الفنية */
+.num-ar {
+  font-variant-numeric: normal;
+  font-feature-settings: "numr" off;
+}
+
+.annot {
+  font-family: var(--font-annot);
+  font-size: var(--text-fine);
+  letter-spacing: 0.01em;
+  color: var(--text-muted);
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ─────────── لوحة العيّنة: العنصر البنيوي المميّز للموقع ─────────── */
+.plate {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-plate);
+}
+
+/* تأشيرة الركن — بمنطق ترقيم لوحات الرسم المعماري */
+.plate-mark {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.25rem;
+  height: 1.75rem;
+  padding-inline: 0.5rem;
+  background: var(--color-crimson);
+  color: #fff;
+  font-family: var(--font-annot);
+  font-size: var(--text-micro);
+  line-height: 1;
+  direction: ltr;
+}
+
+/* إيقاع الزعانف — مستعار من واجهة المبنى، يُستخدم عند حدود الأقسام فقط */
+.fin-rhythm {
+  height: 3px;
+  background-image: repeating-linear-gradient(
+    to left,
+    var(--color-crimson) 0 2px,
+    transparent 2px 9px
+  );
+}
+
+.rule-strong {
+  height: 1px;
+  background: var(--hairline);
+}
+
+.link-underline {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.3em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.link-underline:hover {
+  text-decoration-color: currentColor;
+}
+
+/* تركيز واضح دائماً — شرط وصولية لا تفاوض فيه */
+:focus-visible {
+  outline: 2px solid var(--color-crimson);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+[data-surface="ink"] :focus-visible {
+  outline-color: #ff5f6b;
+}
+
+::selection {
+  background: var(--color-blush-3);
+  color: var(--color-ink);
+}
+
+.scroll-shadow {
+  scrollbar-width: thin;
+  scrollbar-color: var(--hairline) transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* كشف واحد عند التحميل — لا حركة دخول لكل قسم */
+@keyframes plate-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.plate-in {
+  animation: plate-in 0.5s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .plate-in {
+    animation: none;
+  }
+}
