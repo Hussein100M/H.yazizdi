@@ -31,3 +31,8 @@ Once installed, generate an image with:
 See the [Banana Claude README](https://github.com/AgriciDaniel/banana-claude)
 and [user guide](https://github.com/AgriciDaniel/banana-claude/blob/main/docs/guide.md)
 for the full workflow, security notes, and upgrade instructions.
+
+## OmniRoute
+
+A verified setup script and notes for running [OmniRoute](https://github.com/diegosouzapw/OmniRoute)
+locally as a self-hosted AI gateway: [`omniroute/`](omniroute/).
