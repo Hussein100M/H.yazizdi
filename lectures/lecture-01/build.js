@@ -10,8 +10,8 @@ const OUT = process.argv[2] || "Lecture01_Introduction_to_Interior_Design.pptx";
 
 const THEME = {
   name: "Interior Studio",
-  headFontFace: "Arial",
-  bodyFontFace: "Arial",
+  headFontFace: "Times New Roman",
+  bodyFontFace: "Times New Roman",
   colors: {
     dk1: "1F2224", lt1: "FFFFFF", dk2: "3A4146", lt2: "EEF0F0",
     accent1: "C2593A", accent2: "2F6B6A", accent3: "8A9A9B",
@@ -45,7 +45,7 @@ pres.defineSlideMaster({
   title: "Section Dark",
   background: { color: C.text1 },
   objects: [
-    { text: { text: "Introduction to Interior Design  ·  Lecture 01", options: { x: M, y: 6.95, w: 6, h: 0.3, fontSize: 10, color: C.accent3, margin: 0, align: "left" } } },
+    { text: { text: "Introduction to Interior Design  ·  Lecture 01", options: { x: M, y: 6.95, w: 6, h: 0.3, fontSize: 10, color: C.accent3, margin: 0, align: "left", fontFace: "Times New Roman" } } },
   ],
   slideNumber: { x: W - M - 0.6, y: 6.95, w: 0.6, h: 0.3, fontSize: 10, color: C.accent3, align: "right" },
 });
@@ -55,7 +55,7 @@ pres.defineSlideMaster({
   objects: [
     { placeholder: { options: { name: "kicker", type: "body", x: M, y: 0.38, w: CW, h: 0.35, fontSize: 13, bold: true, color: C.accent1, align: "right", margin: 0, charSpacing: 1 }, text: "" } },
     { placeholder: { options: { name: "title", type: "title", x: M, y: 0.72, w: CW, h: 0.75, fontSize: 32, bold: true, color: C.text1, align: "right", valign: "middle", margin: 0 }, text: "" } },
-    { text: { text: "Introduction to Interior Design  ·  Lecture 01", options: { x: M, y: 6.95, w: 6, h: 0.3, fontSize: 10, color: C.accent3, margin: 0, align: "left" } } },
+    { text: { text: "Introduction to Interior Design  ·  Lecture 01", options: { x: M, y: 6.95, w: 6, h: 0.3, fontSize: 10, color: C.accent3, margin: 0, align: "left", fontFace: "Times New Roman" } } },
   ],
   slideNumber: { x: W - M - 0.6, y: 6.95, w: 0.6, h: 0.3, fontSize: 10, color: C.accent3, align: "right" },
 });
@@ -69,9 +69,10 @@ async function icon(name, color, size = 256) {
   const buf = await sharp(Buffer.from(svg)).resize(size, size).png().toBuffer();
   return (iconCache[key] = "image/png;base64," + buf.toString("base64"));
 }
-const AR = { rtlMode: true, lang: "ar-SA", align: "right", isTextBox: true };
+const FONT = "Times New Roman";
+const AR = { rtlMode: true, lang: "ar-SA", align: "right", isTextBox: true, fontFace: FONT };
 function ar(slide, text, o) { slide.addText(text, Object.assign({}, AR, { margin: 0, valign: "top" }, o)); }
-function en(slide, text, o) { slide.addText(text, Object.assign({ isTextBox: true, margin: 0, valign: "top", align: "left" }, o)); }
+function en(slide, text, o) { slide.addText(text, Object.assign({ isTextBox: true, margin: 0, valign: "top", align: "left", fontFace: FONT }, o)); }
 const shadow = () => ({ type: "outer", color: "000000", opacity: 0.12, blur: 8, offset: 2, angle: 90 });
 function card(slide, x, y, w, h, fill, name, withShadow = true) {
   slide.addShape(S.ROUNDED_RECTANGLE, { x, y, w, h, rectRadius: 0.08, fill: { color: fill || C.background2 }, line: { type: "none" }, shadow: withShadow ? shadow() : undefined, objectName: name });
@@ -83,8 +84,8 @@ async function iconCircle(slide, x, y, d, iconName, bg, fg, name) {
 }
 function content(section, kicker, title) {
   const s = pres.addSlide({ masterName: "Content", sectionTitle: section });
-  s.addText(kicker, { placeholder: "kicker", align: "right" });
-  s.addText(title, { placeholder: "title", rtlMode: true, lang: "ar-SA" });
+  s.addText(kicker, { placeholder: "kicker", align: "right", fontFace: FONT });
+  s.addText(title, { placeholder: "title", rtlMode: true, lang: "ar-SA", fontFace: FONT });
   return s;
 }
 // polygon via custom geometry, points in absolute inches
@@ -1018,5 +1019,14 @@ function arrowR(slide, x, y, w, color, name) {
 
   await pres.writeFile({ fileName: OUT });
   await applyTheme(OUT, THEME);
+  // theme: make complex-script (Arabic) fonts Times New Roman too
+  const JSZip = require("jszip");
+  const fs = require("fs");
+  const zip = await JSZip.loadAsync(fs.readFileSync(OUT));
+  const tp = "ppt/theme/theme1.xml";
+  let t = await zip.file(tp).async("string");
+  t = t.replace(/<a:cs typeface="[^"]*"/g, '<a:cs typeface="Times New Roman"').replace(/script="Arab" typeface="[^"]*"/g, 'script="Arab" typeface="Times New Roman"');
+  zip.file(tp, t);
+  fs.writeFileSync(OUT, await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" }));
   console.log("wrote", OUT);
 })().catch(e => { console.error(e); process.exit(1); });
