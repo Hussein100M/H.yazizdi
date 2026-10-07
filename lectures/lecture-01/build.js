@@ -121,6 +121,15 @@ function person(slide, x, yFoot, hIn, color, name) {
   slide.addShape(S.LINE, { x: x - hIn * 0.04, y: yFoot - hIn * 0.42, w: 0, h: hIn * 0.42, line: { color, width: 3 }, objectName: name + " leg L" });
   slide.addShape(S.LINE, { x: x + hIn * 0.04, y: yFoot - hIn * 0.42, w: 0, h: hIn * 0.42, line: { color, width: 3 }, objectName: name + " leg R" });
 }
+const IMG = __dirname + "/img/";
+async function photo(slide, name, x, y, w, h) {
+  const file = IMG + name + ".jpg";
+  const m = await sharp(file).metadata();
+  let cw = m.width, ch = Math.round(cw * h / w);
+  if (ch > m.height) { ch = m.height; cw = Math.round(ch * w / h); }
+  const buf = await sharp(file).extract({ left: Math.round((m.width - cw) / 2), top: Math.round((m.height - ch) / 2), width: cw, height: ch }).jpeg({ quality: 90 }).toBuffer();
+  slide.addImage({ data: "image/jpeg;base64," + buf.toString("base64"), x, y, w, h, altText: name, objectName: "photo " + name });
+}
 function arrowR(slide, x, y, w, color, name) {
   slide.addShape(S.LINE, { x, y, w, h: 0, line: { color, width: 2, endArrowType: "triangle" }, objectName: name });
 }
@@ -421,6 +430,47 @@ function arrowR(slide, x, y, w, color, name) {
     s.addNotes("التسلسل POINT → LINE → PLANE → VOLUME مهم جدًا للمحاضرات القادمة. النقطة ذات بُعد صفري، والخط ينتج من امتداد النقطة، والمستوى من امتداد الخط، والحجم من امتداد المستوى إلى البعد الثالث. الخصائص المذكورة (Position, Length, Direction, Shape, Surface, Orientation) مأخوذة من تصنيف Ching للعناصر الأولية.");
   }
 
+  // 10-A. PLANE & VOLUME (from course PDF)
+  {
+    const s = content("Space", "07-A — PLANE & VOLUME", "المستوى والحجم");
+    // wireframe cube (left)
+    const ox = 1.35, oy = 2.35, a = 2.3, d = 0.85;
+    const F = [[ox, oy + d], [ox + a, oy + d], [ox + a, oy + d + a], [ox, oy + d + a]];
+    const Bk = F.map(p => [p[0] + d, p[1] - d]);
+    s.addShape(S.RECTANGLE, { x: M, y: 1.7, w: 5.3, h: 4.95, fill: { color: C.background2 }, line: { type: "none" }, objectName: "cube panel" });
+    const ln = (p, q, dash, nm) => s.addShape(S.LINE, { x: Math.min(p[0], q[0]), y: Math.min(p[1], q[1]), w: Math.abs(q[0] - p[0]), h: Math.abs(q[1] - p[1]), flipV: (q[0] - p[0]) * (q[1] - p[1]) < 0, line: { color: HEX.terra, width: 2, dashType: dash ? "dash" : "solid" }, objectName: nm });
+    ln(Bk[0], Bk[1], false, "back top"); ln(Bk[1], Bk[2], false, "back right"); ln(Bk[2], Bk[3], true, "back bottom"); ln(Bk[3], Bk[0], true, "back left");
+    for (let i = 0; i < 4; i++) ln(F[i], Bk[i], i === 3, "depth " + i);
+    poly(s, F, { fill: { color: HEX.terra, transparency: 85 }, line: { color: HEX.terra, width: 2 }, objectName: "front face" });
+    [F[0], F[1], F[2], F[3], Bk[0], Bk[1], Bk[2]].forEach((p, i) => s.addShape(S.OVAL, { x: p[0] - 0.08, y: p[1] - 0.08, w: 0.16, h: 0.16, fill: { color: HEX.ink }, line: { type: "none" }, objectName: "vertex " + i }));
+    const lab = [
+      [M + 0.1, 5.75, "Points / Vertices", "النقاط — الرؤوس"],
+      [M + 1.83, 5.75, "Lines / Edges", "الخطوط — الحواف (التقاء مستويين)"],
+      [M + 3.56, 5.75, "Planes / Surfaces", "المستويات — الأسطح"],
+    ];
+    lab.forEach((l, i) => {
+      en(s, l[2], { x: l[0], y: l[1], w: 1.65, h: 0.3, fontSize: 12, bold: true, color: HEX.ink, align: "center" });
+      ar(s, l[3], { x: l[0], y: l[1] + 0.3, w: 1.65, h: 0.55, fontSize: 11, color: HEX.slate, align: "center" });
+    });
+    // text cards (right)
+    const rx = 6.25, rw = W - M - rx;
+    card(s, rx, 1.7, rw, 2.35, C.background2, "plane card");
+    en(s, "PLANE", { x: rx + 0.3, y: 1.85, w: rw - 0.6, h: 0.35, fontSize: 16, bold: true, color: HEX.terra, align: "right", charSpacing: 2 });
+    ar(s, [
+      { text: "الشكل (Shape) هو الخاصية الأساسية التي تميّز المستوى.", options: { bullet: { code: "25A0" }, breakLine: true } },
+      { text: "خصائص مكمّلة: السطح، اللون، النمط، الملمس — تؤثر في وزنه البصري واستقراره.", options: { bullet: { code: "25A0" }, breakLine: true } },
+      { text: "يعمل المستوى على تحديد حدود الحجم.", options: { bullet: { code: "25A0" } } },
+    ], { x: rx + 0.3, y: 2.25, w: rw - 0.6, h: 1.7, fontSize: 14, color: HEX.ink, paraSpaceAfter: 6 });
+    card(s, rx, 4.3, rw, 2.35, C.text1, "volume card", false);
+    en(s, "VOLUME", { x: rx + 0.3, y: 4.45, w: rw - 0.6, h: 0.35, fontSize: 16, bold: true, color: HEX.ochre, align: "right", charSpacing: 2 });
+    ar(s, [
+      { text: "الهيئة (Form) هي الخاصية الأساسية التي تميّز الحجم.", options: { bullet: { code: "25A0" }, breakLine: true } },
+      { text: "تتحدد بأشكال المستويات والعلاقات بينها.", options: { bullet: { code: "25A0" }, breakLine: true } },
+      { text: "الحجم إما كتلة صلبة (Solid) أو فراغ (Void) تحتويه المستويات — وهذا الفراغ هو ما نصممه.", options: { bullet: { code: "25A0" } } },
+    ], { x: rx + 0.3, y: 4.85, w: rw - 0.6, h: 1.7, fontSize: 14, color: HEX.white, paraSpaceAfter: 6 });
+    s.addNotes("من ملف Theory of Architecture: المستوى يُعرف أولًا بشكله، ثم بخصائص السطح واللون والنمط والملمس التي تؤثر في وزنه البصري، ووظيفته تحديد حدود الحجم. الحجم يتكون من نقاط (رؤوس) وخطوط (حواف يلتقي عندها مستويان) ومستويات (أسطح)، والحجم قد يكون كتلة صلبة أو فراغًا تحتويه المستويات. أكّد للطلاب: المصمم الداخلي يعمل على الـ Void.");
+  }
+
   // 11. FROM ELEMENTS TO INTERIOR SPACE
   {
     const s = content("Space", "08 — FROM ELEMENTS TO INTERIOR SPACE", "من العناصر إلى الفراغ الداخلي");
@@ -433,18 +483,20 @@ function arrowR(slide, x, y, w, color, name) {
     poly(s, [P(0, 0, 4.4), P(4.5, 0, 4.4), P(4.5, 4.5, 4.4), P(0, 4.5, 4.4)], { fill: { color: HEX.ochre, transparency: 10 }, line: { color: HEX.ink, width: 0.75 }, objectName: "overhead plane" });
     // labels right
     const L = [
-      ["Overhead Plane", "السقف", "المستوى العلوي — يغطي الفراغ ويحدد سقفه.", HEX.ochre, "FaArrowUp"],
-      ["Wall Plane", "الجدار", "المستوى الرأسي — يحدد حدود الفراغ ويحتويه.", HEX.teal, "FaArrowsLeftRight"],
-      ["Base Plane", "الأرضية", "المستوى الأفقي — قاعدة الفراغ وأول ما يلامسه الإنسان.", HEX.terra, "FaArrowDown"],
+      ["Overhead Plane", "السقف", "سقف الفراغ أو سطح المبنى.", HEX.ochre, "FaArrowUp", "munich", "Munich Olympic Stadium"],
+      ["Wall Plane", "الجدار", "أساسي لاحتواء الفراغ، والأكثر حضورًا في مجال الرؤية.", HEX.teal, "FaArrowsLeftRight", "interior", "Modern interior"],
+      ["Base Plane", "الأرضية", "عليه يندمج المبنى أو يستقر أو يرتفع عنه.", HEX.terra, "FaArrowDown", "precast", "Precast house"],
     ];
     for (let i = 0; i < 3; i++) {
-      const y = 2.4 + i * 1.3, x = 7.0, w = W - M - x;
-      card(s, x, y, w, 1.15, C.background2, L[i][0]);
-      await iconCircle(s, x + w - 0.95, y + 0.27, 0.7, L[i][4], L[i][3], HEX.white, L[i][0]);
-      en(s, L[i][0], { x: x + 0.3, y: y + 0.17, w: w - 1.45, h: 0.4, fontSize: 18, bold: true, color: HEX.ink, align: "right" });
-      ar(s, L[i][1] + " — " + L[i][2], { x: x + 0.3, y: y + 0.6, w: w - 1.45, h: 0.5, fontSize: 13, color: HEX.slate });
+      const y = 2.35 + i * 1.35, x = 6.6, w = W - M - x;
+      card(s, x, y, w, 1.25, C.background2, L[i][0]);
+      await iconCircle(s, x + w - 0.9, y + 0.3, 0.65, L[i][4], L[i][3], HEX.white, L[i][0]);
+      await photo(s, L[i][5], x + 0.1, y + 0.1, 1.6, 0.8);
+      en(s, L[i][6], { x: x + 0.1, y: y + 0.93, w: 1.6, h: 0.25, fontSize: 10, italic: true, color: HEX.mid, align: "center" });
+      en(s, L[i][0], { x: x + 1.9, y: y + 0.17, w: w - 2.95, h: 0.4, fontSize: 18, bold: true, color: HEX.ink, align: "right" });
+      ar(s, L[i][1] + " — " + L[i][2], { x: x + 1.9, y: y + 0.58, w: w - 2.95, h: 0.6, fontSize: 13, color: HEX.slate });
     }
-    ar(s, "هذه المستويات الثلاثة هي أهم العناصر التي تحدد الفراغ المعماري والداخلي.", { x: 7.0, y: 6.3, w: W - M - 7.0, h: 0.55, fontSize: 13, bold: true, color: HEX.teal });
+    ar(s, "هذه المستويات الثلاثة هي أهم العناصر التي تحدد الفراغ المعماري والداخلي.", { x: 6.6, y: 6.42, w: W - M - 6.6, h: 0.45, fontSize: 13, bold: true, color: HEX.teal });
     s.addNotes("المرجع يوضح ثلاثة أنواع عامة من المستويات المستخدمة في تشكيل الفراغ: Base Plane و Wall Plane و Overhead Plane. المخطط المفكك (exploded) على اليسار يوضح كيف تتحول المستويات المجردة إلى أرضية وجدران وسقف.");
   }
 
@@ -479,9 +531,96 @@ function arrowR(slide, x, y, w, color, name) {
       ar(s, v[i][2], { x: x + 0.2, y: y + 2.7, w: cw - 0.4, h: 0.5, fontSize: 13, color: HEX.slate, align: "center" });
     }
     s.addShape(S.RECTANGLE, { x: M, y: 5.8, w: CW, h: 0.95, fill: { color: C.text1 }, line: { type: "none" }, objectName: "tools band" });
-    ar(s, "أدوات التحكم بالأرضية:", { x: W - M - 3.0, y: 5.8, w: 2.7, h: 0.95, fontSize: 16, bold: true, color: HEX.ochre, valign: "middle" });
-    ar(s, "الارتفاع  ·  الانخفاض  ·  اختلاف اللون  ·  اختلاف الخامة  ·  اختلاف الملمس", { x: M + 0.3, y: 5.8, w: CW - 3.6, h: 0.95, fontSize: 17, color: HEX.white, valign: "middle" });
+    ar(s, "متى تتضح الأرضية؟", { x: W - M - 3.0, y: 5.8, w: 2.7, h: 0.95, fontSize: 16, bold: true, color: HEX.ochre, valign: "middle" });
+    ar(s, "يتضح المستوى الأرضي عند: تغيّر محسوس في اللون أو الملمس · تحديد الحواف · معالجة السطح (سجاد، عشب، بلاط)", { x: M + 0.3, y: 5.8, w: CW - 3.6, h: 0.95, fontSize: 15, color: HEX.white, valign: "middle" });
     s.addNotes("المرجع يوضح أن تغيير اللون أو الملمس أو تحديد الحواف يمكن أن يجعل المستوى الأرضي أكثر وضوحًا كعنصر مستقل داخل الفراغ. أعط أمثلة: منصة في قاعة محاضرات (مرتفعة)، جلسة عربية منخفضة (Sunken)، سجادة تحدد منطقة جلوس (تغيير خامة).");
+  }
+
+  // 12-A. ELEVATED BASE PLANE — principles
+  {
+    const s = content("Space", "09-A — ELEVATED BASE PLANE", "الأرضية المرتفعة");
+    ar(s, [
+      { text: "رفع جزء من الأرضية يصنع مجالًا (Domain) خاصًا داخل الفراغ الأكبر.", options: { bullet: { code: "25A0" }, breakLine: true } },
+      { text: "إذا استمرت خصائص السطح فوق الجزء المرتفع، يبدو جزءًا من المستوى المحيط.", options: { bullet: { code: "25A0" }, breakLine: true } },
+      { text: "إذا عولجت حافته بتغيير الشكل أو اللون أو الملمس، يصبح «هضبة» مستقلة عن محيطها.", options: { bullet: { code: "25A0" } } },
+    ], { x: M, y: 1.6, w: CW, h: 1.25, fontSize: 15, color: HEX.ink, paraSpaceAfter: 4 });
+    const sc = 0.45; // in per metre
+    const cases = [
+      [0.4, "Edge defined · continuity kept", "الحافة واضحة؛ تبقى الاستمرارية الفراغية والبصرية، والوصول سهل.", HEX.teal],
+      [1.1, "Spatial broken · visual kept", "تنقطع الاستمرارية الفراغية وتبقى البصرية؛ يحتاج الوصول إلى درج.", HEX.ochre],
+      [2.2, "Spatial & visual broken", "تنقطع الاستمرارية البصرية والفراغية؛ ينعزل المستوى المرتفع عن الأرض.", HEX.terra],
+    ];
+    const cw = (CW - 2 * 0.35) / 3;
+    for (let i = 0; i < 3; i++) {
+      const x = W - M - cw - i * (cw + 0.35), y = 3.0, g = y + 2.15;
+      card(s, x, y, cw, 3.75, C.background2, "elevated case " + (i + 1));
+      s.addShape(S.LINE, { x: x + 0.2, y: g, w: cw - 0.4, h: 0, line: { color: HEX.ink, width: 1.5 }, objectName: "ground" });
+      const ph = cases[i][0] * sc, px = x + 1.55, pw = cw - 1.75;
+      s.addShape(S.RECTANGLE, { x: px, y: g - ph, w: pw, h: ph, fill: { color: cases[i][3] }, line: { color: HEX.ink, width: 0.75 }, objectName: "platform" });
+      if (i === 1) for (let k = 0; k < 4; k++) s.addShape(S.RECTANGLE, { x: px - 0.18 * (k + 1), y: g - ph * (4 - k) / 4.6, w: 0.18, h: ph * (4 - k) / 4.6, fill: { color: HEX.pale }, line: { color: HEX.ink, width: 0.5 }, objectName: "step " + k });
+      person(s, x + 0.55, g, 1.7 * sc, HEX.slate, "viewer");
+      person(s, px + pw / 2, g - ph, 1.7 * sc, HEX.gray, "user on platform");
+      s.addShape(S.LINE, { x: x + 0.6, y: g - 1.55 * sc, w: px - x - 0.6, h: 0, line: { color: HEX.terra, width: 1.25, dashType: "dash", endArrowType: "triangle" }, objectName: "sight line" });
+      en(s, cases[i][0].toFixed(1) + " m", { x: px + pw - 0.7, y: g + 0.05, w: 0.7, h: 0.25, fontSize: 10, bold: true, color: HEX.mid, align: "right" });
+      en(s, cases[i][1], { x: x + 0.2, y: y + 2.45, w: cw - 0.4, h: 0.3, fontSize: 12, bold: true, color: HEX.mid, align: "center" });
+      ar(s, cases[i][2], { x: x + 0.2, y: y + 2.8, w: cw - 0.4, h: 0.85, fontSize: 13, color: HEX.ink, align: "center" });
+    }
+    s.addNotes("من ملف Theory of Architecture: Elevated Base Plane — spatial & visual continuity. الحالة 1: حافة واضحة مع بقاء الاستمرارية والوصول سهل. الحالة 2: تنقطع الاستمرارية الفراغية وتبقى البصرية ويلزم درج. الحالة 3: ينقطع الاتصال البصري والفراغي ويصبح المستوى معزولًا. الارتفاعات تقريبية للتوضيح.");
+  }
+
+  // 12-B. ELEVATED BASE PLANE — examples
+  {
+    const s = content("Space", "09-B — ELEVATED PLANE: EXAMPLES", "الأرضية المرتفعة: أمثلة");
+    ar(s, "قد ينتج الارتفاع عن طبيعة الموقع أو يُنشأ عمدًا لرفع المبنى عن محيطه وتعزيز صورته، ويُستخدم لتمييز المباني المقدسة أو المهمة.", { x: M, y: 1.6, w: CW, h: 0.7, fontSize: 15, color: HEX.slate });
+    const ex = [
+      ["acropolis", "Acropolis, Athens", "مرتفع طبيعي يميّز المعبد ويمنحه المكانة."],
+      ["savoye", "Villa Savoye, Paris — Le Corbusier", "رفع المبنى على أعمدة عن الأرض."],
+      ["cept", "CEPT University canteen, Ahmedabad", "منصة منخفضة تحدد منطقة جلوس خارجية."],
+      ["elev_room", "Elevated zone in an interior", "أرضية مرتفعة تحدد منطقة عمل داخل الفراغ."],
+    ];
+    const pw = (CW - 3 * 0.3) / 4, ph = 2.75;
+    for (let i = 0; i < 4; i++) {
+      const x = W - M - pw - i * (pw + 0.3), y = 2.5;
+      await photo(s, ex[i][0], x, y, pw, ph);
+      en(s, ex[i][1], { x, y: y + ph + 0.1, w: pw, h: 0.5, fontSize: 12, bold: true, color: HEX.ink, align: "right" });
+      ar(s, ex[i][2], { x, y: y + ph + 0.6, w: pw, h: 0.7, fontSize: 13, color: HEX.slate });
+    }
+    en(s, "Images: Theory of Architecture — course reference", { x: M, y: 6.62, w: 6, h: 0.25, fontSize: 10, italic: true, color: HEX.gray, align: "left" });
+    s.addNotes("أمثلة من ملف المرجع: الأكروبوليس (ارتفاع ناتج عن الموقع يميّز المبنى المقدس)، فيلا سافوي (رفع المبنى عن الأرض)، ساحة كانتين CEPT (منصة تحدد منطقة جلوس)، ومثال داخلي لمنصة تحدد منطقة عمل. اسأل الطلاب عن أمثلة محلية: منبر المسجد، المجلس المرتفع، منصة المحاضر.");
+  }
+
+  // 12-C. DEPRESSED BASE PLANE
+  {
+    const s = content("Space", "09-C — DEPRESSED BASE PLANE", "الأرضية المنخفضة");
+    ar(s, "الأسطح الرأسية للانخفاض هي التي تحدد حدوده، ويمكن تعزيزه بتباين الشكل أو الهندسة أو الاتجاه عن المحيط.", { x: M, y: 1.6, w: CW, h: 0.45, fontSize: 15, color: HEX.slate });
+    const sc = 0.32;
+    const cases = [[0.3, "Remains an integral part", "يبقى جزءًا من الفراغ المحيط"], [1.0, "The space is distinct", "يصبح فراغًا مميزًا"], [1.8, "Separates", "ينفصل عن الفراغ المحيط"]];
+    const cw = (CW - 2 * 0.35) / 3;
+    for (let i = 0; i < 3; i++) {
+      const x = W - M - cw - i * (cw + 0.35), y = 2.2, g = y + 0.6, dp = cases[i][0] * sc;
+      card(s, x, y, cw, 2.0, C.background2, "depressed case " + (i + 1));
+      const x1 = x + 0.9, x2 = x + cw - 0.9;
+      s.addShape(S.RECTANGLE, { x: x1, y: g, w: x2 - x1, h: dp, fill: { color: HEX.terra, transparency: 70 }, line: { type: "none" }, objectName: "sunken field" });
+      [[x + 0.2, g, x1 - x - 0.2, 0], [x1, g, 0, dp], [x1, g + dp, x2 - x1, 0], [x2, g, 0, dp], [x2, g, x + cw - 0.2 - x2, 0]].forEach((l, k) =>
+        s.addShape(S.LINE, { x: l[0], y: l[1], w: l[2], h: l[3], line: { color: HEX.ink, width: 1.75 }, objectName: "section line " + k }));
+      if (i === 2) s.addShape(S.LINE, { x: x1 + 0.25, y: g - 0.25, w: x2 - x1 - 0.1, h: 0, line: { color: HEX.ink, width: 1.75 }, objectName: "canopy" });
+      person(s, (x1 + x2) / 2, g + dp, 1.7 * sc, HEX.slate, "user");
+      en(s, cases[i][1], { x, y: y + 1.3, w: cw, h: 0.3, fontSize: 12, bold: true, color: HEX.mid, align: "center" });
+      ar(s, cases[i][2], { x, y: y + 1.6, w: cw, h: 0.35, fontSize: 14, bold: true, color: HEX.ink, align: "center" });
+    }
+    const ex = [
+      ["amph_forest", "Outdoor amphitheatre", "انخفاض في طبوغرافيا الموقع يصبح مسرحًا مفتوحًا."],
+      ["amph_stone", "Classical theatre", "يحسّن خطوط الرؤية والإحساس بالاحتواء والجودة الصوتية."],
+      ["steps_up", "Steps up — extrovert", "الصعود انفتاحي (Extrovert)؛ أما النزول فانطوائي (Introvert)."],
+    ];
+    for (let i = 0; i < 3; i++) {
+      const x = W - M - cw - i * (cw + 0.35), y = 4.4;
+      await photo(s, ex[i][0], x, y, 1.75, 1.55);
+      en(s, ex[i][1], { x: x + 1.9, y, w: cw - 1.9, h: 0.5, fontSize: 12, bold: true, color: HEX.ink, align: "right" });
+      ar(s, ex[i][2], { x: x + 1.9, y: y + 0.5, w: cw - 1.9, h: 1.1, fontSize: 13, color: HEX.slate });
+    }
+    en(s, "Images: Theory of Architecture — course reference", { x: M, y: 6.62, w: 6, h: 0.25, fontSize: 10, italic: true, color: HEX.gray, align: "left" });
+    s.addNotes("من ملف المرجع: Depressed Base Plane — spatial & visual continuity. كلما زاد عمق الانخفاض قلّ اتصاله بالفراغ المحيط: يبقى جزءًا منه، ثم يصبح مميزًا، ثم ينفصل. المدرجات مثال كلاسيكي: الانخفاض يحسّن الرؤية والصوت والإحساس بالاحتواء. النزول للفراغ يعطي طابعًا انطوائيًا، والصعود طابعًا انفتاحيًا. مثال داخلي: الجلسة المنخفضة (Sunken living).");
   }
 
   // 13. WALL PLANE
@@ -524,6 +663,47 @@ function arrowR(slide, x, y, w, color, name) {
     s.addNotes("وظيفة الجدار ليست الفصل فقط. المرجع يوضح أن المستوى الرأسي يحدد مجالًا فراغيًا، وأن ارتفاعه بالنسبة لجسم الإنسان ومستوى العين يؤثر في مدى قدرته على وصف الفراغ بصريًا. الارتفاعات المعروضة تقريبية للتوضيح (Ching).");
   }
 
+  // 13-A. VERTICAL ELEMENTS DEFINING SPACE
+  {
+    const s = content("Space", "10-A — VERTICAL ELEMENTS DEFINING SPACE", "تشكيلات المستويات الرأسية");
+    const cfg = [
+      ["Vertical linear elements", "عناصر خطية رأسية", "تحدد حواف حجم الفراغ.", "cols"],
+      ["Single vertical plane", "مستوى رأسي منفرد", "يُبرز الفراغ الذي يواجهه.", "single"],
+      ["L-shaped plane", "مستوى على شكل L", "يولّد فراغًا من الزاوية نحو الخارج قطريًا.", "L"],
+      ["Parallel planes", "مستويان متوازيان", "فراغ محوري موجّه نحو الطرفين المفتوحين.", "par"],
+      ["U-shaped plane", "مستوى على شكل U", "فراغ موجّه نحو الطرف المفتوح.", "U"],
+      ["Closure — four planes", "الإغلاق الكامل", "فراغ منطوٍ تحدده المستويات من كل الجهات.", "box"],
+    ];
+    const gx = 4.05, cw = (W - M - gx - 2 * 0.25) / 3, ch = 2.45;
+    for (let i = 0; i < 6; i++) {
+      const col = i % 3, row = Math.floor(i / 3);
+      const x = W - M - cw - col * (cw + 0.25), y = 1.7 + row * (ch + 0.25);
+      card(s, x, y, cw, ch, C.background2, cfg[i][0]);
+      const d = 1.05, dx = x + (cw - d) / 2, dy = y + 0.2, t = 0.1;
+      s.addShape(S.RECTANGLE, { x: dx, y: dy, w: d, h: d, fill: { color: HEX.terra, transparency: 75 }, line: { color: HEX.gray, width: 0.5, dashType: "dash" }, objectName: "defined field" });
+      const bar = (bx, by, bw, bh, k) => s.addShape(S.RECTANGLE, { x: bx, y: by, w: bw, h: bh, fill: { color: HEX.ink }, line: { type: "none" }, objectName: "plane " + k });
+      const k = cfg[i][3];
+      if (k === "cols") [[0, 0], [1, 0], [0, 1], [1, 1]].forEach((c, j) => bar(dx - 0.07 + c[0] * d, dy - 0.07 + c[1] * d, 0.14, 0.14, j));
+      if (k === "single") bar(dx, dy - t, d, t, 0);
+      if (k === "L") { bar(dx - t, dy - t, d + t, t, 0); bar(dx - t, dy, t, d, 1); }
+      if (k === "par") { bar(dx, dy - t, d, t, 0); bar(dx, dy + d, d, t, 1); }
+      if (k === "U") { bar(dx - t, dy - t, d + t, t, 0); bar(dx - t, dy, t, d, 1); bar(dx - t, dy + d, d + t, t, 2); }
+      if (k === "box") { bar(dx - t, dy - t, d + 2 * t, t, 0); bar(dx - t, dy, t, d, 1); bar(dx - t, dy + d, d + 2 * t, t, 2); bar(dx + d, dy, t, d, 3); }
+      en(s, cfg[i][0], { x: x + 0.15, y: y + 1.38, w: cw - 0.3, h: 0.28, fontSize: 11, bold: true, color: HEX.mid, align: "center" });
+      ar(s, cfg[i][1], { x: x + 0.15, y: y + 1.65, w: cw - 0.3, h: 0.32, fontSize: 14, bold: true, color: HEX.ink, align: "center" });
+      ar(s, cfg[i][2], { x: x + 0.15, y: y + 1.97, w: cw - 0.3, h: 0.45, fontSize: 12, color: HEX.slate, align: "center" });
+    }
+    // examples column
+    const ex = [["stone_wall", "Single plane"], ["l_pavilion", "L-shaped plane"], ["corridor", "Parallel planes"]];
+    const pw = gx - 0.3 - M, ph = 1.38;
+    for (let i = 0; i < 3; i++) {
+      const y = 1.7 + i * (ph + 0.42);
+      await photo(s, ex[i][0], M, y, pw, ph);
+      en(s, ex[i][1], { x: M, y: y + ph + 0.04, w: pw, h: 0.28, fontSize: 10, italic: true, color: HEX.mid, align: "right" });
+    }
+    s.addNotes("من ملف Theory of Architecture: العناصر الخطية الرأسية تحدد حواف حجم الفراغ؛ المستوى المنفرد يُبرز الفراغ الذي يواجهه؛ المستوى L يولّد فراغًا من مركزه نحو الخارج قطريًا؛ المستويان المتوازيان يحددان فراغًا موجّهًا محوريًا نحو الطرفين المفتوحين؛ مستوى U يحدد فراغًا موجهًا نحو الطرف المفتوح (مثل مطبخ U)؛ والإغلاق بأربعة مستويات يصنع فراغًا منطويًا. المنطقة المظللة في كل مخطط هي المجال الفراغي الذي يتحدد.");
+  }
+
   // 14. OVERHEAD PLANE
   {
     const s = content("Space", "11 — CEILING / OVERHEAD PLANE", "السقف — المستوى العلوي");
@@ -559,6 +739,32 @@ function arrowR(slide, x, y, w, color, name) {
       ar(s, f[i][1], { x: rx, y: y + 0.02, w: rw - 0.75, h: 0.48, fontSize: 15, color: HEX.ink, valign: "middle" });
     }
     s.addNotes("المرجع يذكر أن مستوى السقف يمكن تعديله ورفعه أو خفضه وتغيير شكله ولونه وملمسه للمساعدة في تحديد المناطق وتحسين جودة الضوء والصوت والإحساس الاتجاهي. المقطع يوضح منطقة طعام تحت سقف منخفض مع إضاءة مركّزة.");
+  }
+
+  // 14-A. OVERHEAD PLANE — principles & examples
+  {
+    const s = content("Space", "11-A — OVERHEAD PLANE: PRINCIPLES", "المستوى العلوي: مبادئ وأمثلة");
+    const rx = 6.9, rw = W - M - rx;
+    const pts = [
+      ["FaTree", "يشبه مظلة الشجرة؛ يمنح إحساسًا بالاحتواء."],
+      ["FaArrowsUpDown", "يحدد مجالًا فراغيًا بينه وبين الأرضية."],
+      ["FaVectorSquare", "حوافه ترسم حدود هذا المجال."],
+      ["FaLayerGroup", "العناصر الرأسية وحواف السقف والأرضيات المرتفعة والمنخفضة تعزز حدود الحجم."],
+      ["FaUmbrella", "سقف المبنى يوفر الحماية ويحدد هيئته العامة، ويعكس المواد والنظام الإنشائي."],
+    ];
+    for (let i = 0; i < pts.length; i++) {
+      const y = 1.75 + i * 0.98;
+      await iconCircle(s, W - M - 0.6, y + 0.08, 0.6, pts[i][0], HEX.ochre, HEX.ink, "overhead point " + (i + 1));
+      ar(s, pts[i][1], { x: rx, y, w: rw - 0.8, h: 0.8, fontSize: 15, color: HEX.ink, valign: "middle" });
+    }
+    const ex = [["valencia", "Valencia Opera House, Spain"], ["salamanca", "Salamanca House, New Zealand"], ["munich", "Munich Olympic Stadium"]];
+    await photo(s, ex[0][0], M, 1.75, 5.9, 2.75);
+    en(s, ex[0][1], { x: M, y: 4.53, w: 5.9, h: 0.28, fontSize: 10, italic: true, color: HEX.mid, align: "right" });
+    await photo(s, ex[1][0], M + 3.05, 4.95, 2.85, 1.55);
+    en(s, ex[1][1], { x: M + 3.05, y: 6.52, w: 2.85, h: 0.28, fontSize: 10, italic: true, color: HEX.mid, align: "right" });
+    await photo(s, ex[2][0], M, 4.95, 2.85, 1.55);
+    en(s, ex[2][1], { x: M, y: 6.52, w: 2.85, h: 0.28, fontSize: 10, italic: true, color: HEX.mid, align: "right" });
+    s.addNotes("من ملف Theory of Architecture: المستوى العلوي يشبه الشجرة، يعطي إحساسًا بالاحتواء ويحدد مجالًا بينه وبين الأرض، وحوافه تحدد حدود هذا المجال. العناصر الرأسية وحواف السقف والأرضيات المرتفعة والمنخفضة تساعد على تثبيت حدود الفراغ بصريًا. سقف المبنى يوفر الحماية ويحدد الهيئة العامة ويعبّر عن المواد والنظام الإنشائي (أوبرا فالنسيا، ملعب ميونخ الأولمبي).");
   }
 
   // 15. FLOOR + WALL + CEILING = SPACE
@@ -802,10 +1008,11 @@ function arrowR(slide, x, y, w, color, name) {
       "Pile, J. F., & Gura, J. (2014). A History of Interior Design (4th ed.). London: Laurence King.",
       "Panero, J., & Zelnik, M. (1979). Human Dimension & Interior Space. New York: Whitney Library of Design.",
       "Neufert, E., & Neufert, P. (2019). Architects' Data (5th ed.). Chichester: Wiley-Blackwell.",
+      "Theory of Architecture — course lecture notes (SRM University). Source of example images.",
     ];
     await iconCircle(s, W - M - 0.8, 1.8, 0.8, "FaBookOpen", HEX.teal, HEX.white, "references");
-    en(s, refs.map((r, i) => ({ text: r, options: { bullet: { type: "number" }, breakLine: i < refs.length - 1 } })), { x: M, y: 1.8, w: CW - 1.2, h: 4.2, fontSize: 16, color: HEX.ink, paraSpaceAfter: 18, align: "left", rtlMode: false });
-    ar(s, "المخططات في هذا العرض رُسمت توضيحيًا اعتمادًا على مفاهيم المرجع الأساسي.", { x: M, y: 6.3, w: CW, h: 0.4, fontSize: 12, italic: true, color: HEX.mid });
+    en(s, refs.map((r, i) => ({ text: r, options: { bullet: { type: "number" }, breakLine: i < refs.length - 1 } })), { x: M, y: 1.8, w: CW - 1.2, h: 4.2, fontSize: 16, color: HEX.ink, paraSpaceAfter: 14, align: "left", rtlMode: false });
+    ar(s, "المخططات رُسمت توضيحيًا اعتمادًا على مفاهيم المرجع؛ والصور التوضيحية مأخوذة من ملف المادة.", { x: M, y: 6.3, w: CW, h: 0.4, fontSize: 12, italic: true, color: HEX.mid });
     s.addNotes("المرجع الأساسي للمادة هو Ching: Architecture: Form, Space, and Order. بقية المراجع للاستزادة.");
   }
 
