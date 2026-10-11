@@ -53,7 +53,8 @@ export const SaakAd: React.FC = () => {
       <Steps />
       <Outro />
       <Finish />
-      <Audio src={staticFile("audio.m4a")} />
+      {/* SFX-only soundtrack (client library) — built by scripts/cues.py + scripts/mix_sfx.py */}
+      <Audio src={staticFile("sfx-mix.wav")} />
     </AbsoluteFill>
   );
 };
