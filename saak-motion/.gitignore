@@ -3,3 +3,4 @@ out/frames/
 out/*.tmp*
 out/*.log
 out/decoded/
+out/*-sfx.mp4
