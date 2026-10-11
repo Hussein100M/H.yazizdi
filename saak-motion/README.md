@@ -1,14 +1,15 @@
 # SAAK — premium 9:16 ad (Remotion)
 
-A ground-up motion rebuild of `SAAK_Ad_50s_1080x1920.mp4`: same content, same music, same
-50 s length, now one continuous film with a single lighting world and object-driven transitions.
+A ground-up motion rebuild of `SAAK_Ad_50s_1080x1920.mp4`: same content, same 50 s length, now one
+continuous film with a single lighting world and object-driven transitions. The music was removed at
+the client's request; the soundtrack is SFX only, built from the client's own SFX library.
 
 - Format: 1080 × 1920 (9:16), 60 fps, H.264 + AAC, 50.0 s (3000 frames)
 - Output: `out/saak-ad-9x16.mp4`, poster `out/poster.png`, contact sheet `out/contact-sheet.png`
 
 ## Storyboard
 
-Timings are locked to the phrase hits of the original 120 BPM music bed (t = 0.21 + 0.5k s).
+Scene anchors still follow the phrase grid of the original 120 BPM edit (t = 0.21 + 0.5k s).
 
 | Time | Visual | Transition logic | Copy |
 |---|---|---|---|
@@ -28,9 +29,16 @@ Timings are locked to the phrase hits of the original 120 BPM music bed (t = 0.2
 
 - `public/bag-*.png`: the three real product photos, cut out of the ad's frames (rembg / isnet + mask cleanup). The Super SAAK mask reuses the Porcelain silhouette, because both are the same bag shot.
 - `public/saak-mark.svg`, `public/saak-wordmark.svg`, `src/lib/logoPaths.ts`: the official logo, potrace-traced from the intro frame (not redrawn).
-- `public/audio.m4a`: the ad's original music track, unchanged.
 - Copy: verbatim from the original ad. "·" was replaced by "–" because "·" reads as Arabic zero (٠).
 - Font: IBM Plex Sans Arabic (OFL, via @fontsource).
+
+## Sound (SFX only, no music)
+
+- Source: the client's SFX library (9 packs, 77 sounds: clicks, UI, pops, whooshes, risers, shutters, gears, money, data), converted to 48 kHz WAV with leading silence trimmed.
+- `scripts/cues.py` writes `out/sfx-cues.json`: 133 cues, each computed from the animation's own frame maths. A sound lands on the first visible frame of its motion, a hard flip lands exactly on the flip, and samples with pre-roll are aligned by their loudest 10 ms. No more than 2 sounds land within any 2-frame window. Pan follows each element's x position.
+- Hierarchy: the logo hits (whoosh_deep_short + premium pop, each preceded by a smooth riser), the hex-iris reveal, the how-to title, the tile landing and the call-to-action sit above the chips, rows, ticks and tiles.
+- `scripts/mix_sfx.py` mixes the cues and equalises built-in L/R skews. The master is linear: 35 Hz high-pass, one gain, then a 4×-oversampled limiter. Target is -16 LUFS integrated with true peak ≤ -1 dBTP, verified on the decoded MP4 (currently -16.1 LUFS / -2.0 dBTP). The SFX-only bed has a ~19 dB crest factor; reaching -14 LUFS would need about 10 dB of limiting, and platforms normalise anyway.
+- The cue sheet and the mix went through two adversarial review rounds: sync against decoded frames, balance on phone-speaker and 60-phon weighting, and the house rules.
 
 ## Motion language
 
@@ -51,7 +59,11 @@ Timings are locked to the phrase hits of the original 120 BPM music bed (t = 0.2
 npm install
 export REMOTION_BROWSER=/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell  # optional
 npm run typecheck
+python3 scripts/cues.py out/sfx-cues.json
+python3 scripts/mix_sfx.py out/sfx-cues.json /path/to/SFX_Library public/sfx-mix.wav --wave out/sfx-waveform.png
 npx remotion render SaakAd out/saak-ad-9x16.mp4 --codec=h264 --crf=16 --pixel-format=yuv420p --audio-codec=aac
+# or, picture unchanged: remux only
+python3 scripts/mix_sfx.py out/sfx-cues.json /path/to/SFX_Library public/sfx-mix.wav --video out/picture.mp4 out/saak-ad-9x16.mp4
 node scripts/stills.mjs out/frames 0 2.6 6 12 18 22.5 25 33.5 41.5 49.5   # review stills
 npm run studio   # interactive preview
 ```

@@ -34,28 +34,28 @@
   "maxdur": 0.7
  },
  {
-  "t": 2.1167,
+  "t": 2.0,
   "sound": "pop/sweet_ui_open",
   "gain": 0.22,
   "pan": 0.0,
   "align": "start",
-  "event": "f127 wordmark rises"
+  "event": "f120 wordmark rises"
  },
  {
-  "t": 2.45,
+  "t": 2.3333,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.2,
   "pan": 0.0,
   "align": "start",
-  "event": "f147 tagline rises"
+  "event": "f140 tagline rises"
  },
  {
-  "t": 2.7167,
+  "t": 2.6,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.16,
   "pan": 0.0,
   "align": "start",
-  "event": "f163 sub-line rises"
+  "event": "f156 sub-line rises"
  },
  {
   "t": 3.4,
@@ -94,88 +94,88 @@
   "sound": "shutter/camera_shutter",
   "gain": 0.3,
   "pan": 0.039,
-  "align": "start",
+  "align": "peak",
   "event": "f256 product photo lands"
  },
  {
-  "t": 4.6167,
+  "t": 4.4667,
   "sound": "pop/smooth_pop",
   "gain": 0.22,
   "pan": 0.0,
   "align": "start",
-  "event": "f277 product 1 index pill"
+  "event": "f268 product 1 index pill"
  },
  {
-  "t": 4.75,
+  "t": 4.65,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f285 product 1 title rises"
+  "event": "f279 product 1 title rises"
  },
  {
-  "t": 5.3167,
+  "t": 5.1333,
   "sound": "pop/meadia_pop",
-  "gain": 0.3,
+  "gain": 0.2,
   "pan": 0.228,
   "align": "start",
-  "event": "f319 20 kg chip pops"
+  "event": "f308 20 kg chip pops"
  },
  {
-  "t": 5.5667,
+  "t": 5.45,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.2,
   "pan": 0.2,
   "align": "start",
-  "event": "f334 feature row 1"
+  "event": "f327 feature row 1"
  },
  {
-  "t": 5.6333,
+  "t": 5.5333,
   "sound": "click/high_click",
   "gain": 0.2,
   "pan": 0.411,
   "align": "start",
-  "event": "f338 check mark 1"
+  "event": "f332 check mark 1"
  },
  {
-  "t": 6.0667,
+  "t": 5.95,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.2,
   "pan": 0.2,
   "align": "start",
-  "event": "f364 feature row 2"
+  "event": "f357 feature row 2"
  },
  {
-  "t": 6.1333,
+  "t": 6.0333,
   "sound": "click/cinematic_click",
   "gain": 0.26,
   "pan": 0.411,
   "align": "start",
-  "event": "f368 check mark 2"
+  "event": "f362 check mark 2"
  },
  {
-  "t": 6.5667,
-  "sound": "ui/ui_granular_button_select",
-  "gain": 0.2,
+  "t": 6.45,
+  "sound": "pop/smooth_pop",
+  "gain": 0.18,
   "pan": 0.2,
   "align": "start",
-  "event": "f394 feature row 3"
+  "event": "f387 feature row 3"
  },
  {
-  "t": 6.6333,
+  "t": 6.5333,
   "sound": "click/high_click",
   "gain": 0.2,
   "pan": 0.411,
   "align": "start",
-  "event": "f398 check mark 3"
+  "event": "f392 check mark 3"
  },
  {
-  "t": 9.2167,
+  "t": 9.4,
   "sound": "riser/rjd_riser",
   "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f553 accent light purple -> teal"
+  "event": "f564 accent light purple -> teal (first moving frame)"
  },
  {
   "t": 9.75,
@@ -186,6 +186,14 @@
   "event": "f585 shelf track to product 2 (peak velocity)"
  },
  {
+  "t": 9.8667,
+  "sound": "pop/smooth_pop",
+  "gain": 0.22,
+  "pan": 0.0,
+  "align": "start",
+  "event": "f592 product 2 index pill"
+ },
+ {
   "t": 9.9333,
   "sound": "pop/slow_and_smooth_pop",
   "gain": 0.26,
@@ -194,92 +202,84 @@
   "event": "f596 bag 2 settles"
  },
  {
-  "t": 10.0167,
-  "sound": "pop/smooth_pop",
-  "gain": 0.22,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f601 product 2 index pill"
- },
- {
-  "t": 10.15,
+  "t": 10.05,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f609 product 2 title rises"
+  "event": "f603 product 2 title rises"
  },
  {
-  "t": 11.1167,
+  "t": 10.9667,
   "sound": "ui/ui_enter",
   "gain": 0.3,
   "pan": -0.224,
   "align": "start",
-  "event": "f667 class badge C2TE stamps on"
+  "event": "f658 class badge C2TE stamps on"
  },
  {
-  "t": 11.3167,
-  "sound": "pop/meadia_pop",
-  "gain": 0.3,
+  "t": 11.1333,
+  "sound": "pop/slow_and_smooth_pop",
+  "gain": 0.2,
   "pan": 0.228,
   "align": "start",
-  "event": "f679 20 kg chip pops"
+  "event": "f668 20 kg chip pops"
  },
  {
-  "t": 11.5667,
-  "sound": "ui/ui_granular_button_select",
-  "gain": 0.2,
-  "pan": 0.2,
-  "align": "start",
-  "event": "f694 feature row 1"
- },
- {
-  "t": 11.6333,
-  "sound": "click/high_click",
-  "gain": 0.2,
-  "pan": 0.411,
-  "align": "start",
-  "event": "f698 check mark 1"
- },
- {
-  "t": 12.0667,
+  "t": 11.45,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.2,
   "pan": 0.2,
   "align": "start",
-  "event": "f724 feature row 2"
+  "event": "f687 feature row 1"
  },
  {
-  "t": 12.1333,
+  "t": 11.5333,
   "sound": "click/cinematic_click",
   "gain": 0.26,
   "pan": 0.411,
   "align": "start",
-  "event": "f728 check mark 2"
+  "event": "f692 check mark 1"
  },
  {
-  "t": 12.5667,
-  "sound": "ui/ui_granular_button_select",
-  "gain": 0.2,
+  "t": 11.95,
+  "sound": "pop/smooth_pop",
+  "gain": 0.18,
   "pan": 0.2,
   "align": "start",
-  "event": "f754 feature row 3"
+  "event": "f717 feature row 2"
  },
  {
-  "t": 12.6333,
+  "t": 12.0333,
   "sound": "click/high_click",
   "gain": 0.2,
   "pan": 0.411,
   "align": "start",
-  "event": "f758 check mark 3"
+  "event": "f722 check mark 2"
  },
  {
-  "t": 15.2167,
+  "t": 12.45,
+  "sound": "ui/ui_granular_button_select",
+  "gain": 0.2,
+  "pan": 0.2,
+  "align": "start",
+  "event": "f747 feature row 3"
+ },
+ {
+  "t": 12.5333,
+  "sound": "click/high_click",
+  "gain": 0.2,
+  "pan": 0.411,
+  "align": "start",
+  "event": "f752 check mark 3"
+ },
+ {
+  "t": 15.4,
   "sound": "riser/rjd_riser",
   "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f913 accent light teal -> azure"
+  "event": "f924 accent light teal -> azure (first moving frame)"
  },
  {
   "t": 15.75,
@@ -290,6 +290,14 @@
   "event": "f945 shelf track to product 3 (peak velocity)"
  },
  {
+  "t": 15.8667,
+  "sound": "pop/smooth_pop",
+  "gain": 0.22,
+  "pan": 0.0,
+  "align": "start",
+  "event": "f952 product 3 index pill"
+ },
+ {
   "t": 15.9333,
   "sound": "pop/slow_and_smooth_pop",
   "gain": 0.24,
@@ -298,89 +306,81 @@
   "event": "f956 bag 3 settles"
  },
  {
-  "t": 16.0167,
-  "sound": "pop/smooth_pop",
-  "gain": 0.22,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f961 product 3 index pill"
- },
- {
-  "t": 16.15,
+  "t": 16.05,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f969 product 3 title rises"
+  "event": "f963 product 3 title rises"
  },
  {
-  "t": 17.1167,
+  "t": 16.9667,
   "sound": "ui/ui_enter",
   "gain": 0.3,
-  "pan": -0.224,
+  "pan": -0.206,
   "align": "start",
-  "event": "f1027 class badge C2TES1 stamps on"
+  "event": "f1018 class badge C2TES1 stamps on"
  },
  {
-  "t": 17.3167,
+  "t": 17.1333,
   "sound": "pop/meadia_pop",
-  "gain": 0.3,
+  "gain": 0.2,
   "pan": 0.228,
   "align": "start",
-  "event": "f1039 20 kg chip pops"
+  "event": "f1028 20 kg chip pops"
  },
  {
-  "t": 17.5667,
-  "sound": "ui/ui_granular_button_select",
-  "gain": 0.2,
+  "t": 17.45,
+  "sound": "pop/smooth_pop",
+  "gain": 0.18,
   "pan": 0.2,
   "align": "start",
-  "event": "f1054 feature row 1"
+  "event": "f1047 feature row 1"
  },
  {
-  "t": 17.6333,
+  "t": 17.5333,
   "sound": "click/high_click",
   "gain": 0.2,
   "pan": 0.411,
   "align": "start",
-  "event": "f1058 check mark 1"
+  "event": "f1052 check mark 1"
  },
  {
-  "t": 18.0667,
+  "t": 17.95,
+  "sound": "ui/ui_granular_button_select",
+  "gain": 0.2,
+  "pan": 0.2,
+  "align": "start",
+  "event": "f1077 feature row 2"
+ },
+ {
+  "t": 18.0333,
+  "sound": "click/high_click",
+  "gain": 0.2,
+  "pan": 0.411,
+  "align": "start",
+  "event": "f1082 check mark 2"
+ },
+ {
+  "t": 18.45,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.2,
   "pan": 0.2,
   "align": "start",
-  "event": "f1084 feature row 2"
+  "event": "f1107 feature row 3"
  },
  {
-  "t": 18.1333,
+  "t": 18.5333,
   "sound": "click/cinematic_click",
   "gain": 0.26,
   "pan": 0.411,
   "align": "start",
-  "event": "f1088 check mark 2"
- },
- {
-  "t": 18.5667,
-  "sound": "ui/ui_granular_button_select",
-  "gain": 0.2,
-  "pan": 0.2,
-  "align": "start",
-  "event": "f1114 feature row 3"
- },
- {
-  "t": 18.6333,
-  "sound": "click/high_click",
-  "gain": 0.2,
-  "pan": 0.411,
-  "align": "start",
-  "event": "f1118 check mark 3"
+  "event": "f1112 check mark 3"
  },
  {
   "t": 21.85,
   "sound": "whoosh/cinematic_fast_whoosh",
-  "gain": 0.3,
+  "gain": 0.22,
   "pan": 0.0,
   "align": "peak",
   "event": "f1311 bag 3 lowers out of frame"
@@ -394,28 +394,44 @@
   "event": "f1324 'how to use' title lands"
  },
  {
-  "t": 22.25,
+  "t": 22.1167,
+  "sound": "pop/sweet_ui_open",
+  "gain": 0.28,
+  "pan": 0.0,
+  "align": "start",
+  "event": "f1327 'how to use' title: mid-band body for phone speakers"
+ },
+ {
+  "t": 22.1833,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.16,
   "pan": 0.0,
   "align": "start",
-  "event": "f1335 sub-line rises"
+  "event": "f1331 sub-line rises"
  },
  {
-  "t": 22.5833,
+  "t": 22.4333,
   "sound": "pop/smooth_pop",
   "gain": 0.22,
-  "pan": 0.311,
+  "pan": 0.348,
   "align": "start",
-  "event": "f1355 rail node 1 appears"
+  "event": "f1346 rail node 1 appears"
  },
  {
-  "t": 22.7,
+  "t": 22.55,
   "sound": "ui/ui_click_digital_03",
   "gain": 0.22,
-  "pan": 0.156,
+  "pan": 0.174,
+  "align": "peak",
+  "event": "f1353 rail node 2 appears"
+ },
+ {
+  "t": 22.6667,
+  "sound": "pop/smooth_pop",
+  "gain": 0.22,
+  "pan": 0.0,
   "align": "start",
-  "event": "f1362 rail node 2 appears"
+  "event": "f1360 rail node 3 appears"
  },
  {
   "t": 22.7333,
@@ -426,36 +442,28 @@
   "event": "f1364 rail hairline draws right-to-left"
  },
  {
-  "t": 22.8167,
-  "sound": "pop/smooth_pop",
-  "gain": 0.22,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f1369 rail node 3 appears"
- },
- {
-  "t": 22.9333,
+  "t": 22.7833,
   "sound": "ui/ui_click_digital_03",
   "gain": 0.22,
-  "pan": -0.156,
-  "align": "start",
-  "event": "f1376 rail node 4 appears"
+  "pan": -0.174,
+  "align": "peak",
+  "event": "f1367 rail node 4 appears"
  },
  {
-  "t": 23.05,
+  "t": 22.9,
   "sound": "pop/smooth_pop",
   "gain": 0.22,
-  "pan": -0.311,
+  "pan": -0.348,
   "align": "start",
-  "event": "f1383 rail node 5 appears"
+  "event": "f1374 rail node 5 appears"
  },
  {
-  "t": 23.75,
+  "t": 23.6667,
   "sound": "ui/ui_click_digital_03",
   "gain": 0.24,
-  "pan": 0.311,
-  "align": "start",
-  "event": "f1425 node 1 activates"
+  "pan": 0.333,
+  "align": "peak",
+  "event": "f1420 node 1 flips white (mid-rise)"
  },
  {
   "t": 23.7833,
@@ -470,57 +478,67 @@
   "sound": "click/click_1",
   "gain": 0.26,
   "pan": 0.0,
-  "align": "start",
-  "event": "f1440 tile lands"
+  "align": "peak",
+  "event": "f1440 tile lands (low body)"
  },
  {
-  "t": 24.0833,
-  "sound": "whoosh/slow_and_smooth_whoosh",
-  "gain": 0.16,
+  "t": 24.0,
+  "sound": "pop/slow_and_smooth_pop",
+  "gain": 0.3,
   "pan": 0.0,
   "align": "start",
-  "event": "f1445 squeegee sweeps the slab",
-  "maxdur": 1.95
+  "event": "f1440 tile lands (mid body)"
  },
  {
-  "t": 24.3333,
+  "t": 24.2167,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f1460 step 1 title rises"
+  "event": "f1453 step 1 title rises"
  },
  {
-  "t": 24.7167,
+  "t": 24.5,
   "sound": "pop/meadia_pop",
-  "gain": 0.26,
+  "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f1483 step 1 spec chip pops"
+  "event": "f1470 step 1 spec chip pops"
  },
  {
-  "t": 26.2,
+  "t": 25.0,
+  "sound": "whoosh/fast_whoosh_alt",
+  "gain": 0.1,
+  "pan": 0.0,
+  "align": "peak",
+  "event": "f1500 squeegee sweep (peak velocity)"
+ },
+ {
+  "t": 26.0833,
   "sound": "click/click_2",
   "gain": 0.26,
   "pan": -0.167,
   "align": "start",
-  "event": "f1572 sparkle on the clean surface"
+  "event": "f1565 sparkle on the clean surface",
+  "maxdur": 0.09
  },
  {
-  "t": 26.4,
+  "t": 26.2833,
   "sound": "click/click_2",
   "gain": 0.2,
   "pan": 0.172,
   "align": "start",
-  "event": "f1584 sparkle on the clean surface"
+  "event": "f1577 sparkle on the clean surface",
+  "maxdur": 0.09
  },
  {
-  "t": 26.6,
+  "t": 26.4833,
   "sound": "click/click_2",
   "gain": 0.16,
   "pan": 0.033,
   "align": "start",
-  "event": "f1596 sparkle on the clean surface"
+  "event": "f1589 sparkle on the clean surface",
+  "maxdur": 0.09
  },
  {
   "t": 27.6167,
@@ -531,44 +549,44 @@
   "event": "f1657 step 1 -> 2: illustration slides, rail fills"
  },
  {
-  "t": 27.7667,
+  "t": 27.6667,
   "sound": "ui/ui_click_digital_03",
   "gain": 0.24,
   "pan": 0.156,
-  "align": "start",
-  "event": "f1666 rail node 2 activates"
+  "align": "peak",
+  "event": "f1660 rail node 2 flips white"
  },
  {
-  "t": 27.95,
-  "sound": "whoosh/cinematic_low_whoosh",
-  "gain": 0.2,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f1677 water fills to the mark"
- },
- {
-  "t": 28.1,
+  "t": 27.9833,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f1686 step 2 title rises"
+  "event": "f1679 step 2 title rises"
  },
  {
-  "t": 28.4833,
+  "t": 28.05,
+  "sound": "whoosh/cinematic_low_whoosh",
+  "gain": 0.2,
+  "pan": 0.0,
+  "align": "peak",
+  "event": "f1683 water fills to the mark (fastest rise)"
+ },
+ {
+  "t": 28.2667,
   "sound": "pop/meadia_pop",
-  "gain": 0.26,
+  "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f1709 step 2 spec chip pops"
+  "event": "f1696 step 2 spec chip pops"
  },
  {
-  "t": 29.1167,
-  "sound": "click/click_1",
+  "t": 28.9333,
+  "sound": "pop/slow_and_smooth_pop",
   "gain": 0.24,
   "pan": 0.0,
   "align": "start",
-  "event": "f1747 paddle drops into the bucket"
+  "event": "f1736 paddle blade enters the water"
  },
  {
   "t": 29.4167,
@@ -588,45 +606,45 @@
   "event": "f1897 step 2 -> 3: illustration slides, rail fills"
  },
  {
-  "t": 31.7667,
+  "t": 31.6667,
   "sound": "pop/smooth_pop",
   "gain": 0.24,
   "pan": 0.0,
+  "align": "peak",
+  "event": "f1900 rail node 3 flips white"
+ },
+ {
+  "t": 31.9833,
+  "sound": "ui/ui_granular_button_select",
+  "gain": 0.14,
+  "pan": 0.0,
   "align": "start",
-  "event": "f1906 rail node 3 activates"
+  "event": "f1919 step 3 title rises"
  },
  {
   "t": 32.0167,
   "sound": "whoosh/long_whoosh",
-  "gain": 0.16,
+  "gain": 0.12,
   "pan": 0.0,
   "align": "start",
   "event": "f1921 notched trowel combs the ridges",
   "maxdur": 2.15
  },
  {
-  "t": 32.1,
-  "sound": "ui/ui_granular_button_select",
-  "gain": 0.14,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f1926 step 3 title rises"
- },
- {
-  "t": 32.4833,
+  "t": 32.2667,
   "sound": "pop/meadia_pop",
-  "gain": 0.26,
+  "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f1949 step 3 spec chip pops"
+  "event": "f1936 step 3 spec chip pops"
  },
  {
-  "t": 34.4333,
+  "t": 34.2667,
   "sound": "data/data_collect_alt",
   "gain": 0.26,
   "pan": 0.267,
   "align": "start",
-  "event": "f2066 thickness call-out"
+  "event": "f2056 thickness call-out"
  },
  {
   "t": 35.6167,
@@ -637,20 +655,20 @@
   "event": "f2137 step 3 -> 4: illustration slides, rail fills"
  },
  {
-  "t": 35.7667,
+  "t": 35.6667,
   "sound": "ui/ui_click_digital_03",
   "gain": 0.24,
   "pan": -0.156,
-  "align": "start",
-  "event": "f2146 rail node 4 activates"
+  "align": "peak",
+  "event": "f2140 rail node 4 flips white"
  },
  {
-  "t": 36.1,
+  "t": 35.9833,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f2166 step 4 title rises"
+  "event": "f2159 step 4 title rises"
  },
  {
   "t": 36.1167,
@@ -663,43 +681,44 @@
  {
   "t": 36.2,
   "sound": "data/cinematic_data_collect_2",
-  "gain": 0.1,
+  "gain": 0.07,
   "pan": 0.0,
   "align": "start",
   "event": "f2172 m² counter runs 0 -> 5",
-  "maxdur": 2.0
+  "maxdur": 2.0,
+  "mono": "dominant"
  },
  {
   "t": 36.225,
-  "sound": "click/cinematic_click",
-  "gain": 0.16,
+  "sound": "ui/v4_type_delete_2",
+  "gain": 0.26,
   "pan": 0.1,
   "align": "start",
   "event": "f2174 tile 2 lands"
  },
  {
-  "t": 36.3333,
-  "sound": "ui/ui_click_digital_03",
-  "gain": 0.16,
+  "t": 36.2667,
+  "sound": "pop/meadia_pop",
+  "gain": 0.18,
   "pan": 0.0,
   "align": "start",
+  "event": "f2176 step 4 spec chip pops"
+ },
+ {
+  "t": 36.3333,
+  "sound": "ui/ui_click_digital_03",
+  "gain": 0.18,
+  "pan": 0.0,
+  "align": "peak",
   "event": "f2180 tile 3 lands"
  },
  {
   "t": 36.4417,
-  "sound": "click/cinematic_click",
+  "sound": "pop/slow_and_smooth_pop",
   "gain": 0.16,
   "pan": -0.1,
   "align": "start",
   "event": "f2186 tile 4 lands"
- },
- {
-  "t": 36.4833,
-  "sound": "pop/meadia_pop",
-  "gain": 0.26,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f2189 step 4 spec chip pops"
  },
  {
   "t": 36.55,
@@ -711,8 +730,8 @@
  },
  {
   "t": 36.6583,
-  "sound": "click/cinematic_click",
-  "gain": 0.2,
+  "sound": "ui/v4_type_delete_2",
+  "gain": 0.3,
   "pan": 0.2,
   "align": "start",
   "event": "f2200 tile 6 lands"
@@ -720,14 +739,14 @@
  {
   "t": 36.7667,
   "sound": "ui/ui_click_digital_03",
-  "gain": 0.16,
+  "gain": 0.18,
   "pan": 0.1,
-  "align": "start",
+  "align": "peak",
   "event": "f2206 tile 7 lands"
  },
  {
   "t": 36.875,
-  "sound": "click/cinematic_click",
+  "sound": "pop/slow_and_smooth_pop",
   "gain": 0.16,
   "pan": 0.0,
   "align": "start",
@@ -743,8 +762,8 @@
  },
  {
   "t": 37.0917,
-  "sound": "click/cinematic_click",
-  "gain": 0.16,
+  "sound": "ui/v4_type_delete_2",
+  "gain": 0.26,
   "pan": -0.2,
   "align": "start",
   "event": "f2226 tile 10 lands"
@@ -752,14 +771,14 @@
  {
   "t": 37.2,
   "sound": "ui/ui_click_digital_03",
-  "gain": 0.2,
+  "gain": 0.22,
   "pan": 0.2,
-  "align": "start",
+  "align": "peak",
   "event": "f2232 tile 11 lands"
  },
  {
   "t": 37.3083,
-  "sound": "click/cinematic_click",
+  "sound": "pop/slow_and_smooth_pop",
   "gain": 0.16,
   "pan": 0.1,
   "align": "start",
@@ -775,8 +794,8 @@
  },
  {
   "t": 37.525,
-  "sound": "click/cinematic_click",
-  "gain": 0.16,
+  "sound": "ui/v4_type_delete_2",
+  "gain": 0.26,
   "pan": -0.1,
   "align": "start",
   "event": "f2252 tile 14 lands"
@@ -784,14 +803,14 @@
  {
   "t": 37.6333,
   "sound": "ui/ui_click_digital_03",
-  "gain": 0.16,
+  "gain": 0.18,
   "pan": -0.2,
-  "align": "start",
+  "align": "peak",
   "event": "f2258 tile 15 lands"
  },
  {
   "t": 37.7417,
-  "sound": "click/cinematic_click",
+  "sound": "pop/slow_and_smooth_pop",
   "gain": 0.2,
   "pan": 0.2,
   "align": "start",
@@ -807,8 +826,8 @@
  },
  {
   "t": 37.9583,
-  "sound": "click/cinematic_click",
-  "gain": 0.16,
+  "sound": "ui/v4_type_delete_2",
+  "gain": 0.26,
   "pan": 0.0,
   "align": "start",
   "event": "f2278 tile 18 lands"
@@ -816,14 +835,14 @@
  {
   "t": 38.0667,
   "sound": "ui/ui_click_digital_03",
-  "gain": 0.16,
+  "gain": 0.18,
   "pan": -0.1,
-  "align": "start",
+  "align": "peak",
   "event": "f2284 tile 19 lands"
  },
  {
   "t": 38.175,
-  "sound": "click/cinematic_click",
+  "sound": "pop/slow_and_smooth_pop",
   "gain": 0.16,
   "pan": -0.2,
   "align": "start",
@@ -846,12 +865,12 @@
   "event": "f2377 step 4 -> 5: illustration slides, rail fills"
  },
  {
-  "t": 39.7667,
+  "t": 39.6667,
   "sound": "pop/smooth_pop",
   "gain": 0.24,
   "pan": -0.311,
-  "align": "start",
-  "event": "f2386 rail node 5 activates"
+  "align": "peak",
+  "event": "f2380 rail node 5 flips white"
  },
  {
   "t": 39.8833,
@@ -862,20 +881,20 @@
   "event": "f2393 clock starts"
  },
  {
-  "t": 40.1,
+  "t": 39.9833,
   "sound": "ui/ui_granular_button_select",
   "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f2406 step 5 title rises"
+  "event": "f2399 step 5 title rises"
  },
  {
-  "t": 40.4833,
+  "t": 40.2667,
   "sound": "pop/meadia_pop",
-  "gain": 0.26,
+  "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f2429 step 5 spec chip pops"
+  "event": "f2416 step 5 spec chip pops"
  },
  {
   "t": 41.5167,
@@ -889,7 +908,7 @@
   "t": 41.7833,
   "sound": "pop/slow_and_smooth_pop",
   "gain": 0.16,
-  "pan": 0.0,
+  "pan": -0.133,
   "align": "start",
   "event": "f2507 grout joint 1 fills"
  },
@@ -905,82 +924,84 @@
   "t": 42.0833,
   "sound": "pop/slow_and_smooth_pop",
   "gain": 0.16,
-  "pan": 0.0,
+  "pan": 0.133,
   "align": "start",
   "event": "f2525 grout joint 3 fills"
  },
  {
   "t": 42.2333,
   "sound": "pop/meadia_pop",
-  "gain": 0.16,
+  "gain": 0.12,
   "pan": 0.0,
   "align": "start",
   "event": "f2534 grout joint 4 fills"
  },
  {
-  "t": 42.3833,
-  "sound": "pop/slow_and_smooth_pop",
-  "gain": 0.16,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f2543 grout joint 5 fills"
- },
- {
-  "t": 43.05,
-  "sound": "gear/soft_gear_1",
-  "gain": 0.26,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f2583 gloss passes over the finished tiles"
- },
- {
-  "t": 43.8167,
-  "sound": "whoosh/cinematic_low_whoosh",
-  "gain": 0.28,
-  "pan": 0.0,
-  "align": "peak",
-  "event": "f2629 tile drops away, darkness returns"
- },
- {
-  "t": 44.0167,
-  "sound": "riser/riser_2",
+  "t": 43.2,
+  "sound": "click/click_2",
   "gain": 0.14,
   "pan": 0.0,
-  "align": "peak",
-  "event": "f2641 build-up into the finale logo"
+  "align": "start",
+  "event": "f2592 gloss passes over the finished tiles",
+  "maxdur": 0.09
  },
  {
-  "t": 44.0833,
+  "t": 43.75,
+  "sound": "riser/smooth_riser",
+  "gain": 0.13,
+  "pan": 0.0,
+  "align": "peak",
+  "event": "f2625 build-up into the finale logo",
+  "maxdur": 1.76
+ },
+ {
+  "t": 43.8,
   "sound": "whoosh/whoosh_deep_short",
   "gain": 0.55,
   "pan": 0.0,
   "align": "peak",
-  "event": "f2645 FINALE LOGO HIT"
+  "event": "f2628 FINALE LOGO HIT (mark appears, f2628)"
  },
  {
-  "t": 44.1333,
+  "t": 43.85,
   "sound": "pop/premium_and_smooth_pop",
   "gain": 0.45,
   "pan": 0.0,
   "align": "start",
-  "event": "f2648 finale logo: glassy top",
+  "event": "f2631 finale logo: glassy top",
   "maxdur": 0.7
  },
  {
-  "t": 44.3167,
+  "t": 44.0667,
   "sound": "pop/sweet_ui_open",
   "gain": 0.2,
   "pan": 0.0,
   "align": "start",
-  "event": "f2659 wordmark rises"
+  "event": "f2644 wordmark rises"
  },
  {
-  "t": 44.55,
+  "t": 44.3,
   "sound": "pop/meadia_pop",
-  "gain": 0.28,
+  "gain": 0.22,
   "pan": 0.0,
   "align": "start",
-  "event": "f2673 tagline 'ساك.. ثبات يدوم'"
+  "event": "f2658 tagline 'ساك.. ثبات يدوم'"
+ },
+ {
+  "t": 44.5833,
+  "sound": "shutter/camera_shutter",
+  "gain": 0.26,
+  "pan": 0.0,
+  "align": "peak",
+  "event": "f2675 hero bag rises in"
+ },
+ {
+  "t": 44.7167,
+  "sound": "pop/slow_and_smooth_pop",
+  "gain": 0.2,
+  "pan": -0.291,
+  "align": "start",
+  "event": "f2683 porcelain bag rises in"
  },
  {
   "t": 44.7833,
@@ -988,70 +1009,72 @@
   "gain": 0.26,
   "pan": 0.0,
   "align": "peak",
-  "event": "f2687 the three bags rise"
+  "event": "f2687 the three bags rise (group motion peak)"
  },
  {
-  "t": 44.8333,
-  "sound": "shutter/camera_shutter",
-  "gain": 0.26,
-  "pan": 0.0,
-  "align": "start",
-  "event": "f2690 hero bag lands"
- },
- {
-  "t": 44.95,
-  "sound": "pop/slow_and_smooth_pop",
-  "gain": 0.2,
-  "pan": -0.291,
-  "align": "start",
-  "event": "f2697 porcelain bag lands"
- },
- {
-  "t": 45.05,
+  "t": 44.8167,
   "sound": "pop/slow_and_smooth_pop",
   "gain": 0.18,
   "pan": 0.291,
   "align": "start",
-  "event": "f2703 super bag lands"
+  "event": "f2689 super bag rises in"
  },
  {
-  "t": 45.8333,
+  "t": 45.6167,
   "sound": "ui/ui_granular_button_select_9",
   "gain": 0.22,
   "pan": 0.0,
   "align": "start",
-  "event": "f2750 proof chips appear"
+  "event": "f2737 proof chips appear"
  },
  {
-  "t": 46.15,
+  "t": 45.8667,
   "sound": "ui/ui_enter",
-  "gain": 0.36,
+  "gain": 0.5,
   "pan": 0.0,
   "align": "start",
-  "event": "f2769 call-to-action lands"
+  "event": "f2752 call-to-action pops"
  },
  {
-  "t": 46.1833,
+  "t": 45.8667,
+  "sound": "pop/slow_and_smooth_pop",
+  "gain": 0.28,
+  "pan": 0.0,
+  "align": "start",
+  "event": "f2752 call-to-action: mid-band body"
+ },
+ {
+  "t": 45.95,
   "sound": "gear/middle_gear",
   "gain": 0.18,
   "pan": 0.0,
   "align": "start",
-  "event": "f2771 call-to-action: mechanical confirm"
+  "event": "f2757 call-to-action: mechanical confirm"
  },
  {
-  "t": 46.8,
-  "sound": "gear/soft_gear_1",
-  "gain": 0.2,
+  "t": 46.45,
+  "sound": "click/click_2",
+  "gain": 0.14,
   "pan": 0.0,
   "align": "start",
-  "event": "f2808 specular pass over the mark"
+  "event": "f2787 specular pass over the hero bag",
+  "maxdur": 0.09
  },
  {
   "t": 48.1333,
-  "sound": "pop/sweet_ui_open",
-  "gain": 0.2,
-  "pan": 0.067,
+  "sound": "pop/premium_and_smooth_pop",
+  "gain": 0.16,
+  "pan": -0.044,
   "align": "start",
-  "event": "f2888 glint across the phone number"
+  "event": "f2888 glint across the phone number (logo-family bookend)",
+  "maxdur": 0.7
+ },
+ {
+  "t": 48.7167,
+  "sound": "whoosh/whoosh_deep_short",
+  "gain": 0.2,
+  "pan": 0.0,
+  "align": "start",
+  "event": "f2923 last motion ends: resolved low tail decays into the still"
  }
 ]
