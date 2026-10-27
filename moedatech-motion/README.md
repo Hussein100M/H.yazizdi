@@ -7,7 +7,7 @@
 - `render.js` — Playwright renderer (`--preview t1 t2 …` or `--full [workers]`), 3 sub-frames per frame for motion blur.
 - `scripts/compose.sh` — averages sub-frames, adds light grain, encodes with the mix.
 - `scripts/mix.py` — SFX bus built from the SFX_Library (not in the repo; pass its folder).
-- `audio/vo_final.wav` — the original voiceover separated from the old SFX (`scripts/sep.py`, MDX-Net), gated and levelled (`scripts/vo_clean.py`).
+- `audio/vo_final.wav` — the original voiceover separated from the old SFX with BS-Roformer (`audio-separator … --model_filename model_bs_roformer_ep_317_sdr_12.9755.ckpt`), band-limited to the VO's own 11.3 kHz, soft-expanded in the pauses and levelled (`scripts/vo_clean.py`). `scripts/sep.py` is the earlier MDX-Net pass, kept for reference.
 
 ## Rebuild
 
