@@ -7,14 +7,15 @@
 - `render.js` — Playwright renderer (`--preview t1 t2 …` or `--full [workers]`), 3 sub-frames per frame for motion blur.
 - `scripts/compose.sh` — averages sub-frames, adds light grain, encodes with the mix.
 - `scripts/mix.py` — SFX bus built from the SFX_Library (not in the repo; pass its folder).
-- `audio/vo_final.wav` — the original voiceover separated from the old SFX with BS-Roformer (`audio-separator … --model_filename model_bs_roformer_ep_317_sdr_12.9755.ckpt`), band-limited to the VO's own 11.3 kHz, soft-expanded in the pauses and levelled (`scripts/vo_clean.py`). `scripts/sep.py` is the earlier MDX-Net pass, kept for reference.
+- `img/*.jpg` — the real equipment photos, recovered from the original video: `scripts/cat_photo.py` (Real-ESRGAN ×4 + LaMa removes the phone overlays) and `scripts/photos.py` (category tiles).
+- `audio/vo_final.wav` — voiceover: `scripts/vo_hybrid.py` applies a Wiener mask built from BS-Roformer's voice estimate to the ORIGINAL audio, so the voice is untouched wherever the old SFX were absent. Separated earlier (`audio-separator … --model_filename model_bs_roformer_ep_317_sdr_12.9755.ckpt`), band-limited to the VO's own 11.3 kHz, soft-expanded in the pauses and levelled (`scripts/vo_clean.py`). `scripts/sep.py` is the earlier MDX-Net pass, kept for reference.
 
 ## Rebuild
 
 ```bash
 node render.js --full 4                                   # -> _sub/*.jpg
 python3 scripts/mix.py /path/to/sfx_library audio/sfx_bus.wav
-ffmpeg -i audio/vo_final.wav -i audio/sfx_bus.wav -filter_complex "[0:a]aformat=channel_layouts=stereo,apad=whole_dur=41.5,asplit=2[vo][sc];[1:a]volume=0.55[sfx];[sfx][sc]sidechaincompress=threshold=0.03:ratio=3.5:attack=6:release=260[sfxd];[vo][sfxd]amix=inputs=2:normalize=0,alimiter=limit=0.95,loudnorm=I=-14:TP=-1:LRA=9" -ar 48000 -t 41.5 audio/mix.wav
+ffmpeg -i audio/vo_final.wav -i audio/sfx_bus.wav -filter_complex "[0:a]aformat=channel_layouts=stereo,apad=whole_dur=41.5,asplit=2[vo][sc];[1:a]volume=0.80[sfx];[sfx][sc]sidechaincompress=threshold=0.03:ratio=3.5:attack=6:release=260[sfxd];[vo][sfxd]amix=inputs=2:normalize=0,alimiter=limit=0.95,loudnorm=I=-14:TP=-1:LRA=9" -ar 48000 -t 41.5 audio/mix.wav
 bash scripts/compose.sh _sub audio/mix.wav Moedatech_Motion_9x16.mp4
 ```
 

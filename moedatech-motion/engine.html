@@ -52,6 +52,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#e9edf2;font-fam
 .ghost{color:#aab3be}
 .av{position:absolute;border-radius:50%;background:linear-gradient(160deg,#3d5873,#22344a);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -12px rgba(8,18,32,.55)}
 .bub{position:absolute;padding:20px 30px;border-radius:34px;font-size:32px;font-weight:500;white-space:nowrap;direction:rtl;box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
+.ph{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;display:block}
 .roll{display:inline-block;overflow:hidden;vertical-align:top;position:relative}
 .roll i{display:block;font-style:normal;text-align:center}
 svg{overflow:visible}
@@ -328,8 +329,8 @@ const S1=H(LW,`<div class="L" id="s1" style="transform-origin:540px 1210px">
   <div class="pill" id="s1_ver" style="left:34px;top:55px;height:60px;padding:0 22px;gap:10px;background:#fff;border:2.5px solid var(--or);color:var(--or);font-size:26px;font-weight:600"><span>موثّق</span><span class="ck" style="width:28px;height:28px">${CK}</span></div>
  </div>
  <div class="tile" id="s1_ph" style="left:120px;top:640px;width:840px;height:400px">
-  <div class="photo" style="inset:0"><div class="sun"></div><svg class="ab" id="s1_exc" style="left:170px;top:52px" width="500" height="357"><use href="#ic_exc"/></svg></div>
-  <div class="tl" style="color:#6f7a88">صورة المعدّة<b>01</b></div>
+  <div class="photo" style="inset:0;background:#d9dde2"><img class="ph" id="s1_exc" src="img/cat.jpg" style="object-position:50% 62%"></div>
+  <div class="tl" style="color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.45)">صورة المعدّة<b style="color:rgba(255,255,255,.8)">01</b></div>
   <div class="pill" id="s1_up" style="left:28px;top:24px;height:54px;padding:0 20px;gap:10px;background:rgba(255,255,255,.88);font-size:24px;font-weight:600"><span id="s1_upt">رفع الصور</span><span class="ab" id="s1_upb" style="left:0;bottom:0;height:5px;background:var(--or);border-radius:3px"></span></div>
  </div>
  <div class="tile" id="s1_cert" style="left:550px;top:1070px;width:410px;height:300px">
@@ -362,7 +363,7 @@ function s1(t){
   A($('s1_ver'),{s:back(p(t,4.98,5.3)),o:p(t,4.98,5.06)});
   // photo tile
   const ph=inSpring(t,4.83,{dy:160,s0:.8,f:1.8});ph.rx=(1-cl((t-4.83)/.5))*-24;A($('s1_ph'),mix(ph,{b:z*10,o:1-z*.5}));
-  A($('s1_exc'),{x:(1-eo5(p(t,4.9,5.6)))*-140,o:p(t,4.9,5.05)});
+  A($('s1_exc'),{s:lerp(1.22,1.03,eo5(p(t,4.86,6.2))),x:(1-eo5(p(t,4.9,5.6)))*-30,o:p(t,4.88,5.0)});
   const up=p(t,4.95,5.45);$('s1_upb').style.width=(up*100)+'%';$('s1_upt').textContent=up>=1?'تم رفع 3 صور ✓':'رفع الصور…';A($('s1_up'),inBlur(t,4.92,.3,10));
   // doc tiles
   A($('s1_cert'),inSpring(t,5.12,{dy:140,s0:.8,f:1.9}));
@@ -382,7 +383,7 @@ function s1(t){
 /* ================= HERO CARD 8.4 – 11.2 ================= */
 const S2=H(LW,`<div class="L" id="s2">
  <div class="card" id="cd" style="left:220px;top:470px;width:640px;height:880px;transform-origin:50% 50%">
-  <div class="photo" id="cd_ph" style="left:0;top:0;width:640px;height:390px"><div class="sun"></div><svg class="ab" id="cd_exc" style="left:95px;top:58px" width="450" height="321"><use href="#ic_exc"/></svg></div>
+  <div class="photo" id="cd_ph" style="left:0;top:0;width:640px;height:390px;background:#d9dde2"><img class="ph" id="cd_exc" src="img/cat.jpg" style="object-position:50% 58%"></div>
   <div class="pill" id="cd_badge" style="right:26px;top:26px;height:62px;padding:0 24px;gap:10px;background:var(--or);color:#fff;font-size:26px;font-weight:600;box-shadow:0 12px 26px -10px rgba(255,101,18,.7)"><span>جاهزة للبحث</span><span class="ck" style="background:#fff;width:30px;height:30px"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#ff6512" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
   <div class="ab ar" id="cd_t" style="right:44px;top:418px;font-size:50px;font-weight:700;white-space:nowrap">حفار <span style="font-family:In;font-weight:800">CAT 320</span></div>
   <div class="ab ar" id="cd_m" style="right:44px;top:490px;font-size:28px;color:#85909e;white-space:nowrap">موديل <span class="num">2021</span> · <span class="num">20</span> طن · الرياض</div>
@@ -398,7 +399,7 @@ function s2(t){
   // shrink into grid at 10.55
   const sh=eio5(p(t,10.5,11.15));
   A($('cd'),x<0?{o:0}:{pp:1500,o:cl(x/.12)*(1-p(t,10.88,11.15)),s:lerp(.55,1,k)*lerp(1,.16,sh),ry:(1-k)*-40,rx:(1-k)*12,b:Math.max(0,1-cl(x/.25))*18+p(t,10.8,11.1)*6,y:sh*50});
-  A($('cd_exc'),{x:(1-eo5(p(t,8.6,9.2)))*120,o:p(t,8.6,8.75)});
+  A($('cd_exc'),{s:lerp(1.2,1.03,eo5(p(t,8.55,9.8))),o:p(t,8.55,8.7)});
   A($('cd_t'),inBlur(t,8.72,.35,18));A($('cd_m'),inBlur(t,8.82,.35,14));
   ['cd_r0','cd_r1','cd_r2'].forEach((id,i)=>A($(id),inBlur(t,8.9+i*.1,.3,16)));
   [9.0,9.15,9.3].forEach((t0,i)=>{const e=$('cd_k'+i),on=t>t0;e.style.background=on?'#ff6512':'transparent';e.style.borderColor=on?'#ff6512':'#d0d7df';e.style.transform=`scale(${on?lerp(1.35,1,eo(p(t,t0,t0+.3))):1})`});
@@ -408,10 +409,11 @@ function s2(t){
 
 /* ================= GRID + COUNTER 10.55 – 13.8 ================= */
 const ICS=['ic_exc','ic_load','ic_dump','ic_crane','ic_fork'];
+const PH=['cat','excavator2','loader','crane','dump'],PHP={cat:'62% 55%',excavator2:'72% 50%',loader:'55% 50%',crane:'40% 50%',dump:'42% 50%'};
 let rs=11;const rnd=()=>{rs=(rs*16807)%2147483647;return (rs-1)/2147483646};
 const GC=11,GR=17,CELL=150;
 let gh='';for(let r=0;r<GR;r++)for(let c=0;c<GC;c++){const i=Math.floor(rnd()*5);const isC=(r===8&&c===5);const o=isC||rnd()<.09;
- gh+=`<div class="ab" style="left:${c*CELL}px;top:${r*CELL}px;width:130px;height:130px;border-radius:26px;background:${o?'linear-gradient(160deg,#ff8a3d,#ff6512)':'#f6f8fa'};box-shadow:0 14px 26px -14px rgba(25,40,60,.35);display:flex;align-items:center;justify-content:center">${ic(o?'ic_exc':ICS[i],96,68,o?'style="filter:brightness(0) invert(1);opacity:.92"':'')}</div>`}
+ const pk=isC?'cat':PH[i];gh+=`<div class="ab" style="left:${c*CELL}px;top:${r*CELL}px;width:130px;height:130px;border-radius:26px;overflow:hidden;background:#d9dde2;box-shadow:${o?'0 0 0 5px #ff6512,':''}0 14px 26px -14px rgba(25,40,60,.35)"><img src="img/${pk}.jpg" style="width:100%;height:100%;object-fit:cover;object-position:${PHP[pk]}"></div>`}
 const S3=H(LW,`<div class="L" id="s3">
  <div class="ab" id="grid" style="left:${540-GC*CELL/2+10}px;top:${960-GR*CELL/2+10}px;width:${GC*CELL}px;height:${GR*CELL}px;transform-origin:50% 50%">${gh}</div>
  <div class="ab" id="cnt" style="left:90px;top:700px;width:900px;height:520px;border-radius:48px;background:rgba(244,242,238,.78);backdrop-filter:blur(22px) saturate(1.1);box-shadow:0 40px 80px -30px rgba(20,35,55,.4),inset 0 1px 0 rgba(255,255,255,.9)">
@@ -451,9 +453,9 @@ const S4=H(LW,`<div class="L" id="s4" style="perspective:1600px">
  <div class="ab" id="bt" style="left:0;top:0;width:1080px;height:1920px;transform-origin:540px 900px">
   <div class="tile" id="bt_p" style="left:120px;top:450px;width:840px;height:400px">
    <div class="tl">الصور<b>01</b></div>
-   <div class="photo" id="bt_p0" style="right:30px;top:76px;width:250px;height:290px;border-radius:24px"><div class="sun"></div><svg class="ab" style="left:-10px;top:110px" width="270" height="193"><use href="#ic_exc"/></svg></div>
-   <div class="photo b" id="bt_p1" style="right:295px;top:76px;width:250px;height:290px;border-radius:24px"><svg class="ab" style="left:-60px;top:70px;transform:scaleX(-1)" width="360" height="257"><use href="#ic_exc"/></svg></div>
-   <div class="photo c" id="bt_p2" style="right:560px;top:76px;width:250px;height:290px;border-radius:24px"><svg class="ab" style="left:-10px;top:10px" width="640" height="457"><use href="#ic_exc"/></svg></div>
+   <div class="photo" id="bt_p0" style="right:30px;top:76px;width:250px;height:290px;border-radius:24px;background:#d9dde2"><img class="ph" src="img/cat.jpg" style="object-position:80% 55%"></div>
+   <div class="photo" id="bt_p1" style="right:295px;top:76px;width:250px;height:290px;border-radius:24px;background:#d9dde2"><img class="ph" src="img/cat.jpg" style="object-position:12% 60%"></div>
+   <div class="photo" id="bt_p2" style="right:560px;top:76px;width:250px;height:290px;border-radius:24px;background:#d9dde2"><img class="ph" src="img/cat.jpg" style="object-position:55% 50%;transform:scale(1.9);transform-origin:62% 80%"></div>
   </div>
   <div class="tile" id="bt_m" style="left:550px;top:880px;width:410px;height:450px">
    <div class="tl">الموديل<b>02</b></div>
@@ -487,7 +489,7 @@ function s4(t){
 
 <script>
 /* ================= REQUEST + FILTER 15.5 – 21.3 ================= */
-const OPTS=[['ic_fork','رافعة شوكية'],['ic_dump','قلاب'],['ic_crane','رافعة'],['ic_load','شيول'],['ic_exc','حفار 20 طن']];
+const OPTS=[['dump','قلاب'],['crane','كرين'],['loader','شيول'],['cat','حفار 20 طن']];
 const S5=H(LW,`<div class="L" id="s5">
  <div class="card" id="rq" style="left:190px;top:450px;width:700px;height:860px;transform-origin:50% 0">
   <div class="ab ar" style="right:44px;top:44px;font-size:48px;font-weight:700">طلب معدّة</div>
@@ -496,7 +498,7 @@ const S5=H(LW,`<div class="L" id="s5">
   <div class="ab ar" style="right:46px;top:186px;font-size:25px;color:#85909e">نوع المعدّة</div>
   <div class="ab" id="rq_f1" style="left:44px;right:44px;top:228px;height:120px;border-radius:26px;background:#f0f3f6;border:3px solid transparent;overflow:hidden">
    <div class="ab ar ghost" id="rq_ph1" style="right:34px;top:36px;font-size:34px">اختر المعدّة</div>
-   <div class="ab" id="rq_strip" style="left:0;right:0;top:0">${OPTS.map((o,i)=>`<div class="ab" style="left:0;right:0;top:${i*120}px;height:120px;display:flex;align-items:center;justify-content:flex-start;gap:26px;padding:0 34px;direction:rtl"><svg width="120" height="84"><use href="#${o[0]}"/></svg><span style="font-size:38px;font-weight:600">${o[1]}</span></div>`).join('')}</div>
+   <div class="ab" id="rq_strip" style="left:0;right:0;top:0">${OPTS.map((o,i)=>`<div class="ab" style="left:0;right:0;top:${i*120}px;height:120px;display:flex;align-items:center;justify-content:flex-start;gap:26px;padding:0 34px;direction:rtl"><img src="img/${o[0]}.jpg" style="width:150px;height:88px;border-radius:16px;object-fit:cover;object-position:${PHP[o[0]]}"><span style="font-size:38px;font-weight:600">${o[1]}</span></div>`).join('')}</div>
    <div class="ck ab" id="rq_k1" style="left:30px;top:38px;width:44px;height:44px"><svg viewBox="0 0 24 24" width="26" height="26"><use href="#i_ck"/></svg></div>
   </div>
   <div class="ab ar" style="right:46px;top:378px;font-size:25px;color:#85909e">المدينة</div>
@@ -520,9 +522,10 @@ const S5=H(LW,`<div class="L" id="s5">
 // filter tiles: 6x4
 const FT=[];const CITY=['الرياض','جدة','الدمام','الرياض','مكة','الرياض'];
 const MATCH=new Set([2,8,13,15,21]);
-{let h='';for(let r=0;r<4;r++)for(let c=0;c<6;c++){const i=r*6+c;const m=MATCH.has(i);const icn=m?'ic_exc':ICS[(i*7+3)%5];const x=105+c*148,y=790+r*148;
-  FT.push({i,x,y,m,type:icn==='ic_exc',city:m||((i*5)%3===0),docs:m||((i*3)%4!==0)});
-  h+=`<div class="ab" id="ft${i}" style="left:${x}px;top:${y}px;width:130px;height:130px;border-radius:26px;background:#f6f8fa;box-shadow:0 14px 26px -14px rgba(25,40,60,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><svg width="96" height="68"><use href="#${icn}"/></svg><span style="font-size:17px;color:#85909e;font-weight:500">${m?'الرياض':CITY[i%6]}</span></div>`}
+{let h='';for(let r=0;r<4;r++)for(let c=0;c<6;c++){const i=r*6+c;const m=MATCH.has(i);const icn=m?'cat':['loader','crane','dump','excavator2'][(i*7+3)%4];const x=105+c*148,y=790+r*148;
+  const isEx=icn==='cat'||icn==='excavator2';const city=m||(!isEx&&(i*5)%3===0);const cityTxt=city?'الرياض':['جدة','الدمام','مكة','أبها'][i%4];
+  FT.push({i,x,y,m,type:isEx,city,docs:m||((i*3)%4!==0)});
+  h+=`<div class="ab" id="ft${i}" style="left:${x}px;top:${y}px;width:130px;height:130px;border-radius:26px;background:#f6f8fa;box-shadow:0 14px 26px -14px rgba(25,40,60,.35);overflow:hidden;display:flex;flex-direction:column"><img src="img/${icn}.jpg" style="width:130px;height:94px;object-fit:cover;object-position:${PHP[icn]}"><span style="flex:1;display:flex;align-items:center;justify-content:center;font-size:17px;color:#85909e;font-weight:500">${cityTxt}</span></div>`}
  $('ftiles').innerHTML=h;}
 function s5(t){
   const on=t>=15.45&&t<21.35;show(S5,on);if(!on)return;
@@ -564,7 +567,7 @@ const AVX=[175,355,540,725,905],AVY=[1120,1215,1250,1215,1120];
 const S6=H(LW,`<div class="L" id="s6">
  <svg class="ab" id="nt_svg" style="left:0;top:0" width="1080" height="1920"></svg>
  <div class="card" id="nt_src" style="left:340px;top:420px;width:400px;height:150px;border-radius:34px;display:flex;align-items:center;gap:20px;padding:0 26px;direction:rtl">
-  <svg width="104" height="74" style="flex:none"><use href="#ic_exc"/></svg><div><div style="font-size:30px;font-weight:700;white-space:nowrap">حفار 20 طن</div><div style="font-size:24px;color:#85909e;white-space:nowrap">الرياض · طلب جديد</div></div>
+  <img src="img/cat.jpg" style="width:112px;height:84px;border-radius:18px;object-fit:cover;object-position:60% 55%;flex:none"><div><div style="font-size:30px;font-weight:700;white-space:nowrap">حفار 20 طن</div><div style="font-size:24px;color:#85909e;white-space:nowrap">الرياض · طلب جديد</div></div>
  </div>
  ${AVX.map((x,i)=>`<div class="av" id="av${i}" style="left:${x-62}px;top:${AVY[i]-62}px;width:124px;height:124px">${ic('i_user',66,66)}<div class="ab ck" id="avk${i}" style="right:-6px;bottom:-4px;width:46px;height:46px;box-shadow:0 0 0 5px #e9edf2"><svg viewBox="0 0 24 24" width="26" height="26"><use href="#i_ck"/></svg></div><div class="ab" id="avb${i}" style="left:-8px;top:-8px;width:44px;height:44px;border-radius:50%;background:#ff6512;color:#fff;font-family:In;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px #e9edf2">1</div><div class="ab" id="avr${i}" style="inset:-6px;border-radius:50%;border:4px solid #ff6512"></div></div>`).join('')}
  <div class="card" id="nt_ban" style="left:110px;top:680px;width:860px;height:170px;border-radius:40px;background:rgba(252,251,249,.92);backdrop-filter:blur(20px);display:flex;align-items:center;gap:26px;padding:0 32px;direction:rtl">
@@ -641,7 +644,7 @@ function s7(t){
 const OF=[['14,000','★ 4.9','أقل سعر'],['15,500','★ 4.7',''],['16,200','★ 4.6','']];
 const S8=H(LW,`<div class="L" id="s8">
  ${OF.map((o,i)=>`<div class="card" id="of${i}" style="left:120px;top:${500+i*270}px;width:840px;height:240px;border-radius:38px;z-index:${3-i}">
-   <div class="photo" style="right:24px;top:24px;width:192px;height:192px;border-radius:26px"><svg class="ab" style="left:-6px;top:58px" width="200" height="143"><use href="#ic_exc"/></svg></div>
+   <div class="photo" style="right:24px;top:24px;width:192px;height:192px;border-radius:26px;background:#d9dde2"><img class="ph" src="img/${['cat','excavator2','cat'][i]}.jpg" style="object-position:${['64% 55%','72% 50%','38% 55%'][i]};${i===2?'transform:scaleX(-1)':''}"></div>
    <div class="ab ar" style="right:244px;top:40px;font-size:34px;font-weight:700;white-space:nowrap">حفار <span style="font-family:In;font-weight:800">CAT 320</span></div>
    <div class="ab ar" style="right:244px;top:94px;font-size:25px;color:#85909e;white-space:nowrap">مؤجر موثّق · <span class="num" style="color:#ff6512;font-weight:600">${o[1]}</span></div>
    <div class="ab num" style="left:40px;top:120px;font-size:62px;font-weight:800;letter-spacing:-1.5px">${o[0]}</div>
@@ -649,7 +652,7 @@ const S8=H(LW,`<div class="L" id="s8">
    ${o[2]?`<div class="pill" style="left:36px;top:36px;height:50px;padding:0 20px;background:#ff6512;color:#fff;font-size:23px;font-weight:600">${o[2]}</div>`:''}
  </div>`).join('')}
  <div class="card" id="od" style="left:120px;top:440px;width:840px;height:900px">
-  <div class="photo" id="od_ph" style="left:0;top:0;width:840px;height:430px"><div class="sun"></div><svg class="ab" id="od_exc" style="left:170px;top:60px" width="500" height="357"><use href="#ic_exc"/></svg>
+  <div class="photo" id="od_ph" style="left:0;top:0;width:840px;height:430px;background:#d9dde2"><img class="ph" id="od_exc" src="img/cat.jpg" style="object-position:50% 60%">
    <div class="ab" style="left:0;right:0;bottom:20px;display:flex;justify-content:center;gap:10px"><i style="width:30px;height:10px;border-radius:5px;background:#fff"></i><i style="width:10px;height:10px;border-radius:5px;background:rgba(255,255,255,.6)"></i><i style="width:10px;height:10px;border-radius:5px;background:rgba(255,255,255,.6)"></i></div></div>
   <div class="ab ar" style="right:44px;top:462px;font-size:44px;font-weight:700;white-space:nowrap">حفار <span style="font-family:In;font-weight:800">CAT 320</span> · <span class="num">2021</span></div>
   <div class="chip" id="od_c0" style="right:44px;top:548px;font-size:28px"><span class="ck">${CK}</span>صور المعدّة</div>
@@ -674,7 +677,7 @@ function s8(t){
   const cardOn=dk>=0;const neg=eio5(p(t,33.95,34.3));
   const g=cl(dgrow,0,1.05);A($('od'),!cardOn?{o:0}:{y:lerp(60,0,g)+neg*-60,o:cl(dk/.1)*(1-neg),b:neg*16});$('od').style.clipPath=`inset(0 0 ${Math.max(0,(1-g)*660)}px 0 round 42px)`;
   $('od').style.transformOrigin='50% 0%';
-  A($('od_exc'),{x:(1-eo5(p(t,30.62,31.2)))*-180,o:p(t,30.6,30.7)});
+  A($('od_exc'),{s:lerp(1.22,1.04,eo5(p(t,30.55,32.0))),o:p(t,30.58,30.68)});
   [['od_c0',30.66],['od_c1',31.17],['od_c2',31.72]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.4,1,spr(k,2.4,.4))})});
   // price + negotiate
   const PV=q=>lerp(14000,12800,eo5(p(q,33.38,33.95)));const pe=$('od_price');roller(pe,PV(t),{dig:5,comma:2,h:84,plusEl:false,fade:false,vel:Math.abs(PV(t+.01)-PV(t-.01))/.02/30});
