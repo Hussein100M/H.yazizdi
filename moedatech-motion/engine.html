@@ -233,24 +233,24 @@ function ic(id,w,h,extra=''){return `<svg width="${w}" height="${h}" ${extra}><u
 <script>
 /* ================= LABELS (captions synced to VO words) ================= */
 const LBL=[
- {d:1,out:3.62,w:[["يلقالك",1.71],["المعدة",2.30],["بثواني؟",3.03,1]]},
- {out:5.52,w:[["كل",4.08],["شي",4.22],["يبدأ",4.47],["من",4.83],["المؤجر.",4.96,1]]},
- {out:6.56,w:[["بالذكاء",5.62],["الاصطناعي.",6.09,1]]},
- {out:8.30,w:[["الفحص",7.23],["والاستمارة.",7.81,1]]},
- {out:10.52,w:[["بطاقة",8.41],["جاهزة",9.32],["للبحث.",9.81,1]]},
- {out:15.50,w:[["صورها",13.92],["موديلها",14.36],["أوراقها.",14.88,1]]},
- {out:17.42,w:[["تطلب",16.17],["من",16.40],["التطبيق.",16.82,1]]},
- {out:18.95,w:[["المعدة",17.53],["والمدينة.",18.33,1]]},
- {out:20.62,w:[["والنظام",19.02],["يفرز.",19.50,1]]},
- {out:23.50,w:[["ويوصل",21.00],["إشعار",21.45],["للمؤجرين.",22.47,1]]},
- {d:1,out:25.22,w:[["ساعات.",24.74,1]]},
- {d:1,out:26.72,w:[["اتصالات",25.40],["ورسايل.",26.18,1]]},
- {out:29.00,w:[["بثواني.",28.35,1]]},
- {out:30.56,w:[["العروض.",29.90,1]]},
- {out:32.92,w:[["صورها",30.64],["الفحص",31.15],["الاستمارة.",31.70,1]]},
- {out:33.92,w:[["تفاوض.",33.25,1]]},
- {out:36.30,w:[["وتراسل",33.99],["المؤجر",34.50],["داخل",35.10],["التطبيق.",35.40,1]]},
- {out:37.50,w:[["بدون",36.38],["ولا",36.62],["اتصال.",36.86,1]]},
+ {d:1,out:3.62,w:[["يلقالك",1.90],["المعدة",2.44],["بثواني؟",3.02,1]]},
+ {out:5.56,w:[["كل",3.92],["شي",4.19],["يبدأ",4.54],["من",4.96],["المؤجر.",5.30,1]]},
+ {out:6.66,w:[["بالذكاء",5.58],["الاصطناعي.",6.13,1]]},
+ {out:8.30,w:[["الفحص",7.19],["والاستمارة.",7.49,1]]},
+ {out:10.52,w:[["بطاقة",8.98],["جاهزة",9.52],["للبحث.",10.03,1]]},
+ {out:15.72,w:[["صورها",13.86],["موديلها",14.63],["أوراقها.",15.35,1]]},
+ {out:17.24,w:[["تطلب",16.02],["من",16.42],["التطبيق.",16.66,1]]},
+ {out:18.95,w:[["المعدة",17.75],["والمدينة.",18.34,1]]},
+ {out:20.62,w:[["والنظام",19.02],["يفرز.",19.71,1]]},
+ {out:23.50,w:[["ويوصل",20.98],["إشعار",21.49],["للمؤجرين.",21.86,1]]},
+ {d:1,out:25.30,w:[["ساعات.",25.10,1]]},
+ {d:1,out:26.72,w:[["اتصالات",25.40],["ورسايل.",26.22,1]]},
+ {out:29.00,w:[["بثواني.",28.12,1]]},
+ {out:30.56,w:[["العروض.",29.84,1]]},
+ {out:32.92,w:[["صورها",30.62],["الفحص",31.27],["الاستمارة.",31.85,1]]},
+ {out:33.92,w:[["تفاوض.",33.24,1]]},
+ {out:36.30,w:[["وتراسل",33.98],["المؤجر",34.45],["داخل",34.90],["التطبيق.",35.30,1]]},
+ {out:37.50,w:[["بدون",36.36],["ولا",36.75],["اتصال.",36.89,1]]},
 ];
 LBL.forEach((L,i)=>{L.el=H($('labels'),`<div class="lbl ar" style="top:1428px;font-size:66px;font-weight:600;letter-spacing:-.5px">${L.w.map((w,j)=>`<span id="lb${i}_${j}" style="color:${w[2]?'var(--or)':(L.d?'#f2f5f9':'#263a4f')};${L.d?'text-shadow:0 4px 18px rgba(0,0,0,.25)':''}">${w[0]}</span>`).join('')}</div>`)});
 function labels(t){LBL.forEach((L,i)=>{const t0=L.w[0][1];const on=t>=t0-.01&&t<L.out+.24;L.el.style.display=on?'block':'none';if(!on)return;
@@ -360,7 +360,7 @@ function s1(t){
   A($('s1_prof'),mix(inSpring(t,4.08,{dy:90}),{b:z*10,o:1-z*.6}));
   A($('s1_av'),{s:back(p(t,4.18,4.5)),o:p(t,4.18,4.26)});
   A($('s1_nm'),inBlur(t,4.28,.35,20));A($('s1_sub'),inBlur(t,4.45,.35,16));
-  A($('s1_ver'),{s:back(p(t,4.98,5.3)),o:p(t,4.98,5.06)});
+  A($('s1_ver'),{s:back(p(t,5.32,5.64)),o:p(t,5.32,5.4)});
   // photo tile
   const ph=inSpring(t,4.83,{dy:160,s0:.8,f:1.8});ph.rx=(1-cl((t-4.83)/.5))*-24;A($('s1_ph'),mix(ph,{b:z*10,o:1-z*.5}));
   A($('s1_exc'),{s:lerp(1.22,1.03,eo5(p(t,4.86,6.2))),x:(1-eo5(p(t,4.9,5.6)))*-30,o:p(t,4.88,5.0)});
@@ -375,9 +375,9 @@ function s1(t){
   // glass lens sweeping across docs
   const lk=p(t,5.75,8.0);const lx=lerp(820,250,eio(lk)),ly=1130+Math.sin(lk*Math.PI*2)*50;A($('s1_lens'),{x:lx-95,y:ly-95,o:p(t,5.7,5.9)*(1-p(t,7.95,8.15)),s:lerp(.6,1,eo(p(t,5.7,6.0)))});
   // highlights
-  [['s1_hl1',7.23],['s1_hl2',7.81],['s1_hl3',7.95]].forEach(([id,t0])=>{const k=eo(p(t,t0,t0+.3));A($(id),{sx:k,o:k>0?1:0})});
+  [['s1_hl1',7.19],['s1_hl2',7.49],['s1_hl3',7.63]].forEach(([id,t0])=>{const k=eo(p(t,t0,t0+.3));A($(id),{sx:k,o:k>0?1:0})});
   // extracted chips pop
-  [['s1_c1',7.3],['s1_c2',7.88],['s1_c3',8.02]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.5,1,spr(k,2.4,.42)),y:(1-eo(cl(k/.35)))*60})});
+  [['s1_c1',7.26],['s1_c2',7.56],['s1_c3',7.70]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.5,1,spr(k,2.4,.42)),y:(1-eo(cl(k/.35)))*60})});
 }
 
 /* ================= HERO CARD 8.4 – 11.2 ================= */
@@ -403,8 +403,8 @@ function s2(t){
   A($('cd_t'),inBlur(t,8.72,.35,18));A($('cd_m'),inBlur(t,8.82,.35,14));
   ['cd_r0','cd_r1','cd_r2'].forEach((id,i)=>A($(id),inBlur(t,8.9+i*.1,.3,16)));
   [9.0,9.15,9.3].forEach((t0,i)=>{const e=$('cd_k'+i),on=t>t0;e.style.background=on?'#ff6512':'transparent';e.style.borderColor=on?'#ff6512':'#d0d7df';e.style.transform=`scale(${on?lerp(1.35,1,eo(p(t,t0,t0+.3))):1})`});
-  const bk=t-9.33;A($('cd_badge'),bk<0?{o:0}:{o:cl(bk/.08),s:lerp(.3,1,spr(bk,2.3,.4))*(1+.06*Math.exp(-Math.pow((t-9.85)/.08,2)))});
-  const rk=p(t,9.81,10.4);A($('cd_ring'),{o:rk>0?(1-rk)*.9:0,s:lerp(1,1.08,eo(rk))*lerp(1,.16,sh)});
+  const bk=t-9.52;A($('cd_badge'),bk<0?{o:0}:{o:cl(bk/.08),s:lerp(.3,1,spr(bk,2.3,.4))*(1+.06*Math.exp(-Math.pow((t-10.05)/.08,2)))});
+  const rk=p(t,10.03,10.6);A($('cd_ring'),{o:rk>0?(1-rk)*.9:0,s:lerp(1,1.08,eo(rk))*lerp(1,.16,sh)});
 }
 
 /* ================= GRID + COUNTER 10.55 – 13.8 ================= */
@@ -444,7 +444,7 @@ function s3(t){
   A(c,ck<0?{o:0}:mix({o:cl(ck/.15),s:lerp(.9,1,spr(ck,1.6,.6)),b:Math.max(0,1-cl(ck/.3))*20},outBlur(t,13.18,.32,-60)));
   if(ck>=0&&t<13.6){const F=q=>75000*eo5(p(q,11.12,12.78));roller($('cn_n'),F(t),{vel:Math.abs(F(t+.01)-F(t-.01))/.02/30});}
   A($('cn_a'),inBlur(t,11.05,.35,16));
-  const bk=t-12.85;A($('cn_b'),bk<0?{o:0}:{o:cl(bk/.1),s:lerp(.6,1,spr(bk,2.2,.42)),b:Math.max(0,1-cl(bk/.2))*12});
+  const bk=t-13.03;A($('cn_b'),bk<0?{o:0}:{o:cl(bk/.1),s:lerp(.6,1,spr(bk,2.2,.42)),b:Math.max(0,1-cl(bk/.2))*12});
   $('cn_n').style.transform=`scale(${1+.05*Math.exp(-Math.pow((t-12.8)/.07,2))})`;
 }
 
@@ -473,16 +473,16 @@ const S4=H(LW,`<div class="L" id="s4" style="perspective:1600px">
  </div>
 </div>`);
 function s4(t){
-  const on=t>=13.45&&t<16.0;show(S4,on);if(!on)return;
-  const x=t-13.45,k=spr(x,1.25,.6);const w=eio5(p(t,15.5,15.95));
+  const on=t>=13.45&&t<16.2;show(S4,on);if(!on)return;
+  const x=t-13.45,k=spr(x,1.25,.6);const w=eio5(p(t,15.75,16.15));
   A($('bt'),{o:cl(x/.15),rx:(1-k)*38,r:(1-k)*-12,s:lerp(1.6,1,k),y:(1-k)*-200,b:Math.max(0,1-cl(x/.4))*24+w*26,x:w*1250});
   const pop=(id,t0)=>{const kk=t-t0;const base={o:lerp(.35,1,cl(kk/.15)),s:kk<0?.97:lerp(.94,1,spr(kk,2.4,.4))};return base};
-  A($('bt_p'),pop('p',13.92));A($('bt_m'),pop('m',14.36));A($('bt_d'),pop('d',14.88));
+  A($('bt_p'),pop('p',13.92));A($('bt_m'),pop('m',14.63));A($('bt_d'),pop('d',15.35));
   ['bt_p0','bt_p1','bt_p2'].forEach((id,i)=>{const kk=t-13.95-i*.09;A($(id),kk<0?{o:0}:{o:cl(kk/.1),x:(1-eo5(cl(kk/.45)))*-140,s:lerp(.8,1,spr(kk,2.2,.5))})});
-  A($('bt_m1'),inBlur(t,14.36,.3,30));A($('bt_m2'),{...inBlur(t,14.44,.35,40),s:lerp(1.3,1,eo5(p(t,14.44,14.8)))});A($('bt_m3'),{s:back(p(t,14.62,14.95)),o:p(t,14.62,14.7)});
-  A($('bt_d1'),{...inBlur(t,14.88,.3,40),r:lerp(-14,-6,eo(p(t,14.88,15.3)))});A($('bt_d2'),{...inBlur(t,14.98,.3,40),r:lerp(10,4,eo(p(t,14.98,15.3)))});A($('bt_dk'),{s:back(p(t,15.15,15.45),2.2),o:p(t,15.15,15.2)});
+  A($('bt_m1'),inBlur(t,14.63,.3,30));A($('bt_m2'),{...inBlur(t,14.71,.35,40),s:lerp(1.3,1,eo5(p(t,14.71,15.07)))});A($('bt_m3'),{s:back(p(t,14.89,15.22)),o:p(t,14.89,14.97)});
+  A($('bt_d1'),{...inBlur(t,15.35,.3,40),r:lerp(-14,-6,eo(p(t,15.35,15.77)))});A($('bt_d2'),{...inBlur(t,15.45,.3,40),r:lerp(10,4,eo(p(t,15.45,15.77)))});A($('bt_dk'),{s:back(p(t,15.6,15.85),2.2),o:p(t,15.6,15.65)});
   // highlight ring jumps between tiles
-  const hl=$('bt_hl');const R=[[120,450,840,400,13.92],[550,880,410,450,14.36],[120,880,410,450,14.88]];let cur=null;R.forEach(r=>{if(t>=r[4])cur=r});
+  const hl=$('bt_hl');const R=[[120,450,840,400,13.92],[550,880,410,450,14.63],[120,880,410,450,15.35]];let cur=null;R.forEach(r=>{if(t>=r[4])cur=r});
   if(cur){const kk=t-cur[4];Object.assign(hl.style,{left:cur[0]-6+'px',top:cur[1]-6+'px',width:cur[2]+12+'px',height:cur[3]+12+'px'});A(hl,{o:(1-p(kk,.25,.55))*cl(kk/.06),s:lerp(1.04,1,eo(cl(kk/.3)))})}else A(hl,{o:0});
 }
 </script>
@@ -528,10 +528,10 @@ const MATCH=new Set([2,8,13,15,21]);
   h+=`<div class="ab" id="ft${i}" style="left:${x}px;top:${y}px;width:130px;height:130px;border-radius:26px;background:#f6f8fa;box-shadow:0 14px 26px -14px rgba(25,40,60,.35);overflow:hidden;display:flex;flex-direction:column"><img src="img/${icn}.jpg" style="width:130px;height:94px;object-fit:cover;object-position:${PHP[icn]}"><span style="flex:1;display:flex;align-items:center;justify-content:center;font-size:17px;color:#85909e;font-weight:500">${cityTxt}</span></div>`}
  $('ftiles').innerHTML=h;}
 function s5(t){
-  const on=t>=15.45&&t<21.35;show(S5,on);if(!on)return;
+  const on=t>=15.65&&t<21.35;show(S5,on);if(!on)return;
   // whip in from left (RTL forward)
-  const wi=eio5(p(t,15.5,16.05));const card=$('rq');
-  const ck=spr(t-15.95,1.8,.55);
+  const wi=eio5(p(t,15.72,16.2));const card=$('rq');
+  const ck=spr(t-16.08,1.8,.55);
   const shrink=eio5(p(t,19.0,19.45));
   A(card,{x:(1-wi)*-1150,b:(1-wi)*28,o:1-p(t,20.85,21.1),s:lerp(1,.45,shrink),y:lerp(0,-170,shrink)});
   // field 1 slot roll
@@ -552,7 +552,7 @@ function s5(t){
   FT.forEach((f,j)=>{const e=$('ft'+f.i);const t0=19.12+((f.i%6)*.03+Math.floor(f.i/6)*.04);const k=t-t0;
     let o=k<0?0:cl(k/.12),s=k<0?.8:lerp(.8,1,spr(k,2.3,.5));let fail=0,fails=[[f.type,19.32],[f.city,19.57],[f.docs,19.82]];
     fails.forEach(([ok,tt],q)=>{if(!ok&&t>tt+(f.i%6)*.025)fail=Math.max(fail,p(t,tt+(f.i%6)*.025,tt+.2+(f.i%6)*.025))});
-    const out=p(t,20.75,21.0);const win=f.m?eo(p(t,19.95,20.25)):0;
+    const out=p(t,20.75,21.0);const win=f.m?eo(p(t,20.15,20.45)):0;
     A(e,{o:o*lerp(1,.22,fail)*(1-out*(f.m?0:1)),s:s*lerp(1,.86,fail)*(1+win*.08),b:fail*3,y:fail*14-win*10});
     e.style.boxShadow=win>0?`0 0 0 ${4*win}px #ff6512,0 20px 30px -12px rgba(255,101,18,${.5*win})`:'0 14px 26px -14px rgba(25,40,60,.35)';
     e.style.background=win>0?'#fff':'#f6f8fa';
@@ -603,7 +603,7 @@ function old(t){
   o.style.opacity=p(t,23.45,23.9);
   const ex=ei(p(t,26.62,26.98));
   // clock
-  const ck=t-23.85;A($('ck'),ck<0?{o:0}:{o:cl(ck/.15),s:lerp(.6,1,spr(ck,1.6,.55))*(1+ex*.6)*(1+.04*Math.exp(-Math.pow((t-24.74)/.06,2))),b:Math.max(0,1-cl(ck/.3))*18+ex*20,x:Math.sin(t*90)*cl((t-25.2)*2,0,1)*4*(1-ex)});
+  const ck=t-23.85;A($('ck'),ck<0?{o:0}:{o:cl(ck/.15),s:lerp(.6,1,spr(ck,1.6,.55))*(1+ex*.6)*(1+.04*Math.exp(-Math.pow((t-25.12)/.06,2))),b:Math.max(0,1-cl(ck/.3))*18+ex*20,x:Math.sin(t*90)*cl((t-25.2)*2,0,1)*4*(1-ex)});
   const sp=eio(p(t,24.0,26.7));const minutes=10*60+25+sp*210;const mAng=(minutes%60)*6,hAng=(minutes/60%12)*30;
   $('ck_m').style.transform=`rotate(${mAng}deg)`;$('ck_h').style.transform=`rotate(${hAng}deg)`;
   const vel=Math.abs(eio(p(t+.02,24.0,26.7))-eio(p(t-.02,24.0,26.7)))*210*6/.04;const tr=cl(vel/2400,0,1);
@@ -632,10 +632,10 @@ function s7(t){
   const x=t-27.0,k=spr(x,1.7,.45);const out=outBlur(t,28.95,.35,-80);
   A($('p_big'),x<0?{o:0}:mix({pp:1100,o:cl(x/.1),rx:(1-k)*-60,s:lerp(1.5,1,k)*(1+.03*Math.max(0,x)),b:Math.max(0,1-cl(x/.25))*24},out));
   $('p_ext').style.textShadow=Array.from({length:12},(_,i)=>`0 ${i+1}px 0 rgb(${190-i*4},${201-i*4},${214-i*4})`).join(',')+',0 30px 40px rgba(20,35,55,.25)';
-  const dk=t-27.62;A($('p_disc'),dk<0?{o:0}:mix({o:cl(dk/.12),s:lerp(.3,1,spr(dk,2,.5)),r:(1-eo(cl(dk/.5)))*-120},out));
-  const pr=eio(p(t,27.7,28.35))*360;$('p_prog').style.background=`conic-gradient(#ff6512 0deg ${pr}deg,rgba(38,58,79,.06) ${pr}deg 360deg)`;
-  $('p_dig').textContent='00:0'+Math.min(3,Math.floor(p(t,27.7,28.35)*3.99));A($('p_dig'),{o:1-p(t,28.33,28.42)});
-  const ok=t-28.38;A($('p_ok'),ok<0?{o:0}:{o:1,s:lerp(.2,1,spr(ok,2.4,.38))});
+  const dk=t-27.52;A($('p_disc'),dk<0?{o:0}:mix({o:cl(dk/.12),s:lerp(.3,1,spr(dk,2,.5)),r:(1-eo(cl(dk/.5)))*-120},out));
+  const pr=eio(p(t,27.6,28.12))*360;$('p_prog').style.background=`conic-gradient(#ff6512 0deg ${pr}deg,rgba(38,58,79,.06) ${pr}deg 360deg)`;
+  $('p_dig').textContent='00:0'+Math.min(3,Math.floor(p(t,27.6,28.12)*3.99));A($('p_dig'),{o:1-p(t,28.10,28.19)});
+  const ok=t-28.15;A($('p_ok'),ok<0?{o:0}:{o:1,s:lerp(.2,1,spr(ok,2.4,.38))});
 }
 </script>
 
@@ -678,7 +678,7 @@ function s8(t){
   const g=cl(dgrow,0,1.05);A($('od'),!cardOn?{o:0}:{y:lerp(60,0,g)+neg*-60,o:cl(dk/.1)*(1-neg),b:neg*16});$('od').style.clipPath=`inset(0 0 ${Math.max(0,(1-g)*660)}px 0 round 42px)`;
   $('od').style.transformOrigin='50% 0%';
   A($('od_exc'),{s:lerp(1.22,1.04,eo5(p(t,30.55,32.0))),o:p(t,30.58,30.68)});
-  [['od_c0',30.66],['od_c1',31.17],['od_c2',31.72]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.4,1,spr(k,2.4,.4))})});
+  [['od_c0',30.66],['od_c1',31.29],['od_c2',31.87]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.4,1,spr(k,2.4,.4))})});
   // price + negotiate
   const PV=q=>lerp(14000,12800,eo5(p(q,33.38,33.95)));const pe=$('od_price');roller(pe,PV(t),{dig:5,comma:2,h:84,plusEl:false,fade:false,vel:Math.abs(PV(t+.01)-PV(t-.01))/.02/30});
   A($('od_old'),{o:p(t,33.9,34.0),y:(1-eo(p(t,33.9,34.1)))*10});
@@ -730,21 +730,21 @@ const S10=H(LW,`<div class="L" id="s10">
 function s10(t){
   const on=t>=37.55;show(S10,on);if(!on)return;
   // ball drop & morph into CTA
-  const b0=37.7,land=38.12;let by,bx=540,sq=0;
+  const b0=37.85,land=38.27;let by,bx=540,sq=0;
   if(t<land){const k=p(t,b0,land);by=lerp(250,1122,k*k)}else{by=1122;sq=Math.exp(-Math.pow((t-land)/.04,2))*.45}
-  const mo=eio5(p(t,38.18,38.55));
-  A($('o_ball'),t<b0?{o:0}:{x:bx-55,y:by-55+sq*30,sx:(1+sq),sy:(1-sq),o:1-p(t,38.18,38.3)});
-  const ck=t-38.18;const cta=$('o_cta');const W=640;const w=lerp(110,W,cl(spr(ck,1.9,.55),0,1.15));
+  const mo=eio5(p(t,38.33,38.7));
+  A($('o_ball'),t<b0?{o:0}:{x:bx-55,y:by-55+sq*30,sx:(1+sq),sy:(1-sq),o:1-p(t,38.33,38.45)});
+  const ck=t-38.33;const cta=$('o_cta');const W=640;const w=lerp(110,W,cl(spr(ck,1.9,.55),0,1.15));
   cta.style.width=w+'px';cta.style.marginLeft=(-w/2)+'px';cta.style.height=lerp(110,124,cl(ck/.3))+'px';
   A(cta,ck<0?{o:0}:{o:1,y:lerp(55-62,0,cl(ck/.3))*0});
-  [['o_w0',38.25],['o_w1',38.67],['o_w2',39.12]].forEach(([id,t0])=>A($(id),inBlur(t,t0,.3,20)));
-  $('o_cs').style.left=(-160+(((t-39.6)%1.7)/1.7)*900)+'px';$('o_cs').style.opacity=t>39.6?1:0;
+  [['o_w0',38.40],['o_w1',38.74],['o_w2',39.25]].forEach(([id,t0])=>A($(id),inBlur(t,t0,.3,20)));
+  $('o_cs').style.left=(-160+(((t-39.73)%1.7)/1.7)*900)+'px';$('o_cs').style.opacity=t>39.73?1:0;
   // logo slam on "معداتك"
-  const lk=t-39.12;const sl=spr(lk,1.9,.5);
-  A($('o_logo'),lk<0?{o:0}:{o:cl(lk/.08),s:lerp(1.35,1,sl)*(1+.02*Math.max(0,t-39.6)),b:Math.max(0,1-cl(lk/.22))*30,y:(1-cl(sl,0,1))*-30});
-  $('o_sh').setAttribute('x',-700+eio(p(t,39.65,40.45))*3600);
-  const ak=t-39.2;$('o_arm').style.transform=`rotate(${ak<0?-32:(1-spr(ak,1.5,.38))*-32}deg)`;
-  A($('o_h'),inBlur(t,39.75,.4,14));
+  const lk=t-39.25;const sl=spr(lk,1.9,.5);
+  A($('o_logo'),lk<0?{o:0}:{o:cl(lk/.08),s:lerp(1.35,1,sl)*(1+.02*Math.max(0,t-39.73)),b:Math.max(0,1-cl(lk/.22))*30,y:(1-cl(sl,0,1))*-30});
+  $('o_sh').setAttribute('x',-700+eio(p(t,39.78,40.58))*3600);
+  const ak=t-39.33;$('o_arm').style.transform=`rotate(${ak<0?-32:(1-spr(ak,1.5,.38))*-32}deg)`;
+  A($('o_h'),inBlur(t,39.88,.4,14));
 }
 
 /* ================= MASTER ================= */

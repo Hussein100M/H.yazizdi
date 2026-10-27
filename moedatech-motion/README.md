@@ -8,7 +8,8 @@
 - `scripts/compose.sh` — averages sub-frames, adds light grain, encodes with the mix.
 - `scripts/mix.py` — SFX bus built from the SFX_Library (not in the repo; pass its folder).
 - `img/*.jpg` — the real equipment photos, recovered from the original video: `scripts/cat_photo.py` (Real-ESRGAN ×4 + LaMa removes the phone overlays) and `scripts/photos.py` (category tiles).
-- `audio/vo_final.wav` — voiceover: `scripts/vo_hybrid.py` applies a Wiener mask built from BS-Roformer's voice estimate to the ORIGINAL audio, so the voice is untouched wherever the old SFX were absent. Separated earlier (`audio-separator … --model_filename model_bs_roformer_ep_317_sdr_12.9755.ckpt`), band-limited to the VO's own 11.3 kHz, soft-expanded in the pauses and levelled (`scripts/vo_clean.py`). `scripts/sep.py` is the earlier MDX-Net pass, kept for reference.
+- `audio/vo_final.wav` — voiceover: ElevenLabs "Nasser AlJubaily" (Saudi), eleven_multilingual_v2, source in `audio/vo_nasser_source.mp3`. `scripts/align_vo.py` places each of its 22 phrases on the scene slots (rubberband ≤ ×1.06 where a phrase runs long); the on-screen words in `engine.html` are timed to this voice. Older voice extractions (`vo_hybrid.py`, `sep.py`, `vo_clean.py`) are kept for reference.
+  Phrase spans / slot starts used: `RUNS="0.08-1.40 2.53-4.01 4.68-6.22 6.40-7.46 8.05-9.43 9.60-11.30 11.96-13.77 14.43-16.79 17.15-18.26 18.89-19.81 20.09-20.52 21.01-22.56 23.28-25.25 25.93-27.08 27.28-28.51 29.04-30.48 31.07-32.16 32.59-34.56 35.28-35.75 36.03-37.59 38.27-39.01 39.61-40.75"`, `STARTS="0.18 1.92 3.92 5.58 6.76 8.40 11.08 13.25 16.02 17.28 18.36 19.02 20.98 23.98 25.40 27.00 29.08 30.62 33.24 33.98 36.36 38.40"`.
 
 ## Rebuild
 
