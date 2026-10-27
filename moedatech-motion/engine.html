@@ -1,0 +1,757 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Rx;font-weight:400;src:url(fonts/readex-pro-arabic-400-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Rx;font-weight:500;src:url(fonts/readex-pro-arabic-500-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Rx;font-weight:600;src:url(fonts/readex-pro-arabic-600-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Rx;font-weight:700;src:url(fonts/readex-pro-arabic-700-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Rx;font-weight:400;src:url(fonts/readex-pro-latin-400-normal.woff2);unicode-range:U+0000-024F}
+@font-face{font-family:Rx;font-weight:500;src:url(fonts/readex-pro-latin-500-normal.woff2);unicode-range:U+0000-024F}
+@font-face{font-family:Rx;font-weight:600;src:url(fonts/readex-pro-latin-600-normal.woff2);unicode-range:U+0000-024F}
+@font-face{font-family:Rx;font-weight:700;src:url(fonts/readex-pro-latin-700-normal.woff2);unicode-range:U+0000-024F}
+@font-face{font-family:In;font-weight:500;src:url(fonts/inter-latin-500-normal.woff2)}
+@font-face{font-family:In;font-weight:600;src:url(fonts/inter-latin-600-normal.woff2)}
+@font-face{font-family:In;font-weight:700;src:url(fonts/inter-latin-700-normal.woff2)}
+@font-face{font-family:In;font-weight:800;src:url(fonts/inter-latin-800-normal.woff2)}
+@font-face{font-family:In;font-weight:900;src:url(fonts/inter-latin-900-normal.woff2)}
+:root{--or:#ff6512;--or2:#ff8a3d;--ink:#263a4f;--grey:#85909e;--cream:#e9edf2;--navy:#263a4f}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1080px;height:1920px;overflow:hidden;background:#e9edf2;font-family:Rx,In,sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink)}
+.ar{direction:rtl}
+.L{position:absolute;inset:0;overflow:hidden}
+.ab{position:absolute}
+.num{font-family:In;font-variant-numeric:tabular-nums;direction:ltr}
+/* backgrounds */
+#bgDark{background:linear-gradient(180deg,#4a627c 0%,#33495f 38%,#1f3044 72%,#121e2c 100%)}
+#glow{position:absolute;left:-240px;right:-240px;bottom:-330px;height:900px;background:radial-gradient(ellipse at 50% 62%,rgba(255,104,18,.95) 0%,rgba(255,104,18,.55) 26%,rgba(255,104,18,0) 62%);filter:blur(10px)}
+.dots{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.075) 1.3px,transparent 1.8px) 0 0/30px 30px}
+.dotsL{position:absolute;inset:0;background:radial-gradient(circle,rgba(20,40,70,.06) 1.3px,transparent 1.8px) 0 0/30px 30px}
+#bgLight{background:radial-gradient(ellipse at 50% 42%,#f6f8fa 0%,#e8ecf0 55%,#d5dce4 100%)}
+#vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 48%,rgba(0,0,0,0) 58%,rgba(8,18,32,.16) 100%);pointer-events:none}
+#flash{background:radial-gradient(ellipse at 50% 55%,#ff8a2c 0%,#ff6a12 55%,#f2540a 100%)}
+/* tiles & cards */
+.tile{position:absolute;background:#f0f3f6;border-radius:36px;box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 1px 2px rgba(25,40,60,.06),0 26px 50px -26px rgba(25,40,60,.32);overflow:hidden}
+.tl{position:absolute;top:22px;right:30px;font-size:22px;font-weight:500;color:#85909e;direction:rtl;white-space:nowrap}
+.tl b{font-family:In;font-weight:600;font-size:17px;color:#a9b2bd;margin-left:10px}
+.card{position:absolute;background:#fcfdfe;border-radius:42px;box-shadow:0 34px 70px -24px rgba(20,35,55,.34),0 2px 6px rgba(20,35,55,.06);overflow:hidden}
+.photo{position:absolute;overflow:hidden;background:linear-gradient(180deg,#f9dcc0 0%,#f6e9dc 58%,#d8cab8 58.5%,#cdbda8 100%)}
+.photo .sun{position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(255,236,210,.95),rgba(255,236,210,0) 70%);right:-60px;top:-90px}
+.photo.b{background:linear-gradient(180deg,#d9e2ea 0%,#eef0ee 58%,#d3c8b8 58.5%,#c4b7a4 100%)}
+.photo.c{background:linear-gradient(180deg,#f3cfae 0%,#efd9c5 58%,#cdb79f 58.5%,#bfa88f 100%)}
+.chip{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 24px 12px 20px;border-radius:40px;background:#fff;font-size:27px;font-weight:500;white-space:nowrap;direction:rtl;box-shadow:0 10px 24px -10px rgba(20,35,55,.35),0 1px 2px rgba(20,35,55,.08)}
+.ck{width:32px;height:32px;border-radius:50%;background:var(--or);display:flex;align-items:center;justify-content:center;flex:none}
+.ck svg{width:20px;height:20px}
+.pill{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:60px;white-space:nowrap;direction:rtl}
+.lbl{position:absolute;left:0;right:0;text-align:center;white-space:nowrap;direction:rtl}
+.lbl span{display:inline-block;margin:0 9px}
+.big{font-weight:700;letter-spacing:-1px}
+.row{position:absolute;left:44px;right:44px;height:84px;display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #e8ecf0;direction:rtl;font-size:30px;font-weight:500}
+.row .k{color:#85909e;font-weight:400}
+.ckc{width:40px;height:40px;border-radius:50%;border:3px solid #d0d7df;display:flex;align-items:center;justify-content:center}
+.ckc svg{width:24px;height:24px}
+.ghost{color:#aab3be}
+.av{position:absolute;border-radius:50%;background:linear-gradient(160deg,#3d5873,#22344a);display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -12px rgba(8,18,32,.55)}
+.bub{position:absolute;padding:20px 30px;border-radius:34px;font-size:32px;font-weight:500;white-space:nowrap;direction:rtl;box-shadow:0 14px 30px -14px rgba(0,0,0,.45)}
+.roll{display:inline-block;overflow:hidden;vertical-align:top;position:relative}
+.roll i{display:block;font-style:normal;text-align:center}
+svg{overflow:visible}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+ <defs>
+  <linearGradient id="gO" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffa45e"/><stop offset=".45" stop-color="#ff7a20"/><stop offset="1" stop-color="#e2560b"/></linearGradient>
+  <linearGradient id="gO2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff8a33"/><stop offset="1" stop-color="#e8590d"/></linearGradient>
+  <linearGradient id="gG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#63727f"/><stop offset=".5" stop-color="#2a323c"/><stop offset="1" stop-color="#434e5a"/></linearGradient>
+  <linearGradient id="gD" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#505056"/><stop offset="1" stop-color="#232326"/></linearGradient>
+  <filter id="vb1" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="0 3"/></filter>
+  <filter id="vb2" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="0 6"/></filter>
+  <filter id="vb3" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="0 10"/></filter>
+  <filter id="vb4" x="-10%" y="-60%" width="120%" height="220%"><feGaussianBlur stdDeviation="0 16"/></filter>
+  <linearGradient id="shg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffd9bd" stop-opacity="0"/><stop offset=".5" stop-color="#ffb47e" stop-opacity=".95"/><stop offset="1" stop-color="#ffd9bd" stop-opacity="0"/></linearGradient>
+  <symbol id="ic_exc" viewBox="0 0 420 300">
+   <ellipse cx="255" cy="281" rx="165" ry="11" fill="rgba(60,40,20,.22)"/>
+   <rect x="142" y="226" width="246" height="50" rx="25" fill="url(#gD)"/>
+   <rect x="155" y="236" width="220" height="30" rx="15" fill="#3d3d42"/>
+   <g fill="#74747b"><circle cx="172" cy="251" r="10"/><circle cx="205" cy="251" r="9"/><circle cx="238" cy="251" r="9"/><circle cx="271" cy="251" r="9"/><circle cx="304" cy="251" r="9"/><circle cx="337" cy="251" r="9"/><circle cx="359" cy="251" r="10"/></g>
+   <rect x="222" y="206" width="98" height="24" rx="6" fill="#2b2b2f"/>
+   <path d="M330 150h48a22 22 0 0 1 22 22v22a18 18 0 0 1-18 18h-52z" fill="#dd540b"/>
+   <path d="M196 150h150a10 10 0 0 1 10 10v52H186v-52a10 10 0 0 1 10-10z" fill="url(#gO)"/>
+   <path d="M200 152V82a10 10 0 0 1 10-10h46a12 12 0 0 1 11 8l22 72z" fill="url(#gO)"/>
+   <path d="M212 88h42l18 56h-60z" fill="url(#gG)"/>
+   <path d="M215 91h11l-6 50h-5z" fill="rgba(255,255,255,.2)"/>
+   <rect x="296" y="168" width="44" height="6" rx="3" fill="rgba(0,0,0,.18)"/><rect x="296" y="182" width="44" height="6" rx="3" fill="rgba(0,0,0,.18)"/>
+   <path d="M226 196L200 160C176 120 146 88 114 66C104 59 90 63 88 75C87 83 91 89 98 93C134 116 166 152 192 206Z" fill="url(#gO)"/>
+   <path d="M114 66C146 88 176 120 200 160" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="3"/>
+   <line x1="214" y1="188" x2="142" y2="106" stroke="#d6d9dd" stroke-width="9" stroke-linecap="round"/>
+   <line x1="214" y1="188" x2="178" y2="146" stroke="#8d939a" stroke-width="13" stroke-linecap="round"/>
+   <path d="M92 66L116 76L80 204L58 198Z" fill="#e9600f"/>
+   <line x1="113" y1="82" x2="97" y2="150" stroke="#d6d9dd" stroke-width="7" stroke-linecap="round"/>
+   <path d="M52 186L94 196C98 226 84 246 62 252L36 244C46 228 50 208 52 186Z" fill="url(#gD)"/>
+   <path d="M36 244l-7 9 11-2zM46 248l-4 9 10-4zM56 251l-2 9 9-6z" fill="#1d1d20"/>
+   <circle cx="200" cy="196" r="7" fill="#2a2a2e"/><circle cx="100" cy="74" r="7" fill="#2a2a2e"/><circle cx="72" cy="198" r="6" fill="#2a2a2e"/>
+  </symbol>
+  <symbol id="ic_load" viewBox="0 0 170 120">
+   <ellipse cx="92" cy="112" rx="72" ry="5" fill="rgba(60,40,20,.2)"/>
+   <rect x="60" y="50" width="88" height="36" rx="9" fill="url(#gO)"/>
+   <path d="M84 52V20a6 6 0 0 1 6-6h34a6 6 0 0 1 6 6v32z" fill="url(#gO)"/>
+   <rect x="92" y="20" width="30" height="26" rx="3" fill="url(#gG)"/>
+   <path d="M64 58L34 68l-4 9 34-5z" fill="#e9600f"/>
+   <path d="M6 58h30l4 32H2z" fill="url(#gD)"/>
+   <circle cx="78" cy="92" r="18" fill="#2a2a2e"/><circle cx="78" cy="92" r="7" fill="#8a8a90"/>
+   <circle cx="132" cy="92" r="18" fill="#2a2a2e"/><circle cx="132" cy="92" r="7" fill="#8a8a90"/>
+  </symbol>
+  <symbol id="ic_dump" viewBox="0 0 170 120">
+   <ellipse cx="86" cy="112" rx="76" ry="5" fill="rgba(60,40,20,.2)"/>
+   <path d="M10 46h34v40H6V58a12 12 0 0 1 4-12z" fill="url(#gO)"/>
+   <rect x="13" y="52" width="24" height="16" rx="3" fill="url(#gG)"/>
+   <rect x="6" y="80" width="156" height="10" rx="3" fill="#2b2b2f"/>
+   <path d="M48 32h114l-10 48H48z" fill="url(#gO2)"/>
+   <path d="M62 40v32M82 40v32M102 40v32M122 40v32M142 40v28" stroke="rgba(0,0,0,.14)" stroke-width="4"/>
+   <circle cx="30" cy="94" r="15" fill="#2a2a2e"/><circle cx="30" cy="94" r="6" fill="#8a8a90"/>
+   <circle cx="110" cy="94" r="15" fill="#2a2a2e"/><circle cx="110" cy="94" r="6" fill="#8a8a90"/>
+   <circle cx="142" cy="94" r="15" fill="#2a2a2e"/><circle cx="142" cy="94" r="6" fill="#8a8a90"/>
+  </symbol>
+  <symbol id="ic_crane" viewBox="0 0 170 120">
+   <ellipse cx="86" cy="112" rx="76" ry="5" fill="rgba(60,40,20,.2)"/>
+   <path d="M36 66L150 12" stroke="url(#gO2)" stroke-width="12" stroke-linecap="round"/>
+   <path d="M44 62l12-14 10 10 12-14 10 10 12-14 10 10 12-14" stroke="rgba(0,0,0,.22)" stroke-width="2.5" fill="none"/>
+   <path d="M150 12v34" stroke="#2b2b2f" stroke-width="3"/><path d="M144 46h12l-6 9z" fill="#2b2b2f"/>
+   <rect x="8" y="66" width="120" height="20" rx="5" fill="#2b2b2f"/>
+   <path d="M128 58h22a8 8 0 0 1 8 8v20h-30z" fill="url(#gO)"/>
+   <rect x="134" y="62" width="16" height="12" rx="2" fill="url(#gG)"/>
+   <circle cx="30" cy="92" r="14" fill="#2a2a2e"/><circle cx="62" cy="92" r="14" fill="#2a2a2e"/><circle cx="140" cy="92" r="14" fill="#2a2a2e"/>
+   <circle cx="30" cy="92" r="5" fill="#8a8a90"/><circle cx="62" cy="92" r="5" fill="#8a8a90"/><circle cx="140" cy="92" r="5" fill="#8a8a90"/>
+  </symbol>
+  <symbol id="ic_fork" viewBox="0 0 170 120">
+   <ellipse cx="88" cy="112" rx="66" ry="5" fill="rgba(60,40,20,.2)"/>
+   <rect x="40" y="10" width="9" height="88" rx="3" fill="#2b2b2f"/>
+   <rect x="14" y="90" width="34" height="6" rx="2" fill="#2b2b2f"/>
+   <path d="M56 30h50l14 30H56z" fill="none" stroke="#2b2b2f" stroke-width="6" stroke-linejoin="round"/>
+   <rect x="52" y="56" width="96" height="34" rx="9" fill="url(#gO)"/>
+   <path d="M120 40h22a8 8 0 0 1 8 8v12h-30z" fill="#dd540b"/>
+   <circle cx="72" cy="94" r="15" fill="#2a2a2e"/><circle cx="72" cy="94" r="6" fill="#8a8a90"/>
+   <circle cx="132" cy="96" r="12" fill="#2a2a2e"/><circle cx="132" cy="96" r="5" fill="#8a8a90"/>
+  </symbol>
+  <symbol id="i_ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i_user" viewBox="0 0 48 48"><circle cx="24" cy="17" r="9" fill="#e7ecf2"/><path d="M8 42c2-9 9-14 16-14s14 5 16 14z" fill="#e7ecf2"/></symbol>
+  <symbol id="i_pin" viewBox="0 0 40 52"><path d="M20 50C20 50 3 31 3 19a17 17 0 0 1 34 0c0 12-17 31-17 31z" fill="#ff6512"/><circle cx="20" cy="19" r="7" fill="#fff"/></symbol>
+  <symbol id="i_phone" viewBox="0 0 48 48"><path d="M14 6l6 1 3 9-4 4c2 5 6 9 11 11l4-4 9 3 1 6c0 4-3 7-7 7C20 43 5 28 5 11c0-4 3-7 7-7z" fill="currentColor"/></symbol>
+  <symbol id="i_bell" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0-6 6v4l-2 3h16l-2-3V9a6 6 0 0 0-6-6zM9.5 18a2.5 2.5 0 0 0 5 0z" fill="currentColor"/></symbol>
+  <symbol id="i_doc" viewBox="0 0 300 380">
+   <rect x="0" y="0" width="300" height="380" rx="18" fill="#fffefc"/>
+   <rect x="0" y="0" width="300" height="70" rx="18" fill="#ff6512"/><rect x="0" y="40" width="300" height="30" fill="#ff6512"/>
+   <rect x="170" y="24" width="106" height="12" rx="6" fill="rgba(255,255,255,.9)"/><rect x="200" y="44" width="76" height="8" rx="4" fill="rgba(255,255,255,.6)"/>
+   <g fill="#e6e1d9"><rect x="96" y="100" width="180" height="12" rx="6"/><rect x="136" y="128" width="140" height="12" rx="6"/><rect x="66" y="170" width="210" height="10" rx="5"/><rect x="106" y="194" width="170" height="10" rx="5"/><rect x="86" y="218" width="190" height="10" rx="5"/><rect x="126" y="242" width="150" height="10" rx="5"/></g>
+   <circle cx="66" cy="318" r="34" fill="none" stroke="#ff6512" stroke-width="5"/><path d="M50 318l11 11 20-22" fill="none" stroke="#ff6512" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+   <g fill="#2b2b2f"><rect x="200" y="290" width="14" height="14"/><rect x="222" y="290" width="8" height="8"/><rect x="238" y="290" width="14" height="14"/><rect x="200" y="312" width="8" height="8"/><rect x="216" y="306" width="14" height="14"/><rect x="238" y="314" width="8" height="8"/><rect x="200" y="328" width="14" height="14"/><rect x="224" y="330" width="8" height="8"/><rect x="238" y="328" width="14" height="14"/></g>
+  </symbol>
+  <symbol id="i_reg" viewBox="0 0 340 214">
+   <rect x="0" y="0" width="340" height="214" rx="20" fill="#e3e7df"/>
+   <rect x="0" y="0" width="340" height="46" rx="20" fill="#cdd6c9"/><rect x="0" y="26" width="340" height="20" fill="#cdd6c9"/>
+   <rect x="180" y="16" width="140" height="10" rx="5" fill="#8a9a86"/>
+   <rect x="232" y="66" width="86" height="104" rx="10" fill="#c7cfc3"/><circle cx="275" cy="102" r="18" fill="#a7b3a3"/><path d="M247 160c4-18 15-26 28-26s24 8 28 26z" fill="#a7b3a3"/>
+   <g fill="#aab5a6"><rect x="22" y="70" width="190" height="11" rx="5"/><rect x="62" y="96" width="150" height="11" rx="5"/><rect x="42" y="122" width="170" height="11" rx="5"/><rect x="82" y="148" width="130" height="11" rx="5"/><rect x="22" y="182" width="120" height="9" rx="4"/></g>
+  </symbol>
+ </defs>
+</svg>
+
+<div id="root">
+ <!-- ===== DARK WORLD ===== -->
+ <div class="L" id="bgDark"><div id="glow"></div><div class="dots"></div></div>
+ <div class="L" id="hook">
+  <div class="lbl ar" id="h_small" style="top:610px;font-size:66px;font-weight:500;color:#e3eaf2"><span id="h_w0">كيف</span><span id="h_w1">تطبيق</span></div>
+  <div class="ab" id="h_big" style="left:0;right:0;top:690px;height:300px;perspective:1200px">
+   <div class="lbl ar big" id="h_ext" style="top:0;font-size:236px;line-height:300px;color:#2c4157">معداتك</div>
+   <div class="lbl ar big" id="h_chr" style="top:0;font-size:236px;line-height:300px;background:linear-gradient(180deg,#ffffff 0%,#e4e9ef 38%,#9eabba 52%,#e2e7ed 70%,#f7f9fb 100%);-webkit-background-clip:text;background-clip:text;color:transparent">معداتك</div>
+  </div>
+  <div class="ab" id="h_line" style="left:150px;width:780px;top:1179px;height:3px;background:linear-gradient(90deg,rgba(226,236,246,0),rgba(226,236,246,.5) 20%,rgba(226,236,246,.5) 80%,rgba(226,236,246,0))"></div>
+  <svg class="ab" id="h_trail" style="left:0;top:0" width="1080" height="1920"></svg>
+  <div class="ab" id="h_shadow" style="left:0;top:1168px;width:150px;height:22px;border-radius:50%;background:radial-gradient(ellipse,rgba(20,10,0,.55),rgba(20,10,0,0) 70%)"></div>
+  <div class="ab" id="h_disc" style="left:390px;top:965px;width:300px;height:300px;border-radius:50%">
+   <div class="ab" id="h_seg" style="inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,250,244,.20) 0 12deg,rgba(255,250,244,.05) 12deg 30deg);box-shadow:inset 0 0 0 2px rgba(255,250,244,.28),0 20px 60px -20px rgba(0,0,0,.5);backdrop-filter:blur(8px)"></div>
+   <div class="ab" id="h_prog" style="inset:-14px;border-radius:50%;-webkit-mask:radial-gradient(circle,transparent 66%,#000 67%,#000 72%,transparent 73%);mask:radial-gradient(circle,transparent 66%,#000 67%,#000 72%,transparent 73%)"></div>
+   <div class="ab" id="h_hand" style="left:148px;top:30px;width:4px;height:120px;border-radius:2px;background:#fff5ea;transform-origin:2px 120px"></div>
+  </div>
+  <div class="ab" id="h_ball" style="left:0;top:0;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#ffe0c2 0%,#ff9a45 22%,#ff6a0a 52%,#c84300 100%);box-shadow:0 0 60px rgba(255,106,10,.55),inset -10px -14px 24px rgba(120,30,0,.35)"></div>
+ </div>
+ <!-- old-way dark layer -->
+ <div class="L" id="old" style="display:none">
+  <div class="L" style="background:linear-gradient(180deg,#34495f 0%,#223349 45%,#111c29 100%)"><div class="dots"></div></div>
+  <div id="glow2" style="position:absolute;left:-240px;right:-240px;bottom:-420px;height:900px;background:radial-gradient(ellipse at 50% 62%,rgba(255,104,18,.55) 0%,rgba(255,104,18,0) 60%)"></div>
+  <div class="ab" id="ck" style="left:315px;top:600px;width:450px;height:450px">
+   <div class="ab" style="inset:0;border-radius:50%;background:radial-gradient(circle at 40% 35%,#f8fafc,#dfe5ec);box-shadow:0 40px 80px -30px rgba(0,0,0,.7),inset 0 -8px 20px rgba(0,0,0,.08)"></div>
+   <svg class="ab" style="left:0;top:0" width="450" height="450" viewBox="0 0 450 450" id="ck_ticks"></svg>
+   <div class="ab" id="ck_trail" style="inset:40px;border-radius:50%"></div>
+   <div class="ab" id="ck_h" style="left:219px;top:115px;width:12px;height:115px;border-radius:6px;background:#263a4f;transform-origin:6px 110px"></div>
+   <div class="ab" id="ck_m" style="left:221px;top:62px;width:8px;height:168px;border-radius:4px;background:#263a4f;transform-origin:4px 163px"></div>
+   <div class="ab" style="left:211px;top:211px;width:28px;height:28px;border-radius:50%;background:#ff6512;box-shadow:0 0 0 6px #f4f6f9"></div>
+  </div>
+  <div class="lbl num" id="ck_dig" style="top:1080px;font-size:44px;font-weight:600;color:#c9d4e0;letter-spacing:2px"></div>
+  <div id="bubs"></div>
+ </div>
+ <div class="L" id="flash" style="display:none"></div>
+ <!-- ===== LIGHT WORLD ===== -->
+ <div class="L" id="sheet" style="display:none">
+  <div class="L" id="bgLight"><div class="dotsL"></div></div>
+  <div class="L" id="lw"></div>
+ </div>
+ <div class="L" id="labels"></div>
+ <div id="vig"></div>
+</div>
+
+<script>
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const p=(t,a,b)=>cl((t-a)/(b-a));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const eo=k=>1-Math.pow(1-k,3), eo5=k=>1-Math.pow(1-k,5), ei=k=>k*k*k, ei2=k=>k*k;
+const eio=k=>k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;
+const eio5=k=>k<.5?16*k**5:1-Math.pow(-2*k+2,5)/2;
+const back=(k,s=1.7)=>{const c3=s+1;return 1+c3*Math.pow(k-1,3)+s*Math.pow(k-1,2)};
+function spr(x,f=2.2,z=.4){if(x<=0)return 0;const w=2*Math.PI*f,wd=w*Math.sqrt(1-z*z);return 1-Math.exp(-z*w*x)*(Math.cos(wd*x)+(z*w/wd)*Math.sin(wd*x))}
+const $=id=>document.getElementById(id);
+const CK='<svg viewBox="0 0 24 24"><use href="#i_ck"/></svg>';
+const esc=s=>String(s);
+function A(e,{x=0,y=0,z=0,s=1,sx=1,sy=1,r=0,rx=0,ry=0,o=1,b=0,pp=0}={}){
+  if(!e)return;
+  if(o<=0.003){e.style.opacity=0;e.style.filter='none';return}
+  e.style.opacity=Math.min(1,o);
+  e.style.transform=(pp?`perspective(${pp}px) `:'')+`translate3d(${x}px,${y}px,${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotate(${r}deg) scale(${s*sx},${s*sy})`;
+  e.style.filter=b>0.08?`blur(${b.toFixed(2)}px)`:'none';
+}
+function show(e,on){e.style.display=on?'block':'none'}
+// standard entrances
+function inBlur(t,t0,d=.4,dy=30){const k=p(t,t0,t0+d),e=eo(k);return {o:k,b:(1-e)*16,y:(1-e)*dy}}
+function inSpring(t,t0,{f=2,z=.42,dy=80,s0=.86,b0=14}={}){const x=t-t0;if(x<0)return {o:0};const k=spr(x,f,z);return {o:cl(x/.16),y:(1-k)*dy,s:lerp(s0,1,k),b:Math.max(0,(1-cl(x/.22))*b0)}}
+function outBlur(t,t0,d=.32,dy=-30){const k=p(t,t0,t0+d);return {o:1-k,b:k*18,y:k*dy}}
+function mix(a,b){if(!b)return a;const o={...a};for(const k in b){if(k==='o')o.o=(a.o??1)*b.o;else if(k==='s')o.s=(a.s??1)*b.s;else if(k==='b')o.b=(a.b||0)+b.b;else o[k]=(a[k]||0)+b[k]}return o}
+function H(parent,html){parent.insertAdjacentHTML('beforeend',html);return parent.lastElementChild}
+const LW=$('lw');
+function ic(id,w,h,extra=''){return `<svg width="${w}" height="${h}" ${extra}><use href="#${id}"/></svg>`}
+</script>
+
+<script>
+/* ================= LABELS (captions synced to VO words) ================= */
+const LBL=[
+ {d:1,out:3.62,w:[["يلقالك",1.71],["المعدة",2.30],["بثواني؟",3.03,1]]},
+ {out:5.52,w:[["كل",4.08],["شي",4.22],["يبدأ",4.47],["من",4.83],["المؤجر.",4.96,1]]},
+ {out:6.56,w:[["بالذكاء",5.62],["الاصطناعي.",6.09,1]]},
+ {out:8.30,w:[["الفحص",7.23],["والاستمارة.",7.81,1]]},
+ {out:10.52,w:[["بطاقة",8.41],["جاهزة",9.32],["للبحث.",9.81,1]]},
+ {out:15.50,w:[["صورها",13.92],["موديلها",14.36],["أوراقها.",14.88,1]]},
+ {out:17.42,w:[["تطلب",16.17],["من",16.40],["التطبيق.",16.82,1]]},
+ {out:18.95,w:[["المعدة",17.53],["والمدينة.",18.33,1]]},
+ {out:20.62,w:[["والنظام",19.02],["يفرز.",19.50,1]]},
+ {out:23.50,w:[["ويوصل",21.00],["إشعار",21.45],["للمؤجرين.",22.47,1]]},
+ {d:1,out:25.22,w:[["ساعات.",24.74,1]]},
+ {d:1,out:26.72,w:[["اتصالات",25.40],["ورسايل.",26.18,1]]},
+ {out:29.00,w:[["بثواني.",28.35,1]]},
+ {out:30.56,w:[["العروض.",29.90,1]]},
+ {out:32.92,w:[["صورها",30.64],["الفحص",31.15],["الاستمارة.",31.70,1]]},
+ {out:33.92,w:[["تفاوض.",33.25,1]]},
+ {out:36.30,w:[["وتراسل",33.99],["المؤجر",34.50],["داخل",35.10],["التطبيق.",35.40,1]]},
+ {out:37.50,w:[["بدون",36.38],["ولا",36.62],["اتصال.",36.86,1]]},
+];
+LBL.forEach((L,i)=>{L.el=H($('labels'),`<div class="lbl ar" style="top:1428px;font-size:66px;font-weight:600;letter-spacing:-.5px">${L.w.map((w,j)=>`<span id="lb${i}_${j}" style="color:${w[2]?'var(--or)':(L.d?'#f2f5f9':'#263a4f')};${L.d?'text-shadow:0 4px 18px rgba(0,0,0,.25)':''}">${w[0]}</span>`).join('')}</div>`)});
+function labels(t){LBL.forEach((L,i)=>{const t0=L.w[0][1];const on=t>=t0-.01&&t<L.out+.24;L.el.style.display=on?'block':'none';if(!on)return;
+  const ko=outBlur(t,L.out,.2,-20);L.el.style.opacity=ko.o;L.el.style.filter=ko.b>.1?`blur(${ko.b}px)`:'none';L.el.style.transform=`translateY(${ko.y}px)`;
+  L.w.forEach((w,j)=>{const e=$(`lb${i}_${j}`);const k=p(t,w[1],w[1]+.34),q=eo(k);A(e,{o:k,b:(1-q)*14,y:(1-q)*26,s:w[2]?lerp(1.18,1,eo5(p(t,w[1],w[1]+.45))):1})})})}
+</script>
+
+<script>
+/* ================= HOOK 0 – 3.95 ================= */
+const LINE=1180, BR=65;
+const LAND=[1.98,2.33,2.62,2.80], HT=[0,250,140,60], BX=[790,700,612,560,540];
+function ballPos(t){ // returns {x,y,vy}
+  if(t<1.71)return {x:BX[0],y:LINE-BR-760,vy:0};
+  if(t<LAND[0]){const k=(t-1.71)/(LAND[0]-1.71);return {x:lerp(BX[0],BX[1],k),y:LINE-BR-760*(1-k*k),vy:2*760*k/(LAND[0]-1.71)}}
+  for(let i=0;i<LAND.length-1;i++){if(t<LAND[i+1]){const a=LAND[i],b=LAND[i+1],s=(t-a)/(b-a);return {x:lerp(BX[i+1],BX[i+2],s),y:LINE-BR-HT[i+1]*4*s*(1-s),vy:HT[i+1]*4*(2*s-1)/(b-a)}}}
+  return {x:lerp(BX[4],540,p(t,2.8,3.0)),y:LINE-BR,vy:0};
+}
+function hook(t){
+  const on=t<3.95;show($('hook'),on);show($('bgDark'),t<4.3);if(!on)return;
+  // glow breathe
+  $('glow').style.opacity=.85+.15*Math.sin(t*2.2);
+  // small words
+  const rec=eio(p(t,1.71,2.15));
+  A($('h_small'),{y:lerp(0,-250,rec),s:lerp(1,.8,rec),b:rec*5,o:1-rec*.55});
+  A($('h_w0'),inBlur(t,.22,.34,22));A($('h_w1'),inBlur(t,.47,.34,22));
+  // big chrome word
+  const x=t-.85,k=spr(x,1.6,.5),kk=cl(x/.3);
+  const big={o:kk,rx:(1-k)*70,y:(1-k)*70+lerp(0,-250,rec),s:lerp(1.35,1,k)*(1+.035*Math.max(0,x))*lerp(1,.72,rec),b:Math.max(0,1-kk)*24+rec*7};
+  big.o*=1-rec*.5;big.pp=1100;A($('h_big'),x<0?{o:0}:big);
+  $('h_ext').style.textShadow=Array.from({length:14},(_,i)=>`0 ${i+1}px 0 rgb(${52-i*2},${72-i*2},${96-i*3})`).join(',')+',0 30px 50px rgba(0,8,20,.5)';
+  // line
+  A($('h_line'),{o:p(t,1.55,1.85)*(1-p(t,3.05,3.35)),sx:lerp(.2,1,eo(p(t,1.55,2.0)))});
+  // ball
+  const bp=ballPos(t);let sq=0;LAND.forEach((L,i)=>{sq+=Math.exp(-Math.pow((t-L)/.04,2))*[.42,.3,.2,.1][i]});
+  const st=cl(Math.abs(bp.vy)/9000,0,.28);
+  const bs=lerp(1,.28,eio(p(t,3.03,3.3)));
+  const ballOn=t>=1.71;
+  A($('h_ball'),!ballOn?{o:0}:{x:bp.x-BR,y:bp.y-BR+sq*BR*.9,sx:(1+sq)/(1+st*.6)*bs,sy:(1-sq)*(1+st)*bs,o:1});
+  $('h_ball').style.transformOrigin='50% 100%';
+  if(t>3.03)$('h_ball').style.transformOrigin='50% 50%';
+  const sh=cl(1-(LINE-BR-bp.y)/500);A($('h_shadow'),{x:bp.x-75,s:lerp(.4,1.1,sh),o:ballOn?sh*.9*(1-p(t,3.05,3.3)):0});
+  // trail dots
+  if(ballOn&&t<3.4){let s='';for(let q=1.74;q<Math.min(t,2.95);q+=.045){const b=ballPos(q),age=t-q;s+=`<circle cx="${b.x}" cy="${b.y+BR*.2}" r="${3.2}" fill="#ffb27a" opacity="${(cl(1-age/1.1)*.85*(1-p(t,3.0,3.3))).toFixed(3)}"/>`}
+    LAND.forEach((L,i)=>{if(t>L){const b=ballPos(L);s+=`<circle cx="${b.x}" cy="${LINE}" r="7" fill="none" stroke="#ff8a3d" stroke-width="2.5" opacity="${(cl(1-(t-L)/1.4)*(1-p(t,3.0,3.3))).toFixed(3)}"/>`}});$('h_trail').innerHTML=s}else $('h_trail').innerHTML='';
+  // disc (stopwatch / morph)
+  const dk=t-3.03;const ds=spr(dk,1.8,.45);
+  A($('h_disc'),dk<0?{o:0}:{o:cl(dk/.15)*(1-p(t,3.62,3.8)),s:lerp(.25,1,ds),r:lerp(-90,0,eo(cl(dk/.5)))+(t-3.03)*40,y:bp.y-1115+0});
+  const pr=eio(p(t,3.08,3.55))*360;$('h_prog').style.background=`conic-gradient(#ff6512 0deg ${pr}deg,rgba(255,255,255,.08) ${pr}deg 360deg)`;
+  $('h_hand').style.transform=`rotate(${eio(p(t,3.08,3.55))*360}deg)`;
+  // flash: orange circle grows from disc
+  const fk=ei2(p(t,3.42,3.78));const fl=$('flash');const fOn=t>=3.42&&t<4.35;
+  if(t<10){show(fl,fOn);fl.style.zIndex=2;if(fOn){fl.style.clipPath=`circle(${lerp(40,1250,fk)}px at 540px 1115px)`;fl.style.opacity=1-p(t,4.12,4.3)}}
+}
+
+/* ================= SHEET (light world) entry ================= */
+function sheet(t){
+  const on=(t>=3.82&&t<24.05)||t>=26.92;const sh=$('sheet');show(sh,on);if(!on)return;
+  sh.style.zIndex=t>26?6:3;
+  let k=1,t0=null;if(t<5)t0=3.82;else if(t>26.5&&t<28)t0=26.92;
+  if(t0!==null){const x=t-t0;k=spr(x,1.5,.62);const kk=cl(x/.12);
+    sh.style.opacity=kk;sh.style.transform=`perspective(1600px) translateY(${(1-k)*260}px) rotateX(${(1-k)*32}deg) rotate(${(1-k)*-7}deg) scale(${lerp(.5,1,k)})`;
+    sh.style.borderRadius=lerp(80,0,cl(k))+'px';sh.style.filter=x<.35?`blur(${(1-cl(x/.35))*18}px)`:'none';}
+  else{sh.style.opacity=1;sh.style.transform='none';sh.style.borderRadius='0';sh.style.filter='none'}
+  // dissolve into old-way darkness
+  if(t>23.45&&t<24.05){const d=p(t,23.45,23.95);sh.style.filter=`blur(${d*16}px) brightness(${1-d*.55})`;sh.style.transform=`scale(${1+d*.08})`}
+}
+</script>
+
+<script>
+/* ================= LESSOR 3.85 – 8.6 ================= */
+const S1=H(LW,`<div class="L" id="s1" style="transform-origin:540px 1210px">
+ <div class="tile" id="s1_prof" style="left:120px;top:440px;width:840px;height:170px">
+  <div class="av" id="s1_av" style="right:34px;top:30px;width:110px;height:110px">${ic('i_user',62,62)}</div>
+  <div class="ab ar" id="s1_nm" style="right:170px;top:34px;font-size:44px;font-weight:700;white-space:nowrap">المؤجر</div>
+  <div class="ab ar" id="s1_sub" style="right:170px;top:96px;font-size:27px;color:#85909e;white-space:nowrap">يضيف معدّاته بنفسه</div>
+  <div class="pill" id="s1_ver" style="left:34px;top:55px;height:60px;padding:0 22px;gap:10px;background:#fff;border:2.5px solid var(--or);color:var(--or);font-size:26px;font-weight:600"><span>موثّق</span><span class="ck" style="width:28px;height:28px">${CK}</span></div>
+ </div>
+ <div class="tile" id="s1_ph" style="left:120px;top:640px;width:840px;height:400px">
+  <div class="photo" style="inset:0"><div class="sun"></div><svg class="ab" id="s1_exc" style="left:170px;top:52px" width="500" height="357"><use href="#ic_exc"/></svg></div>
+  <div class="tl" style="color:#6f7a88">صورة المعدّة<b>01</b></div>
+  <div class="pill" id="s1_up" style="left:28px;top:24px;height:54px;padding:0 20px;gap:10px;background:rgba(255,255,255,.88);font-size:24px;font-weight:600"><span id="s1_upt">رفع الصور</span><span class="ab" id="s1_upb" style="left:0;bottom:0;height:5px;background:var(--or);border-radius:3px"></span></div>
+ </div>
+ <div class="tile" id="s1_cert" style="left:550px;top:1070px;width:410px;height:300px">
+  <div class="tl">شهادة الفحص<b>02</b></div>
+  <svg class="ab" style="left:118px;top:64px" width="176" height="223"><use href="#i_doc"/></svg>
+  <div class="ab" id="s1_hl1" style="left:148px;top:122px;width:130px;height:30px;border-radius:6px;background:rgba(255,101,18,.28);transform-origin:100% 50%"></div>
+ </div>
+ <div class="tile" id="s1_reg" style="left:120px;top:1070px;width:410px;height:300px">
+  <div class="tl">الاستمارة<b>03</b></div>
+  <svg class="ab" style="left:40px;top:84px" width="330" height="208"><use href="#i_reg"/></svg>
+  <div class="ab" id="s1_hl2" style="left:58px;top:148px;width:170px;height:26px;border-radius:6px;background:rgba(255,101,18,.28);transform-origin:100% 50%"></div>
+  <div class="ab" id="s1_hl3" style="left:98px;top:174px;width:130px;height:26px;border-radius:6px;background:rgba(255,101,18,.28);transform-origin:100% 50%"></div>
+ </div>
+ <div class="ab" id="s1_scan" style="left:120px;width:840px;top:1070px;height:6px;border-radius:3px;background:linear-gradient(90deg,rgba(255,101,18,0),#ff6512 20%,#ffb07a 50%,#ff6512 80%,rgba(255,101,18,0));box-shadow:0 0 30px 8px rgba(255,101,18,.45)"></div>
+ <div class="ab" id="s1_lens" style="left:0;top:0;width:190px;height:190px;border-radius:50%;backdrop-filter:blur(7px) saturate(1.3);background:rgba(255,255,255,.12);box-shadow:inset 0 0 0 2px rgba(255,255,255,.7),0 20px 40px -14px rgba(0,0,0,.35)"></div>
+ <div class="pill" id="s1_ai" style="left:330px;top:1032px;width:420px;height:68px;gap:14px;background:#263a4f;color:#fff;font-size:27px;font-weight:600;box-shadow:0 16px 30px -12px rgba(0,0,0,.45)"><svg id="s1_sp" width="30" height="30" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 1-8.5 6" fill="none" stroke="#ff6512" stroke-width="3" stroke-linecap="round"/></svg><span>الذكاء الاصطناعي يقرأ…</span></div>
+ <div class="chip" id="s1_c1" style="left:600px;top:930px">${'<span class="ck">'+CK+'</span>'}فحص ساري حتى 2026</div>
+ <div class="chip" id="s1_c2" style="left:150px;top:930px"><span class="ck">${CK}</span><span class="num" style="font-family:In;font-weight:700">CAT 320 · 2021</span></div>
+ <div class="chip" id="s1_c3" style="left:190px;top:1010px"><span class="ck">${CK}</span>حفار 20 طن</div>
+</div>`);
+function s1(t){
+  const on=t>=3.82&&t<8.75;show(S1,on);if(!on)return;
+  // camera zoom into docs at 6.64
+  const z=eio(p(t,6.6,7.15));const col=eio(p(t,8.3,8.72));
+  S1.style.transform=`translateY(${-z*330}px) scale(${lerp(1,1.3,z)*lerp(1,.6,col)})`;S1.style.opacity=1-p(t,8.45,8.72);S1.style.filter=col>.02?`blur(${col*20}px)`:'none';
+  // profile tile
+  A($('s1_prof'),mix(inSpring(t,4.08,{dy:90}),{b:z*10,o:1-z*.6}));
+  A($('s1_av'),{s:back(p(t,4.18,4.5)),o:p(t,4.18,4.26)});
+  A($('s1_nm'),inBlur(t,4.28,.35,20));A($('s1_sub'),inBlur(t,4.45,.35,16));
+  A($('s1_ver'),{s:back(p(t,4.98,5.3)),o:p(t,4.98,5.06)});
+  // photo tile
+  const ph=inSpring(t,4.83,{dy:160,s0:.8,f:1.8});ph.rx=(1-cl((t-4.83)/.5))*-24;A($('s1_ph'),mix(ph,{b:z*10,o:1-z*.5}));
+  A($('s1_exc'),{x:(1-eo5(p(t,4.9,5.6)))*-140,o:p(t,4.9,5.05)});
+  const up=p(t,4.95,5.45);$('s1_upb').style.width=(up*100)+'%';$('s1_upt').textContent=up>=1?'تم رفع 3 صور ✓':'رفع الصور…';A($('s1_up'),inBlur(t,4.92,.3,10));
+  // doc tiles
+  A($('s1_cert'),inSpring(t,5.12,{dy:140,s0:.8,f:1.9}));
+  A($('s1_reg'),inSpring(t,5.27,{dy:140,s0:.8,f:1.9}));
+  // AI chip & scan
+  A($('s1_ai'),mix(inSpring(t,5.62,{dy:20,s0:.6,f:2.4,z:.45}),{o:1-p(t,8.0,8.2)}));$('s1_sp').style.transform=`rotate(${t*560}deg)`;
+  const sc1=p(t,5.72,6.5),sc2=p(t,6.72,7.95);const scOn=(t>5.72&&t<6.5)||(t>6.72&&t<7.95);
+  const sy=t<6.6?1080+sc1*280:1080+eio(sc2)*280;A($('s1_scan'),{y:sy-1070,o:scOn?Math.sin(Math.PI*(t<6.6?sc1:sc2)):0});
+  // glass lens sweeping across docs
+  const lk=p(t,5.75,8.0);const lx=lerp(820,250,eio(lk)),ly=1130+Math.sin(lk*Math.PI*2)*50;A($('s1_lens'),{x:lx-95,y:ly-95,o:p(t,5.7,5.9)*(1-p(t,7.95,8.15)),s:lerp(.6,1,eo(p(t,5.7,6.0)))});
+  // highlights
+  [['s1_hl1',7.23],['s1_hl2',7.81],['s1_hl3',7.95]].forEach(([id,t0])=>{const k=eo(p(t,t0,t0+.3));A($(id),{sx:k,o:k>0?1:0})});
+  // extracted chips pop
+  [['s1_c1',7.3],['s1_c2',7.88],['s1_c3',8.02]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.5,1,spr(k,2.4,.42)),y:(1-eo(cl(k/.35)))*60})});
+}
+
+/* ================= HERO CARD 8.4 – 11.2 ================= */
+const S2=H(LW,`<div class="L" id="s2">
+ <div class="card" id="cd" style="left:220px;top:470px;width:640px;height:880px;transform-origin:50% 50%">
+  <div class="photo" id="cd_ph" style="left:0;top:0;width:640px;height:390px"><div class="sun"></div><svg class="ab" id="cd_exc" style="left:95px;top:58px" width="450" height="321"><use href="#ic_exc"/></svg></div>
+  <div class="pill" id="cd_badge" style="right:26px;top:26px;height:62px;padding:0 24px;gap:10px;background:var(--or);color:#fff;font-size:26px;font-weight:600;box-shadow:0 12px 26px -10px rgba(255,101,18,.7)"><span>جاهزة للبحث</span><span class="ck" style="background:#fff;width:30px;height:30px"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#ff6512" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
+  <div class="ab ar" id="cd_t" style="right:44px;top:418px;font-size:50px;font-weight:700;white-space:nowrap">حفار <span style="font-family:In;font-weight:800">CAT 320</span></div>
+  <div class="ab ar" id="cd_m" style="right:44px;top:490px;font-size:28px;color:#85909e;white-space:nowrap">موديل <span class="num">2021</span> · <span class="num">20</span> طن · الرياض</div>
+  <div class="row" id="cd_r0" style="top:560px"><span class="k">شهادة الفحص</span><span style="display:flex;gap:14px;align-items:center">سارية<span class="ckc" id="cd_k0">${CK}</span></span></div>
+  <div class="row" id="cd_r1" style="top:644px"><span class="k">الاستمارة</span><span style="display:flex;gap:14px;align-items:center">سارية<span class="ckc" id="cd_k1">${CK}</span></span></div>
+  <div class="row" id="cd_r2" style="top:728px;border:0"><span class="k">الصور</span><span style="display:flex;gap:14px;align-items:center"><span class="num">3</span> صور<span class="ckc" id="cd_k2">${CK}</span></span></div>
+ </div>
+ <div class="ab" id="cd_ring" style="left:220px;top:470px;width:640px;height:880px;border-radius:42px;border:4px solid var(--or)"></div>
+</div>`);
+function s2(t){
+  const on=t>=8.4&&t<11.25;show(S2,on);if(!on)return;
+  const x=t-8.5;const k=spr(x,1.7,.5);
+  // shrink into grid at 10.55
+  const sh=eio5(p(t,10.5,11.15));
+  A($('cd'),x<0?{o:0}:{pp:1500,o:cl(x/.12)*(1-p(t,10.88,11.15)),s:lerp(.55,1,k)*lerp(1,.16,sh),ry:(1-k)*-40,rx:(1-k)*12,b:Math.max(0,1-cl(x/.25))*18+p(t,10.8,11.1)*6,y:sh*50});
+  A($('cd_exc'),{x:(1-eo5(p(t,8.6,9.2)))*120,o:p(t,8.6,8.75)});
+  A($('cd_t'),inBlur(t,8.72,.35,18));A($('cd_m'),inBlur(t,8.82,.35,14));
+  ['cd_r0','cd_r1','cd_r2'].forEach((id,i)=>A($(id),inBlur(t,8.9+i*.1,.3,16)));
+  [9.0,9.15,9.3].forEach((t0,i)=>{const e=$('cd_k'+i),on=t>t0;e.style.background=on?'#ff6512':'transparent';e.style.borderColor=on?'#ff6512':'#d0d7df';e.style.transform=`scale(${on?lerp(1.35,1,eo(p(t,t0,t0+.3))):1})`});
+  const bk=t-9.33;A($('cd_badge'),bk<0?{o:0}:{o:cl(bk/.08),s:lerp(.3,1,spr(bk,2.3,.4))*(1+.06*Math.exp(-Math.pow((t-9.85)/.08,2)))});
+  const rk=p(t,9.81,10.4);A($('cd_ring'),{o:rk>0?(1-rk)*.9:0,s:lerp(1,1.08,eo(rk))*lerp(1,.16,sh)});
+}
+
+/* ================= GRID + COUNTER 10.55 – 13.8 ================= */
+const ICS=['ic_exc','ic_load','ic_dump','ic_crane','ic_fork'];
+let rs=11;const rnd=()=>{rs=(rs*16807)%2147483647;return (rs-1)/2147483646};
+const GC=11,GR=17,CELL=150;
+let gh='';for(let r=0;r<GR;r++)for(let c=0;c<GC;c++){const i=Math.floor(rnd()*5);const isC=(r===8&&c===5);const o=isC||rnd()<.09;
+ gh+=`<div class="ab" style="left:${c*CELL}px;top:${r*CELL}px;width:130px;height:130px;border-radius:26px;background:${o?'linear-gradient(160deg,#ff8a3d,#ff6512)':'#f6f8fa'};box-shadow:0 14px 26px -14px rgba(25,40,60,.35);display:flex;align-items:center;justify-content:center">${ic(o?'ic_exc':ICS[i],96,68,o?'style="filter:brightness(0) invert(1);opacity:.92"':'')}</div>`}
+const S3=H(LW,`<div class="L" id="s3">
+ <div class="ab" id="grid" style="left:${540-GC*CELL/2+10}px;top:${960-GR*CELL/2+10}px;width:${GC*CELL}px;height:${GR*CELL}px;transform-origin:50% 50%">${gh}</div>
+ <div class="ab" id="cnt" style="left:90px;top:700px;width:900px;height:520px;border-radius:48px;background:rgba(244,242,238,.78);backdrop-filter:blur(22px) saturate(1.1);box-shadow:0 40px 80px -30px rgba(20,35,55,.4),inset 0 1px 0 rgba(255,255,255,.9)">
+  <div class="lbl ar" id="cn_a" style="top:62px;font-size:40px;font-weight:500;color:#85909e">أكثر من</div>
+  <div class="lbl num" id="cn_n" style="direction:ltr;top:118px;height:230px;font-size:200px;font-weight:900;letter-spacing:-6px;line-height:230px;color:#263a4f"></div>
+  <div class="lbl ar" id="cn_b" style="top:372px;font-size:68px;font-weight:700">معدّة<span style="color:var(--or)">.</span></div>
+ </div>
+</div>`);
+// rolling counter
+function roller(el,v,{dig=5,comma=2,h=230,plusEl=true,fade=true,vel=0}={}){
+  // v continuous value, vel = units per frame
+  let html='';
+  for(let i=dig-1;i>=0;i--){const q=v/Math.pow(10,i),dI=Math.floor(q),rr=q-dI;const pos=(i===0?q:dI+Math.max(0,(rr-.9)/.1))%10;const lead=fade&&v<Math.pow(10,i)&&i>0;const sp=vel/Math.pow(10,i);const bl=cl(sp*1.2,0,1);const vb=bl>.75?'url(#vb4)':bl>.5?'url(#vb3)':bl>.28?'url(#vb2)':bl>.1?'url(#vb1)':'none';
+    const last=i<=2;const col=(i===0||i===1||i===2)&&sp>.02?'#ff6512':'#263a4f';
+    html+=`<span class="roll" style="height:${h}px;width:.64em;opacity:${lead?.25:1}"><span style="display:block;transform:translateY(${-pos*h}px);filter:${vb}">${[0,1,2,3,4,5,6,7,8,9,0].map(d=>`<i style="height:${h}px;line-height:${h}px;color:${col}">${d}</i>`).join('')}</span></span>`;
+    if(i===comma+1&&comma)html+=`<span style="display:inline-block;width:.28em;height:${h}px;line-height:${h}px;vertical-align:top">,</span>`;}
+  if(plusEl)html+=`<span style="color:#ff6512;display:inline-block;margin-left:8px;height:${h}px;line-height:${h}px;vertical-align:top">+</span>`;
+  el.innerHTML=html;
+}
+function s3(t){
+  const on=t>=10.5&&t<13.9;show(S3,on);if(!on)return;
+  const g=$('grid');const k=eio5(p(t,10.5,11.2));const dive=ei(p(t,13.15,13.75));
+  const drift=(t-10.5);
+  g.style.transform=`perspective(1700px) translateY(${lerp(0,260,k)-drift*55+dive*-300}px) rotateX(${lerp(0,34,k)}deg) rotate(${lerp(0,-13,k)}deg) scale(${lerp(1,.92,k)*lerp(1,3.2,dive)})`;
+  g.style.opacity=p(t,10.5,10.62)*(1-p(t,13.5,13.75));g.style.filter=`blur(${(k<1?Math.sin(Math.PI*k)*6:0)+dive*12}px)`;
+  // counter panel
+  const c=$('cnt');const ck=t-11.0;
+  A(c,ck<0?{o:0}:mix({o:cl(ck/.15),s:lerp(.9,1,spr(ck,1.6,.6)),b:Math.max(0,1-cl(ck/.3))*20},outBlur(t,13.18,.32,-60)));
+  if(ck>=0&&t<13.6){const F=q=>75000*eo5(p(q,11.12,12.78));roller($('cn_n'),F(t),{vel:Math.abs(F(t+.01)-F(t-.01))/.02/30});}
+  A($('cn_a'),inBlur(t,11.05,.35,16));
+  const bk=t-12.85;A($('cn_b'),bk<0?{o:0}:{o:cl(bk/.1),s:lerp(.6,1,spr(bk,2.2,.42)),b:Math.max(0,1-cl(bk/.2))*12});
+  $('cn_n').style.transform=`scale(${1+.05*Math.exp(-Math.pow((t-12.8)/.07,2))})`;
+}
+
+/* ================= BENTO 13.45 – 15.9 ================= */
+const S4=H(LW,`<div class="L" id="s4" style="perspective:1600px">
+ <div class="ab" id="bt" style="left:0;top:0;width:1080px;height:1920px;transform-origin:540px 900px">
+  <div class="tile" id="bt_p" style="left:120px;top:450px;width:840px;height:400px">
+   <div class="tl">الصور<b>01</b></div>
+   <div class="photo" id="bt_p0" style="right:30px;top:76px;width:250px;height:290px;border-radius:24px"><div class="sun"></div><svg class="ab" style="left:-10px;top:110px" width="270" height="193"><use href="#ic_exc"/></svg></div>
+   <div class="photo b" id="bt_p1" style="right:295px;top:76px;width:250px;height:290px;border-radius:24px"><svg class="ab" style="left:-60px;top:70px;transform:scaleX(-1)" width="360" height="257"><use href="#ic_exc"/></svg></div>
+   <div class="photo c" id="bt_p2" style="right:560px;top:76px;width:250px;height:290px;border-radius:24px"><svg class="ab" style="left:-10px;top:10px" width="640" height="457"><use href="#ic_exc"/></svg></div>
+  </div>
+  <div class="tile" id="bt_m" style="left:550px;top:880px;width:410px;height:450px">
+   <div class="tl">الموديل<b>02</b></div>
+   <div class="ab num" id="bt_m1" style="right:40px;top:90px;font-size:84px;font-weight:800;letter-spacing:-2px;color:#85909e">CAT</div>
+   <div class="ab num" id="bt_m2" style="right:36px;top:170px;font-size:160px;font-weight:900;letter-spacing:-6px;line-height:170px">320</div>
+   <div class="pill num" id="bt_m3" style="right:40px;top:358px;height:56px;padding:0 22px;background:var(--or);color:#fff;font-size:30px;font-weight:700">2021</div>
+  </div>
+  <div class="tile" id="bt_d" style="left:120px;top:880px;width:410px;height:450px">
+   <div class="tl">الأوراق<b>03</b></div>
+   <svg class="ab" id="bt_d1" style="left:150px;top:92px" width="190" height="241"><use href="#i_doc"/></svg>
+   <svg class="ab" id="bt_d2" style="left:40px;top:220px" width="270" height="170"><use href="#i_reg"/></svg>
+   <div class="ck ab" id="bt_dk" style="left:300px;top:330px;width:64px;height:64px"><svg viewBox="0 0 24 24" width="38" height="38"><use href="#i_ck"/></svg></div>
+  </div>
+  <div class="ab" id="bt_hl" style="border-radius:40px;border:4px solid var(--or)"></div>
+ </div>
+</div>`);
+function s4(t){
+  const on=t>=13.45&&t<16.0;show(S4,on);if(!on)return;
+  const x=t-13.45,k=spr(x,1.25,.6);const w=eio5(p(t,15.5,15.95));
+  A($('bt'),{o:cl(x/.15),rx:(1-k)*38,r:(1-k)*-12,s:lerp(1.6,1,k),y:(1-k)*-200,b:Math.max(0,1-cl(x/.4))*24+w*26,x:w*1250});
+  const pop=(id,t0)=>{const kk=t-t0;const base={o:lerp(.35,1,cl(kk/.15)),s:kk<0?.97:lerp(.94,1,spr(kk,2.4,.4))};return base};
+  A($('bt_p'),pop('p',13.92));A($('bt_m'),pop('m',14.36));A($('bt_d'),pop('d',14.88));
+  ['bt_p0','bt_p1','bt_p2'].forEach((id,i)=>{const kk=t-13.95-i*.09;A($(id),kk<0?{o:0}:{o:cl(kk/.1),x:(1-eo5(cl(kk/.45)))*-140,s:lerp(.8,1,spr(kk,2.2,.5))})});
+  A($('bt_m1'),inBlur(t,14.36,.3,30));A($('bt_m2'),{...inBlur(t,14.44,.35,40),s:lerp(1.3,1,eo5(p(t,14.44,14.8)))});A($('bt_m3'),{s:back(p(t,14.62,14.95)),o:p(t,14.62,14.7)});
+  A($('bt_d1'),{...inBlur(t,14.88,.3,40),r:lerp(-14,-6,eo(p(t,14.88,15.3)))});A($('bt_d2'),{...inBlur(t,14.98,.3,40),r:lerp(10,4,eo(p(t,14.98,15.3)))});A($('bt_dk'),{s:back(p(t,15.15,15.45),2.2),o:p(t,15.15,15.2)});
+  // highlight ring jumps between tiles
+  const hl=$('bt_hl');const R=[[120,450,840,400,13.92],[550,880,410,450,14.36],[120,880,410,450,14.88]];let cur=null;R.forEach(r=>{if(t>=r[4])cur=r});
+  if(cur){const kk=t-cur[4];Object.assign(hl.style,{left:cur[0]-6+'px',top:cur[1]-6+'px',width:cur[2]+12+'px',height:cur[3]+12+'px'});A(hl,{o:(1-p(kk,.25,.55))*cl(kk/.06),s:lerp(1.04,1,eo(cl(kk/.3)))})}else A(hl,{o:0});
+}
+</script>
+
+<script>
+/* ================= REQUEST + FILTER 15.5 – 21.3 ================= */
+const OPTS=[['ic_fork','رافعة شوكية'],['ic_dump','قلاب'],['ic_crane','رافعة'],['ic_load','شيول'],['ic_exc','حفار 20 طن']];
+const S5=H(LW,`<div class="L" id="s5">
+ <div class="card" id="rq" style="left:190px;top:450px;width:700px;height:860px;transform-origin:50% 0">
+  <div class="ab ar" style="right:44px;top:44px;font-size:48px;font-weight:700">طلب معدّة</div>
+  <div class="ab ar" style="right:46px;top:112px;font-size:25px;color:#85909e">جديد · الآن</div>
+  <img src="img/logo.svg" class="ab" style="left:44px;top:50px;width:150px">
+  <div class="ab ar" style="right:46px;top:186px;font-size:25px;color:#85909e">نوع المعدّة</div>
+  <div class="ab" id="rq_f1" style="left:44px;right:44px;top:228px;height:120px;border-radius:26px;background:#f0f3f6;border:3px solid transparent;overflow:hidden">
+   <div class="ab ar ghost" id="rq_ph1" style="right:34px;top:36px;font-size:34px">اختر المعدّة</div>
+   <div class="ab" id="rq_strip" style="left:0;right:0;top:0">${OPTS.map((o,i)=>`<div class="ab" style="left:0;right:0;top:${i*120}px;height:120px;display:flex;align-items:center;justify-content:flex-start;gap:26px;padding:0 34px;direction:rtl"><svg width="120" height="84"><use href="#${o[0]}"/></svg><span style="font-size:38px;font-weight:600">${o[1]}</span></div>`).join('')}</div>
+   <div class="ck ab" id="rq_k1" style="left:30px;top:38px;width:44px;height:44px"><svg viewBox="0 0 24 24" width="26" height="26"><use href="#i_ck"/></svg></div>
+  </div>
+  <div class="ab ar" style="right:46px;top:378px;font-size:25px;color:#85909e">المدينة</div>
+  <div class="ab" id="rq_f2" style="left:44px;right:44px;top:420px;height:120px;border-radius:26px;background:#f0f3f6;border:3px solid transparent;overflow:hidden">
+   <div class="ab" style="inset:0;opacity:.5;background:repeating-linear-gradient(35deg,transparent 0 38px,rgba(0,0,0,.04) 38px 40px),repeating-linear-gradient(-55deg,transparent 0 52px,rgba(0,0,0,.035) 52px 54px)"></div>
+   <div class="ab ar ghost" id="rq_ph2" style="right:34px;top:36px;font-size:34px">اختر المدينة</div>
+   <svg class="ab" id="rq_pin" style="right:34px;top:30px" width="46" height="60"><use href="#i_pin"/></svg>
+   <div class="ab ar" id="rq_city" style="right:100px;top:30px;font-size:42px;font-weight:600">الرياض</div>
+   <div class="ck ab" id="rq_k2" style="left:30px;top:38px;width:44px;height:44px"><svg viewBox="0 0 24 24" width="26" height="26"><use href="#i_ck"/></svg></div>
+  </div>
+  <div class="ab ar" style="right:46px;top:574px;font-size:32px;font-weight:500;display:flex;align-items:center;gap:20px">شهادة فحص سارية</div>
+  <div class="ab" id="rq_tg" style="left:46px;top:566px;width:104px;height:56px;border-radius:28px;background:#d0d7df"><div class="ab" id="rq_tk" style="left:5px;top:5px;width:46px;height:46px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.2)"></div></div>
+  <div class="pill" id="rq_btn" style="left:44px;right:44px;top:700px;height:110px;background:#263a4f;color:#fff;font-size:38px;font-weight:600;overflow:hidden"><span id="rq_bt">أرسل الطلب</span><div class="ab" id="rq_rip" style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.35)"></div></div>
+ </div>
+ <div id="ftiles"></div>
+ <div class="chip" id="fc0" style="left:770px;top:700px;font-size:26px"><span class="ck">${CK}</span>النوع</div>
+ <div class="chip" id="fc1" style="left:540px;top:700px;font-size:26px"><span class="ck">${CK}</span>المدينة</div>
+ <div class="chip" id="fc2" style="left:310px;top:700px;font-size:26px"><span class="ck">${CK}</span>الأوراق</div>
+ <div class="pill num" id="ftimer" style="left:105px;top:702px;width:180px;height:64px;background:#263a4f;color:#fff;font-size:32px;font-weight:700;gap:10px"></div>
+</div>`);
+// filter tiles: 6x4
+const FT=[];const CITY=['الرياض','جدة','الدمام','الرياض','مكة','الرياض'];
+const MATCH=new Set([2,8,13,15,21]);
+{let h='';for(let r=0;r<4;r++)for(let c=0;c<6;c++){const i=r*6+c;const m=MATCH.has(i);const icn=m?'ic_exc':ICS[(i*7+3)%5];const x=105+c*148,y=790+r*148;
+  FT.push({i,x,y,m,type:icn==='ic_exc',city:m||((i*5)%3===0),docs:m||((i*3)%4!==0)});
+  h+=`<div class="ab" id="ft${i}" style="left:${x}px;top:${y}px;width:130px;height:130px;border-radius:26px;background:#f6f8fa;box-shadow:0 14px 26px -14px rgba(25,40,60,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px"><svg width="96" height="68"><use href="#${icn}"/></svg><span style="font-size:17px;color:#85909e;font-weight:500">${m?'الرياض':CITY[i%6]}</span></div>`}
+ $('ftiles').innerHTML=h;}
+function s5(t){
+  const on=t>=15.45&&t<21.35;show(S5,on);if(!on)return;
+  // whip in from left (RTL forward)
+  const wi=eio5(p(t,15.5,16.05));const card=$('rq');
+  const ck=spr(t-15.95,1.8,.55);
+  const shrink=eio5(p(t,19.0,19.45));
+  A(card,{x:(1-wi)*-1150,b:(1-wi)*28,o:1-p(t,20.85,21.1),s:lerp(1,.45,shrink),y:lerp(0,-170,shrink)});
+  // field 1 slot roll
+  const r0=17.53,r1=17.98;const kk=p(t,r0,r1);const pos=t<r0?-1:eo5(kk)*(OPTS.length-1);
+  $('rq_strip').style.transform=`translateY(${-Math.max(0,pos)*120}px)`;$('rq_strip').style.filter=t>r0&&kk<.85?`blur(0px)`:'none';
+  $('rq_strip').style.opacity=t<r0?0:1;$('rq_ph1').style.opacity=t<r0?1:0;
+  const f1=t>r1;$('rq_f1').style.borderColor=f1?'#ff6512':'transparent';$('rq_f1').style.background=f1?'#fff4ec':'#f0f3f6';A($('rq_k1'),{s:back(p(t,r1,r1+.3),2.2),o:f1?1:0});
+  // city
+  const c0=18.33;const pk=t-c0;$('rq_ph2').style.opacity=t<c0?1:0;
+  A($('rq_pin'),pk<0?{o:0}:{o:1,y:(1-cl(pk/.22))**2*-120,sy:1-.25*Math.exp(-Math.pow((pk-.22)/.05,2)),sx:1+.2*Math.exp(-Math.pow((pk-.22)/.05,2))});
+  A($('rq_city'),inBlur(t,c0+.12,.3,14));const f2=t>c0+.3;$('rq_f2').style.borderColor=f2?'#ff6512':'transparent';$('rq_f2').style.background=f2?'#fff4ec':'#f0f3f6';A($('rq_k2'),{s:back(p(t,c0+.3,c0+.6),2.2),o:f2?1:0});
+  // toggle
+  const tg=eio(p(t,18.62,18.82));$('rq_tg').style.background=tg>.5?'#ff6512':'#d0d7df';$('rq_tk').style.transform=`translateX(${tg*48}px)`;
+  // button press
+  const bp=p(t,18.88,18.98)-p(t,18.98,19.15);$('rq_btn').style.transform=`scale(${1-bp*.05})`;const sent=t>18.98;$('rq_btn').style.background=sent?'#ff6512':'#263a4f';$('rq_bt').textContent=sent?'تم الإرسال ✓':'أرسل الطلب';
+  const rp=p(t,18.92,19.4);A($('rq_rip'),{x:300,y:35,s:rp*22,o:rp>0?(1-rp)*.8:0});
+  // filter tiles
+  FT.forEach((f,j)=>{const e=$('ft'+f.i);const t0=19.12+((f.i%6)*.03+Math.floor(f.i/6)*.04);const k=t-t0;
+    let o=k<0?0:cl(k/.12),s=k<0?.8:lerp(.8,1,spr(k,2.3,.5));let fail=0,fails=[[f.type,19.32],[f.city,19.57],[f.docs,19.82]];
+    fails.forEach(([ok,tt],q)=>{if(!ok&&t>tt+(f.i%6)*.025)fail=Math.max(fail,p(t,tt+(f.i%6)*.025,tt+.2+(f.i%6)*.025))});
+    const out=p(t,20.75,21.0);const win=f.m?eo(p(t,19.95,20.25)):0;
+    A(e,{o:o*lerp(1,.22,fail)*(1-out*(f.m?0:1)),s:s*lerp(1,.86,fail)*(1+win*.08),b:fail*3,y:fail*14-win*10});
+    e.style.boxShadow=win>0?`0 0 0 ${4*win}px #ff6512,0 20px 30px -12px rgba(255,101,18,${.5*win})`:'0 14px 26px -14px rgba(25,40,60,.35)';
+    e.style.background=win>0?'#fff':'#f6f8fa';
+    if(f.m&&t>20.75){const m=[...MATCH].indexOf(f.i);const tx=AVX[m]-65-f.x,ty=AVY[m]-65-f.y;const mv=eio5(p(t,20.75,21.2));A(e,{x:tx*mv,y:ty*mv-10*(1-mv),s:lerp(1.08,.92,mv),o:1-p(t,21.05,21.2)})}
+  });
+  [19.3,19.55,19.8].forEach((t0,i)=>{const k=t-t0;A($('fc'+i),k<0?{o:0}:mix({o:cl(k/.1),s:lerp(.5,1,spr(k,2.4,.42)),y:(1-eo(cl(k/.3)))*20},{o:1-p(t,20.6,20.85)}))});
+  const tk=t-19.05;A($('ftimer'),tk<0?{o:0}:mix({o:cl(tk/.1),s:lerp(.6,1,spr(tk,2.2,.5))},{o:1-p(t,20.6,20.85)}));
+  if(tk>=0){const s=Math.min(2,Math.floor((t-19.05)/.42));$('ftimer').innerHTML=`<svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" fill="none" stroke="#ff6512" stroke-width="2.6"/><path d="M12 9v4l3 2M9 3h6" stroke="#ff6512" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg>00:0${s}`}
+}
+/* ================= NOTIFY 20.7 – 23.8 ================= */
+const AVX=[175,355,540,725,905],AVY=[1120,1215,1250,1215,1120];
+const S6=H(LW,`<div class="L" id="s6">
+ <svg class="ab" id="nt_svg" style="left:0;top:0" width="1080" height="1920"></svg>
+ <div class="card" id="nt_src" style="left:340px;top:420px;width:400px;height:150px;border-radius:34px;display:flex;align-items:center;gap:20px;padding:0 26px;direction:rtl">
+  <svg width="104" height="74" style="flex:none"><use href="#ic_exc"/></svg><div><div style="font-size:30px;font-weight:700;white-space:nowrap">حفار 20 طن</div><div style="font-size:24px;color:#85909e;white-space:nowrap">الرياض · طلب جديد</div></div>
+ </div>
+ ${AVX.map((x,i)=>`<div class="av" id="av${i}" style="left:${x-62}px;top:${AVY[i]-62}px;width:124px;height:124px">${ic('i_user',66,66)}<div class="ab ck" id="avk${i}" style="right:-6px;bottom:-4px;width:46px;height:46px;box-shadow:0 0 0 5px #e9edf2"><svg viewBox="0 0 24 24" width="26" height="26"><use href="#i_ck"/></svg></div><div class="ab" id="avb${i}" style="left:-8px;top:-8px;width:44px;height:44px;border-radius:50%;background:#ff6512;color:#fff;font-family:In;font-weight:800;font-size:24px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 5px #e9edf2">1</div><div class="ab" id="avr${i}" style="inset:-6px;border-radius:50%;border:4px solid #ff6512"></div></div>`).join('')}
+ <div class="card" id="nt_ban" style="left:110px;top:680px;width:860px;height:170px;border-radius:40px;background:rgba(252,251,249,.92);backdrop-filter:blur(20px);display:flex;align-items:center;gap:26px;padding:0 32px;direction:rtl">
+  <div style="width:100px;height:100px;border-radius:26px;background:#263a4f;display:flex;align-items:center;justify-content:center;flex:none"><img src="img/logo_white.svg" style="width:84px"></div>
+  <div style="flex:1"><div style="display:flex;justify-content:space-between;font-size:28px;font-weight:700"><span>معدّاتك</span><span style="font-size:23px;color:#85909e;font-weight:400">الآن</span></div><div style="font-size:30px;margin-top:8px;white-space:nowrap">طلب جديد يطابق معدّتك: حفار 20 طن</div></div>
+ </div>
+</div>`);
+function s6(t){
+  const on=t>=20.7&&t<23.85;show(S6,on);if(!on)return;
+  const sk=t-20.72;A($('nt_src'),sk<0?{o:0}:mix({o:cl(sk/.15),s:lerp(.7,1,spr(sk,1.8,.55)),y:(1-eo(cl(sk/.4)))*-40},outBlur(t,23.4,.3,-40)));
+  let s='';AVX.forEach((x,i)=>{const t0=21.0+i*.07;const d=eio(p(t,t0,t0+.5));const x0=540,y0=575,x1=x,y1=AVY[i]-70;
+    const path=`M${x0} ${y0} C ${x0} ${y0+260}, ${x1} ${y1-280}, ${x1} ${y1}`;
+    s+=`<path d="${path}" fill="none" stroke="#c2cbd5" stroke-width="4" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="${1-d}" opacity="${1-p(t,23.3,23.6)}"/>`;
+    const q=p(t,t0+.25,t0+.75);if(q>0&&q<1){const u=eio(q),mt=1-u;const bx=mt**3*x0+3*mt*mt*u*x0+3*mt*u*u*x1+u**3*x1,by=mt**3*y0+3*mt*mt*u*(y0+260)+3*mt*u*u*(y1-280)+u**3*y1;
+      s+=`<circle cx="${bx}" cy="${by}" r="11" fill="#ff6512"/><circle cx="${bx}" cy="${by}" r="22" fill="#ff6512" opacity=".25"/>`}});
+  $('nt_svg').innerHTML=s;
+  AVX.forEach((x,i)=>{const t0=20.95+i*.05;const k=t-t0;const ar=21.32+i*.07+.43;const wob=Math.sin((t-ar)*60)*4*Math.exp(-Math.max(0,t-ar)*6)*(t>ar?1:0);
+    A($('av'+i),k<0?{o:0}:mix({o:cl(k/.1),s:lerp(.6,1,spr(k,2,.45)),r:wob},outBlur(t,23.35+i*.03,.3,-30)));const bk=t-ar;A($('avb'+i),bk<0?{o:0}:{o:1,s:lerp(.3,1,spr(bk,2.6,.4))*(t>22.45?1-p(t,22.5+i*.08,22.62+i*.08):1)});
+    const rk=p(t,ar,ar+.55);A($('avr'+i),{o:rk>0&&rk<1?(1-rk):0,s:lerp(1,1.45,eo(rk))});
+    const ck=t-(22.5+i*.08);A($('avk'+i),ck<0?{o:0}:{o:1,s:lerp(.3,1,spr(ck,2.5,.42))});});
+  const bk=t-21.72;A($('nt_ban'),bk<0?{o:0}:mix({o:cl(bk/.12),y:(1-spr(bk,1.8,.6))*-160,s:lerp(.92,1,eo(cl(bk/.35)))},outBlur(t,23.35,.3,-40)));
+}
+</script>
+
+<script>
+/* ================= OLD WAY (dark) 23.45 – 27.1 ================= */
+{let s='';for(let i=0;i<60;i++){const a=i*6*Math.PI/180,r1=i%5?196:186,r2=206;s+=`<line x1="${225+Math.sin(a)*r1}" y1="${225-Math.cos(a)*r1}" x2="${225+Math.sin(a)*r2}" y2="${225-Math.cos(a)*r2}" stroke="#263a4f" stroke-width="${i%5?2:5}" stroke-linecap="round" opacity="${i%5?.35:.85}"/>`}$('ck_ticks').innerHTML=s;}
+const BUBS=[['عندك حفار متوفر؟',0,140,520,-6],['مكالمة فائتة',1,620,470,5],['كم السعر بالشهر؟',0,560,1150,-4],['أرسل الاستمارة',0,90,1230,6],['مكالمة فائتة',1,120,840,-7],['وش الموديل؟',0,700,860,7],['ما رد…',2,640,1290,-5],['متوفر بكرة؟',0,250,410,4],['مكالمة فائتة',1,380,1340,3],['الفحص ساري؟',0,760,640,-3]];
+const BT=[25.24,25.36,25.50,25.62,25.74,25.86,26.0,26.12,26.24,26.38];
+$('bubs').innerHTML=BUBS.map((b,i)=>`<div class="bub" id="bb${i}" style="left:${b[2]}px;top:${b[3]}px;${b[1]===1?'background:#1a2a3c;color:#ffb48a;border:2px solid rgba(255,120,50,.5)':b[1]===2?'background:#2a3b4f;color:#9fb0c2':'background:#eef2f6;color:#263a4f'}">${b[1]===1?`<svg width="34" height="34" style="vertical-align:-7px;margin-left:12px;color:#ff6512"><use href="#i_phone"/></svg>`:''}${b[0]}</div>`).join('');
+function old(t){
+  const on=t>=23.45&&t<27.15;const o=$('old');show(o,on);if(!on)return;o.style.zIndex=4;
+  o.style.opacity=p(t,23.45,23.9);
+  const ex=ei(p(t,26.62,26.98));
+  // clock
+  const ck=t-23.85;A($('ck'),ck<0?{o:0}:{o:cl(ck/.15),s:lerp(.6,1,spr(ck,1.6,.55))*(1+ex*.6)*(1+.04*Math.exp(-Math.pow((t-24.74)/.06,2))),b:Math.max(0,1-cl(ck/.3))*18+ex*20,x:Math.sin(t*90)*cl((t-25.2)*2,0,1)*4*(1-ex)});
+  const sp=eio(p(t,24.0,26.7));const minutes=10*60+25+sp*210;const mAng=(minutes%60)*6,hAng=(minutes/60%12)*30;
+  $('ck_m').style.transform=`rotate(${mAng}deg)`;$('ck_h').style.transform=`rotate(${hAng}deg)`;
+  const vel=Math.abs(eio(p(t+.02,24.0,26.7))-eio(p(t-.02,24.0,26.7)))*210*6/.04;const tr=cl(vel/2400,0,1);
+  $('ck_trail').style.background=`conic-gradient(from ${mAng-70*tr}deg,rgba(38,58,79,0) 0deg,rgba(38,58,79,${.22*tr}) ${70*tr}deg,rgba(0,0,0,0) ${70*tr+.1}deg)`;
+  const hh=Math.floor(minutes/60),mm=Math.floor(minutes%60);const h12=((hh+11)%12)+1;$('ck_dig').textContent=`${h12}:${String(mm).padStart(2,'0')} ${hh<12?'AM':'PM'}`;
+  A($('ck_dig'),mix(inBlur(t,24.1,.3,10),{o:1-ex,b:ex*10}));
+  BUBS.forEach((b,i)=>{const k=t-BT[i];A($('bb'+i),k<0?{o:0}:{o:cl(k/.08)*(1-ex),s:lerp(.4,1,spr(k,2.6,.38))*(1+ex*1.2),r:b[4]*eo(cl(k/.3)),x:ex*(b[2]+150-540)*1.4,y:ex*(b[3]-960)*1.4,b:ex*24})});
+  // orange flash out
+  const fl=$('flash');if(t>26.4){const fk=ei2(p(t,26.68,26.98));const fOn=t>=26.68&&t<27.45;show(fl,fOn);fl.style.zIndex=5;if(fOn){fl.style.clipPath=`circle(${lerp(30,1250,fk)}px at 540px 830px)`;fl.style.opacity=1-p(t,27.2,27.42)}}
+}
+
+/* ================= PAYOFF 26.95 – 29.3 ================= */
+const S7=H(LW,`<div class="L" id="s7" style="perspective:1400px">
+ <div class="ab" id="p_big" style="left:0;right:0;top:640px;height:300px">
+  <div class="lbl ar big" id="p_ext" style="top:0;font-size:236px;line-height:300px;color:#c6cfd9">معداتك</div>
+  <div class="lbl ar big" id="p_txt" style="top:0;font-size:236px;line-height:300px;color:#263a4f">معداتك</div>
+ </div>
+ <div class="ab" id="p_disc" style="left:420px;top:1010px;width:240px;height:240px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(38,58,79,.12) 0 12deg,rgba(38,58,79,.03) 12deg 30deg);box-shadow:inset 0 0 0 2px rgba(38,58,79,.12)">
+  <div class="ab" id="p_prog" style="inset:-12px;border-radius:50%;-webkit-mask:radial-gradient(circle,transparent 66%,#000 67%,#000 73%,transparent 74%);mask:radial-gradient(circle,transparent 66%,#000 67%,#000 73%,transparent 74%)"></div>
+  <div class="ab num" id="p_dig" style="left:0;right:0;top:92px;text-align:center;font-size:46px;font-weight:800">00:03</div>
+  <div class="ab ck" id="p_ok" style="left:60px;top:60px;width:120px;height:120px;box-shadow:0 18px 40px -10px rgba(255,101,18,.7)"><svg viewBox="0 0 24 24" width="70" height="70"><use href="#i_ck"/></svg></div>
+ </div>
+</div>`);
+function s7(t){
+  const on=t>=26.92&&t<29.4;show(S7,on);if(!on)return;
+  const x=t-27.0,k=spr(x,1.7,.45);const out=outBlur(t,28.95,.35,-80);
+  A($('p_big'),x<0?{o:0}:mix({pp:1100,o:cl(x/.1),rx:(1-k)*-60,s:lerp(1.5,1,k)*(1+.03*Math.max(0,x)),b:Math.max(0,1-cl(x/.25))*24},out));
+  $('p_ext').style.textShadow=Array.from({length:12},(_,i)=>`0 ${i+1}px 0 rgb(${190-i*4},${201-i*4},${214-i*4})`).join(',')+',0 30px 40px rgba(20,35,55,.25)';
+  const dk=t-27.62;A($('p_disc'),dk<0?{o:0}:mix({o:cl(dk/.12),s:lerp(.3,1,spr(dk,2,.5)),r:(1-eo(cl(dk/.5)))*-120},out));
+  const pr=eio(p(t,27.7,28.35))*360;$('p_prog').style.background=`conic-gradient(#ff6512 0deg ${pr}deg,rgba(38,58,79,.06) ${pr}deg 360deg)`;
+  $('p_dig').textContent='00:0'+Math.min(3,Math.floor(p(t,27.7,28.35)*3.99));A($('p_dig'),{o:1-p(t,28.33,28.42)});
+  const ok=t-28.38;A($('p_ok'),ok<0?{o:0}:{o:1,s:lerp(.2,1,spr(ok,2.4,.38))});
+}
+</script>
+
+<script>
+/* ================= OFFERS 29.0 – 33.1 ================= */
+const OF=[['14,000','★ 4.9','أقل سعر'],['15,500','★ 4.7',''],['16,200','★ 4.6','']];
+const S8=H(LW,`<div class="L" id="s8">
+ ${OF.map((o,i)=>`<div class="card" id="of${i}" style="left:120px;top:${500+i*270}px;width:840px;height:240px;border-radius:38px;z-index:${3-i}">
+   <div class="photo" style="right:24px;top:24px;width:192px;height:192px;border-radius:26px"><svg class="ab" style="left:-6px;top:58px" width="200" height="143"><use href="#ic_exc"/></svg></div>
+   <div class="ab ar" style="right:244px;top:40px;font-size:34px;font-weight:700;white-space:nowrap">حفار <span style="font-family:In;font-weight:800">CAT 320</span></div>
+   <div class="ab ar" style="right:244px;top:94px;font-size:25px;color:#85909e;white-space:nowrap">مؤجر موثّق · <span class="num" style="color:#ff6512;font-weight:600">${o[1]}</span></div>
+   <div class="ab num" style="left:40px;top:120px;font-size:62px;font-weight:800;letter-spacing:-1.5px">${o[0]}</div>
+   <div class="ab ar" style="left:40px;top:192px;font-size:22px;color:#85909e;white-space:nowrap">ريال / شهري</div>
+   ${o[2]?`<div class="pill" style="left:36px;top:36px;height:50px;padding:0 20px;background:#ff6512;color:#fff;font-size:23px;font-weight:600">${o[2]}</div>`:''}
+ </div>`).join('')}
+ <div class="card" id="od" style="left:120px;top:440px;width:840px;height:900px">
+  <div class="photo" id="od_ph" style="left:0;top:0;width:840px;height:430px"><div class="sun"></div><svg class="ab" id="od_exc" style="left:170px;top:60px" width="500" height="357"><use href="#ic_exc"/></svg>
+   <div class="ab" style="left:0;right:0;bottom:20px;display:flex;justify-content:center;gap:10px"><i style="width:30px;height:10px;border-radius:5px;background:#fff"></i><i style="width:10px;height:10px;border-radius:5px;background:rgba(255,255,255,.6)"></i><i style="width:10px;height:10px;border-radius:5px;background:rgba(255,255,255,.6)"></i></div></div>
+  <div class="ab ar" style="right:44px;top:462px;font-size:44px;font-weight:700;white-space:nowrap">حفار <span style="font-family:In;font-weight:800">CAT 320</span> · <span class="num">2021</span></div>
+  <div class="chip" id="od_c0" style="right:44px;top:548px;font-size:28px"><span class="ck">${CK}</span>صور المعدّة</div>
+  <div class="chip" id="od_c1" style="right:330px;top:548px;font-size:28px"><span class="ck">${CK}</span>شهادة الفحص</div>
+  <div class="chip" id="od_c2" style="right:44px;top:630px;font-size:28px"><span class="ck">${CK}</span>الاستمارة</div>
+  <div class="ab" style="left:44px;right:44px;top:722px;height:2px;background:#e8ecf0"></div>
+  <div class="ab ar" style="right:44px;top:772px;font-size:26px;color:#85909e">السعر الشهري</div>
+  <div class="ab num" id="od_price" style="direction:ltr;white-space:nowrap;left:250px;top:752px;height:84px;font-size:72px;font-weight:800;letter-spacing:-2px;line-height:84px"></div>
+  <div class="ab num" id="od_old" style="left:258px;top:730px;font-size:28px;font-weight:600;color:#aab3be;text-decoration:line-through">14,000</div>
+  <div class="pill" id="od_neg" style="left:44px;top:760px;width:190px;height:76px;background:#263a4f;color:#fff;font-size:30px;font-weight:600;overflow:hidden">تفاوض<div class="ab" id="od_rip" style="width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.35)"></div></div>
+ </div>
+</div>`);
+function s8(t){
+  const on=t>=29.0&&t<34.3;show(S8,on);if(!on)return;
+  const ex=eio5(p(t,30.45,30.85));
+  OF.forEach((o,i)=>{const t0=29.12+i*.15;const k=t-t0;const e=$('of'+i);
+    let st=k<0?{o:0}:{o:cl(k/.1),x:(1-spr(k,1.6,.55))*-1000,r:(1-eo(cl(k/.5)))*-6,b:Math.max(0,1-cl(k/.25))*20};
+    if(i===0)st=mix(st,{o:1-p(t,30.6,30.75)});else st=mix(st,{y:ex*(240+i*60),o:1-ex,b:ex*12,s:1-ex*.1});
+    A(e,st)});
+  // detail card grows from offer 0
+  const dk=t-30.45;const dgrow=spr(dk,1.6,.6);
+  const cardOn=dk>=0;const neg=eio5(p(t,33.95,34.3));
+  const g=cl(dgrow,0,1.05);A($('od'),!cardOn?{o:0}:{y:lerp(60,0,g)+neg*-60,o:cl(dk/.1)*(1-neg),b:neg*16});$('od').style.clipPath=`inset(0 0 ${Math.max(0,(1-g)*660)}px 0 round 42px)`;
+  $('od').style.transformOrigin='50% 0%';
+  A($('od_exc'),{x:(1-eo5(p(t,30.62,31.2)))*-180,o:p(t,30.6,30.7)});
+  [['od_c0',30.66],['od_c1',31.17],['od_c2',31.72]].forEach(([id,t0])=>{const k=t-t0;A($(id),k<0?{o:0}:{o:cl(k/.1),s:lerp(.4,1,spr(k,2.4,.4))})});
+  // price + negotiate
+  const PV=q=>lerp(14000,12800,eo5(p(q,33.38,33.95)));const pe=$('od_price');roller(pe,PV(t),{dig:5,comma:2,h:84,plusEl:false,fade:false,vel:Math.abs(PV(t+.01)-PV(t-.01))/.02/30});
+  A($('od_old'),{o:p(t,33.9,34.0),y:(1-eo(p(t,33.9,34.1)))*10});
+  const bp=p(t,33.22,33.3)-p(t,33.3,33.45);$('od_neg').style.transform=`scale(${1-bp*.06})`;$('od_neg').style.background=t>33.3?'#ff6512':'#263a4f';
+  const rp=p(t,33.25,33.7);A($('od_rip'),{x:75,y:18,s:rp*12,o:rp>0?(1-rp)*.8:0});
+}
+
+/* ================= CHAT + NO CALL 33.9 – 37.8 ================= */
+const S9=H(LW,`<div class="L" id="s9">
+ <div class="card" id="ch" style="left:120px;top:400px;width:840px;height:930px">
+  <div class="ab" style="left:0;right:0;top:0;height:140px;border-bottom:2px solid #e8ecf0;display:flex;align-items:center;gap:22px;padding:0 36px;direction:rtl">
+   <div class="av" style="position:relative;width:84px;height:84px">${ic('i_user',46,46)}</div>
+   <div><div style="font-size:32px;font-weight:700">المؤجر</div><div style="font-size:23px;color:#ff6512;font-weight:500" id="ch_st">متصل الآن</div></div>
+   <div style="margin-right:auto;font-size:24px;color:#85909e;display:flex;align-items:center;gap:12px">حفار <span class="num">CAT 320</span></div>
+  </div>
+  <div class="bub" id="cb0" style="left:36px;top:190px;background:#ff6512;color:#fff;border-bottom-left-radius:10px;box-shadow:0 14px 26px -14px rgba(255,101,18,.7)">ممكن <span class="num" style="font-weight:700">12,800</span> شامل النقل؟</div>
+  <div class="bub" id="cb_t" style="right:36px;top:330px;background:#edf1f5;box-shadow:none;display:flex;gap:12px;padding:28px 30px"><i id="td0" style="width:18px;height:18px;border-radius:50%;background:#ff6512"></i><i id="td1" style="width:18px;height:18px;border-radius:50%;background:#ff6512"></i><i id="td2" style="width:18px;height:18px;border-radius:50%;background:#ff6512"></i></div>
+  <div class="bub" id="cb1" style="right:36px;top:330px;background:#edf1f5;color:#263a4f;box-shadow:none;border-bottom-right-radius:10px">تمام، متوفر من الأحد</div>
+  <div class="bub" id="cb2" style="left:36px;top:470px;background:#ff6512;color:#fff;border-bottom-left-radius:10px;box-shadow:0 14px 26px -14px rgba(255,101,18,.7)">اتفقنا، نعتمد الطلب</div>
+  <div class="ab" style="left:30px;right:30px;bottom:30px;height:96px;border-radius:48px;background:#f0f3f6;display:flex;align-items:center;padding:0 34px;direction:rtl;font-size:28px;color:#aab3be">اكتب رسالة…<div style="margin-right:auto;width:64px;height:64px;border-radius:50%;background:#263a4f;display:flex;align-items:center;justify-content:center"><svg width="28" height="28" viewBox="0 0 24 24"><path d="M20 12L4 4l3 8-3 8z" fill="#fff" transform="rotate(180 12 12)"/></svg></div></div>
+ </div>
+ <div class="ab" id="nc" style="left:400px;top:700px;width:280px;height:280px;border-radius:50%;background:#263a4f;display:flex;align-items:center;justify-content:center;box-shadow:0 40px 70px -20px rgba(0,0,0,.45)">
+  <svg width="130" height="130" style="color:#f3efe8"><use href="#i_phone"/></svg>
+  <svg class="ab" style="left:0;top:0" width="280" height="280"><line id="nc_x" x1="60" y1="60" x2="220" y2="220" stroke="#ff6512" stroke-width="22" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/></svg>
+ </div>
+</div>`);
+function s9(t){
+  const on=t>=33.9&&t<38.0;show(S9,on);if(!on)return;
+  const k=t-33.98;const out=eio5(p(t,36.3,36.65));
+  A($('ch'),k<0?{o:0}:{o:cl(k/.12),y:(1-spr(k,1.6,.6))*500+out*-120,s:lerp(1,.86,out),b:Math.max(0,1-cl(k/.3))*16+out*14,o:cl(k/.12)*(1-out*.75)*(1-p(t,37.4,37.7))});
+  const bub=(id,t0,fromLeft)=>{const kk=t-t0;A($(id),kk<0?{o:0}:{o:cl(kk/.08),s:lerp(.3,1,spr(kk,2.3,.45)),x:(1-eo(cl(kk/.3)))*(fromLeft?-40:40)})};
+  bub('cb0',34.08,1);bub('cb1',35.32,0);bub('cb2',35.86,1);
+  const tOn=t>34.62&&t<35.3;A($('cb_t'),tOn?{o:cl((t-34.62)/.1),s:lerp(.4,1,spr(t-34.62,2.4,.45))}:{o:0});
+  [0,1,2].forEach(i=>{$('td'+i).style.transform=`translateY(${-Math.max(0,Math.sin((t-34.62)*11-i*.9))*14}px)`;$('td'+i).style.opacity=.55+.45*Math.max(0,Math.sin((t-34.62)*11-i*.9))});
+  $('ch_st').textContent=tOn?'يكتب…':'متصل الآن';
+  // no call
+  const nk=t-36.4;A($('nc'),nk<0?{o:0}:mix({o:cl(nk/.1),s:lerp(.3,1,spr(nk,2.1,.42)),x:Math.sin((t-36.9)*70)*10*Math.exp(-Math.max(0,t-36.9)*7)*(t>36.9?1:0)},outBlur(t,37.42,.3,-50)));
+  $('nc_x').setAttribute('stroke-dashoffset',1-eo5(p(t,36.88,37.08)));
+  $('nc').style.background=t>37.0?'#7d8a99':'#263a4f';
+}
+
+/* ================= OUTRO 37.4 – end ================= */
+const S10=H(LW,`<div class="L" id="s10">
+ <svg id="o_logo" class="ab" style="left:150px;top:610px" width="780" height="323" viewBox="0 0 2752 1138"><defs><clipPath id="lgc"><path clip-rule="evenodd" d="%%LOGO%%"/></clipPath></defs><path d="%%LOGOINK%%" fill="#263a4f" fill-rule="evenodd"/><path id="o_arm" d="%%LOGOARM%%" fill="#263a4f" style="transform-box:view-box;transform-origin:1452px 212px"/><g clip-path="url(#lgc)"><rect id="o_sh" x="-700" y="0" width="560" height="1138" fill="url(#shg)"/></g></svg>
+ <div class="ab" id="o_ball" style="left:0;top:0;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 36% 30%,#ffe0c2 0%,#ff9a45 22%,#ff6a0a 52%,#c84300 100%)"></div>
+ <div class="pill" id="o_cta" style="left:540px;top:1060px;height:124px;background:#263a4f;color:#fff;font-size:50px;font-weight:700;overflow:hidden;box-shadow:0 26px 50px -16px rgba(20,40,70,.6)"><span id="o_w0">حمّل</span>&nbsp;<span id="o_w1">تطبيق</span>&nbsp;<span id="o_w2">معداتك</span><div class="ab" id="o_cs" style="top:0;bottom:0;width:120px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent)"></div></div>
+ <div class="lbl num" id="o_h" style="top:1240px;font-size:32px;font-weight:600;color:#85909e;letter-spacing:.5px">@moedatech.sa</div>
+</div>`);
+function s10(t){
+  const on=t>=37.55;show(S10,on);if(!on)return;
+  // ball drop & morph into CTA
+  const b0=37.7,land=38.12;let by,bx=540,sq=0;
+  if(t<land){const k=p(t,b0,land);by=lerp(250,1122,k*k)}else{by=1122;sq=Math.exp(-Math.pow((t-land)/.04,2))*.45}
+  const mo=eio5(p(t,38.18,38.55));
+  A($('o_ball'),t<b0?{o:0}:{x:bx-55,y:by-55+sq*30,sx:(1+sq),sy:(1-sq),o:1-p(t,38.18,38.3)});
+  const ck=t-38.18;const cta=$('o_cta');const W=640;const w=lerp(110,W,cl(spr(ck,1.9,.55),0,1.15));
+  cta.style.width=w+'px';cta.style.marginLeft=(-w/2)+'px';cta.style.height=lerp(110,124,cl(ck/.3))+'px';
+  A(cta,ck<0?{o:0}:{o:1,y:lerp(55-62,0,cl(ck/.3))*0});
+  [['o_w0',38.25],['o_w1',38.67],['o_w2',39.12]].forEach(([id,t0])=>A($(id),inBlur(t,t0,.3,20)));
+  $('o_cs').style.left=(-160+(((t-39.6)%1.7)/1.7)*900)+'px';$('o_cs').style.opacity=t>39.6?1:0;
+  // logo slam on "معداتك"
+  const lk=t-39.12;const sl=spr(lk,1.9,.5);
+  A($('o_logo'),lk<0?{o:0}:{o:cl(lk/.08),s:lerp(1.35,1,sl)*(1+.02*Math.max(0,t-39.6)),b:Math.max(0,1-cl(lk/.22))*30,y:(1-cl(sl,0,1))*-30});
+  $('o_sh').setAttribute('x',-700+eio(p(t,39.65,40.45))*3600);
+  const ak=t-39.2;$('o_arm').style.transform=`rotate(${ak<0?-32:(1-spr(ak,1.5,.38))*-32}deg)`;
+  A($('o_h'),inBlur(t,39.75,.4,14));
+}
+
+/* ================= MASTER ================= */
+window.seek=function(t){
+  if(t<3.4||(t>4.4&&t<26.6))show($('flash'),false);
+  hook(t);sheet(t);s1(t);s2(t);s3(t);s4(t);s5(t);s6(t);old(t);s7(t);s8(t);s9(t);s10(t);labels(t);
+  // world-level gentle camera + end darkening
+  const dk=p(t,40.7,41.5);$('vig').style.background=`radial-gradient(ellipse at 50% 48%,rgba(0,0,0,0) ${58-dk*20}%,rgba(8,18,32,${.16+dk*.35}) 100%)`;
+  $('labels').style.zIndex=8;$('vig').style.zIndex=9;
+};
+window.ready=document.fonts.ready.then(()=>Promise.all([...document.images].map(i=>i.decode().catch(()=>0)))).then(()=>{seek(0);return true});
+</script>
+</body></html>
