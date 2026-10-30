@@ -61,7 +61,7 @@ mp = proj.GetMediaPool()
 bin_ = mp.AddSubFolder(mp.GetRootFolder(), "H.yazidi Showreel")
 if bin_:
     mp.SetCurrentFolder(bin_)
-items = mp.ImportMedia([os.path.join(D, f) for f in CLIPS + [MUSIC, SFX, MIX, GRADED]]) or []
+items = mp.ImportMedia([os.path.join(D, f) for f in CLIPS + [MUSIC, SFX, MIX, GRADED] if os.path.isfile(os.path.join(D, f))]) or []
 by_name = {it.GetName(): it for it in items}
 missing = [f for f in CLIPS + [MUSIC, SFX] if f not in by_name]
 if missing:
