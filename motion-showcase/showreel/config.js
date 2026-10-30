@@ -46,7 +46,7 @@ window.CFG = {
     project_en: 'YOUR PROJECT NAME',
     project_sub: 'الموقع · نوع المشروع',
     // [arabic, english, x, y]: x/y = the feature's position as a fraction of the hero render
-    callouts: [['طابق علوي زجاجي', 'GLAZED TOP FLOOR', .47, .155], ['واجهة حجر كلاسيكية', 'CLASSIC STONE FAÇADE', .395, .56]],
+    callouts: [['طابق علوي زجاجي', 'GLAZED TOP FLOOR', .47, .155], ['واجهة حجر كلاسيكية', 'CLASSIC STONE FAÇADE', .40, .47]],
     interior: ['تصاميم داخلية', 'INTERIOR SPACES'],
     shot2: ['الواجهة الرئيسية', 'MAIN ELEVATION'],
 

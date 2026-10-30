@@ -287,7 +287,7 @@ function scene1(t){
   // feature callouts follow the building through the camera move
   const c=heroCam(t),on=t>4.95&&t<6.85;$('coS').style.display=on?'block':'none';
   for(let i=0;i<2;i++){const lb=$('co'+i);if(!show(lb,on))continue;const a0=5.0+i*.35,q=p(t,6.55,6.75);
-    const ax=540+(ANC[i][0]-540)*c.z+c.px,ay=960+(ANC[i][1]-960)*c.z+c.py,ly=ay+(ay<640?96:0),R=ax<540,lw=lb.offsetWidth;
+    const ax=540+(ANC[i][0]-540)*c.z+c.px,ay=960+(ANC[i][1]-960)*c.z+c.py,ly=ay+(ay<640?310:0),R=ax<540,lw=lb.offsetWidth;
     const ex=R?cl(ax+70,60,1020-lw):cl(ax-70,60+lw,1020),kx=R?ax+40:ax-40;  // label edge nearest the feature
     $('coR'+i).setAttribute('cx',ax);$('coR'+i).setAttribute('cy',ay);$('coD'+i).setAttribute('cx',ax);$('coD'+i).setAttribute('cy',ay);
     const rk=back(p(t,a0,a0+.3),2);$('coR'+i).setAttribute('r',Math.max(0,17*rk));$('coD'+i).setAttribute('r',Math.max(0,7*cl(rk*1.3,0,1.2)));

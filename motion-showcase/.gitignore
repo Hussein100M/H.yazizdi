@@ -2,3 +2,5 @@ _frames/
 _*.wav
 _video.mp4
 _sub/
+**/davinci/*.mp4
+**/davinci/*.wav
