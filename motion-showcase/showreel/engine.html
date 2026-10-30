@@ -35,7 +35,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#0f1011;-webkit-
 #pdf_th i{width:138px;height:78px;background:#fff;border-radius:4px;box-shadow:0 4px 10px rgba(0,0,0,.08)}
 #pdf_th i:first-child{outline:3px solid #9aa0aa}
 /* hero */
-#hbox{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0;overflow:hidden}
+#hbox{position:absolute;left:0;top:0;width:1080px;height:1920px;transform-origin:0 0}
 #hscrim,.scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,7,9,.5) 0%,rgba(6,7,9,0) 22%,rgba(6,7,9,0) 52%,rgba(6,7,9,.78) 100%)}
 #iline{position:absolute;left:0;width:1080px;height:6px;background:var(--acc);display:none;box-shadow:0 0 24px rgba(232,100,44,.7)}
 /* masterplan */
@@ -115,7 +115,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#0f1011;-webkit-
 #ttl .a{font:700 92px Alex;color:#fff;direction:rtl;line-height:1.2}#ttl .b{font-size:24px;letter-spacing:6px;color:rgba(255,255,255,.85);margin-top:6px}
 #ttl .c{font:500 30px Plex;color:rgba(255,255,255,.78);direction:rtl;margin-top:14px}
 #coS{position:absolute;left:0;top:0}
-.co{position:absolute;padding:14px 24px;border-radius:14px;background:rgba(12,13,16,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);text-align:right}
+.co{position:absolute;white-space:nowrap;padding:14px 24px;border-radius:14px;background:rgba(12,13,16,.62);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.14);text-align:right}
 .co b{display:block;font:600 36px Alex;color:#fff;direction:rtl}.co span{display:block;font-size:18px;letter-spacing:3px;color:rgba(255,255,255,.72);margin-top:2px}
 #icap{position:absolute;right:80px;top:1250px;text-align:right}
 #icap .a{font:700 78px Alex;color:#fff;direction:rtl}#icap .b{font-size:23px;letter-spacing:6px;color:rgba(255,255,255,.85);margin-top:6px}
@@ -145,6 +145,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#0f1011;-webkit-
 <div id="grain"></div><div id="vig"></div>
 
 <script>
+let HA=null,S2=null,CROP=null,K0=1;const SLOT={x:540,y:790,w:420,h:300};
 const T=CFG.text, DT=1/30, NS='http://www.w3.org/2000/svg', D=28;
 document.documentElement.style.setProperty('--acc',ACC);
 const $=id=>document.getElementById(id);
@@ -175,9 +176,14 @@ function fadeBlur(el,t,a,d=.4,dy=20,out=null,od=.25){let k=p(t,a,a+d),e=eo(k),o=
   el.style.opacity=o;el.style.filter=b>.3?`blur(${b.toFixed(2)}px)`:'';el.style.transform=`translateY(${y.toFixed(2)}px)`;}
 function mask(el,t,a,d=.55,out=null,od=.25){const s=el.firstElementChild,k=eo(p(t,a,a+d));s.style.transform=`translateY(${((1-k)*112).toFixed(2)}%)`;
   let o=k>0?1:0;if(out!=null){const q=p(t,out,out+od);o*=1-q;el.style.filter=q>0?`blur(${q*12}px)`:''}el.style.opacity=o;}
-const stack=(mode,pre)=>{const a=mode==='frame'?CFG.assets.site:(CFG.assets.hero);
-  if(a)return `<div class="lay" id="${pre}bld"><img class="cov" src="${a}"></div>`;
-  return `<div class="lay" id="${pre}sky">${skySVG(mode)}</div><div class="lay" id="${pre}city">${citySVG(mode)}</div><div class="lay" id="${pre}bld">${buildingSVG(mode)}</div><div class="lay" id="${pre}fg">${fgSVG(mode)}</div>`};
+const asset=a=>!a?null:(typeof a==='string'?{src:a,focus:[.5,.5]}:a);
+const IMG={};  // natural sizes, filled before build
+// cover-fit an image into the 1080x1920 frame, keeping its focus point centred where possible
+function imgRect(a){const n=IMG[a.src]||{w:1080,h:1920},s=Math.max(1080/n.w,1920/n.h),w=n.w*s,h=n.h*s;
+  return{x:cl(540-a.focus[0]*w,1080-w,0),y:cl(960-a.focus[1]*h,1920-h,0),w,h};}
+const imgLayer=(a,pre)=>{const r=imgRect(a);return `<div class="lay" id="${pre}bld"><img src="${a.src}" style="position:absolute;left:${r.x}px;top:${r.y}px;width:${r.w}px;height:${r.h}px"></div>`};
+const illus=(mode,pre)=>`<div class="lay" id="${pre}sky">${skySVG(mode)}</div><div class="lay" id="${pre}city">${citySVG(mode)}</div><div class="lay" id="${pre}bld">${buildingSVG(mode)}</div><div class="lay" id="${pre}fg">${fgSVG(mode)}</div>`;
+const stack=(mode,pre)=>{const a=asset(mode==='frame'?CFG.assets.site:CFG.assets.hero);return a?imgLayer(a,pre):illus(mode,pre)};
 const DEP={sky:.15,city:.4,bld:1,fg:1.3};
 function parallax(pre,z,px,py){for(const n in DEP){const e=$(pre+n);if(!e)continue;const d=DEP[n];e.style.transform=`translate(${(px*d).toFixed(2)}px,${(py*d).toFixed(2)}px) scale(${(1+(z-1)*d).toFixed(4)})`}}
 const ICON={mail:'<path d="M4 7h20v14H4z M4 7l10 8 10-8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>',
@@ -185,6 +191,10 @@ const ICON={mail:'<path d="M4 7h20v14H4z M4 7l10 8 10-8" fill="none" stroke="cur
   at:'<circle cx="14" cy="14" r="4.5" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M18.5 14v1.6c0 1.6 1.2 2.6 2.6 2.6S24 17 24 15v-1c0-5.5-4.5-10-10-10S4 8.5 4 14s4.5 10 10 10c2 0 3.8-.5 5.3-1.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>'};
 const ico=n=>`<svg width="30" height="30" viewBox="0 0 28 28" style="color:${ACC}">${ICON[n]}</svg>`;
 
+const NX=[880,643,407,170];
+const CARD=[[550,330],[90,330],[550,910],[90,910]], CS=440/1080;
+const L1=T.hook_l1.split(' '), L2=T.hook_l2;
+function build(){
 // ================= BUILD =================
 // PDF (static deck)
 $('Lpdf').innerHTML=`<div id="pdf_bar"><span><i></i>Project_Presentation_FINAL_v7.pdf</span><span>1 / 24 &nbsp;·&nbsp; 100%</span></div>
@@ -194,9 +204,10 @@ $('Lpdf').innerHTML=`<div id="pdf_bar"><span><i></i>Project_Presentation_FINAL_v
 // hero
 $('hbox').innerHTML=stack('final','h')+`<div id="hscrim"></div>`;
 // slot: the hero sits inside the PDF page at (480+60, 100+690) as a 420x300 picture
-const SLOT={x:540,y:790,w:420,h:300}, CROP={x:140,y:520,w:900,h:643}, K0=SLOT.w/CROP.w;
+HA=asset(CFG.assets.hero);CROP=HA?imgRect(HA):{x:140,y:520,w:900,h:643};K0=SLOT.w/CROP.w;SLOT.h=CROP.h*K0;
+$('pdf_page').querySelector('.pg_cap').style.top=(SLOT.y-690+SLOT.h+14)+'px';
 // interior
-$('ibox').innerHTML=CFG.assets.interior?`<img class="cov" src="${CFG.assets.interior}">`:interiorSVG();
+S2=asset(CFG.assets.shot2)||asset(CFG.assets.interior);$('ibox').innerHTML=S2?imgLayer(S2,'i2'):interiorSVG();
 // masterplan
 $('mpplane').innerHTML=masterplanSVG('mp')+`<div id="mppin" style="left:${MPPIN[0]}px;top:${MPPIN[1]}px"><div id="mpbb"><div id="mpcard"><b>${esc(T.pin[0])}</b><span>${esc(T.pin[1])}</span></div><div id="mpstem"></div><div id="mpdot"></div></div></div>`;
 // infographic
@@ -204,17 +215,16 @@ $('ifIn').innerHTML=`<div id="ifH"><div class="ml"><span class="a">${esc(T.plan[
  <div id="ifP">${planSVG('pl')}</div>
  <div id="ifS">${T.stats.map((s,i)=>`<div class="st" id="st${i}"><div class="v"><span id="stv${i}">0</span>${s[1]?`<small>${esc(s[1].trim())}</small>`:''}</div><div class="a">${esc(s[2])}</div><div class="b en">${esc(s[3])}</div></div>`).join('')}</div>`;
 // construction
-$('cbef').innerHTML=stack('frame','b');
-$('caft').innerHTML=CFG.assets.after?`<div class="lay"><img class="cov" src="${CFG.assets.after}"></div>`:stack('final','a');
+const SITE=asset(CFG.assets.site),AFT=asset(CFG.assets.after)||(SITE?HA:null);
+$('cbef').innerHTML=SITE?imgLayer(SITE,'b'):illus('frame','b');
+$('caft').innerHTML=AFT?imgLayer(AFT,'a'):illus('final','a');
 $('cdiv').insertAdjacentHTML('beforeend',`<svg width="40" height="22" viewBox="0 0 40 22"><path d="M12 3 4 11l8 8M28 3l8 8-8 8" stroke="#1d1d1f" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`);
-const NX=[880,643,407,170];
 $('cui').innerHTML=`<div id="cuiS"></div><div id="cuiT"><div><div class="a">${esc(T.progress[0])}</div><div class="b en">${esc(T.progress[1])}</div></div><div id="cuiP"><span id="cuiPv">0</span><small>%</small></div></div>
  <div id="cbar"><div id="cfill"></div></div>${NX.map((x,i)=>`<div class="nd" id="nd${i}" style="left:${x}px"></div>`).join('')}
  ${T.stages.map((s,i)=>`<div class="nl" id="nl${i}" style="${i===0?`right:${1080-NX[0]-12}px;text-align:right`:i===3?`left:${NX[3]-12}px;text-align:left`:`left:${NX[i]-110}px;text-align:center`}"><b>${esc(s[0])}</b><span class="en">${esc(s[1])}</span></div>`).join('')}
  <div class="ba" id="baB" style="left:70px"><b>${esc(T.before_after[0][0])}</b><span class="en">${esc(T.before_after[0][1])}</span></div>
  <div class="ba" id="baA" style="right:70px"><b>${esc(T.before_after[1][0])}</b><span class="en">${esc(T.before_after[1][1])}</span></div>`;
 // ending: recap cards (01 top-right, 02 top-left, 03 bottom-right, 04 = live construction layer)
-const CARD=[[550,330],[90,330],[550,910],[90,910]], CS=440/1080;
 $('ecards').innerHTML=`<div class="card" id="cd0"><div style="position:absolute;left:0;top:0;width:1080px;height:1920px;transform:translate(0,${-300*CS}px) scale(${CS});transform-origin:0 0">${stack('final','e')}</div></div>
  <div class="card" id="cd1" style="background:#ece6dc"><div style="position:absolute;left:-60px;top:-20px;width:560px;height:560px">${masterplanSVG(null)}</div></div>
  <div class="card" id="cd2" style="background-color:#121416;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:24px 24px"><div style="position:absolute;left:30px;top:70px;width:380px;height:253px">${planSVG(null)}</div>
@@ -229,7 +239,6 @@ $('ebr').innerHTML=(B.logo?`<div id="bLogo"><img src="${B.logo}" style="height:1
  <div id="bCtaE" class="en">${esc(T.cta_en)}</div>
  <div id="bCon"><div id="bc0">${ico('mail')}${esc(CT.email)}</div><div id="bc1">${ico('phone')}${esc(CT.phone)}</div><div id="bc2">${ico('at')}${esc(CT.social)}</div></div>`;
 // text overlays
-const L1=T.hook_l1.split(' '), L2=T.hook_l2;
 $('Ltxt').innerHTML=`<div class="hkl" id="hk1">${L1.map((w,i)=>`<span class="hw" id="hw${i}">${esc(w)}</span>`).join('')}</div>
  <div class="hkl" id="hk2">${L2.map((w,i)=>`<span class="hw" id="hw${L1.length+i}"${i===L2.length-1?' ':''}>${esc(w)}${i===L2.length-1?'<i></i>':''}</span>`).join('')}</div>
  <div id="hkE" class="en">${esc(T.hook_en)}</div>
@@ -237,8 +246,9 @@ $('Ltxt').innerHTML=`<div class="hkl" id="hk1">${L1.map((w,i)=>`<span class="hw"
  <div id="ttl"><i></i><div class="ml"><span class="a">${esc(T.project_ar)}</span></div><div class="ml"><span class="b en">${esc(T.project_en)}</span></div><div class="ml"><span class="c">${esc(T.project_sub)}</span></div></div>
  <svg id="coS" width="1080" height="1920">${[0,1].map(i=>`<path id="coP${i}" fill="none" stroke="#fff" stroke-width="2.5" stroke-opacity=".9" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/><circle id="coR${i}" r="17" fill="none" stroke="#fff" stroke-width="3"/><circle id="coD${i}" r="7" fill="${ACC}"/>`).join('')}</svg>
  ${T.callouts.map((c,i)=>`<div class="co" id="co${i}"><b>${esc(c[0])}</b><span class="en">${esc(c[1])}</span></div>`).join('')}
- <div id="icap"><div class="ml"><span class="a">${esc(T.interior[0])}</span></div><div class="ml"><span class="b en">${esc(T.interior[1])}</span></div></div>`;
+ <div id="icap"><div class="ml"><span class="a">${esc((CFG.assets.shot2?T.shot2:T.interior)[0])}</span></div><div class="ml"><span class="b en">${esc((CFG.assets.shot2?T.shot2:T.interior)[1])}</span></div></div>`;
 $('hkS')||$('hw'+(L1.length+L2.length-1)).setAttribute('id','hkS');
+}
 
 // ================= SCENES =================
 const CH=[3.8,8.7,13.3,17.7], CH_END=21.45;
@@ -268,8 +278,8 @@ function hero(t){
   const c=heroCam(t);parallax('h',c.z,c.px,c.py);
   $('hscrim').style.opacity=p(t,1.95,2.6);
 }
-function heroCam(t){const k=p(t,1.7,7.3),s=eio(p(t,1.7,2.6));return{z:1+.17*eio(k)+.06*(1-s),px:lerp(26,-30,k),py:lerp(30,-24,k)}}
-const ANC=[[600,412],[430,960]];
+function heroCam(t){const k=p(t,1.7,7.3),m=HA?.6:1;return{z:1+.17*eio(k),px:lerp(26,-30,k)*m,py:lerp(30,-24,k)*m}}
+let ANC=[[600,412],[430,960]];
 function scene1(t){
   // project title
   const tt=$('ttl');if(show(tt,t>3.9&&t<6.85)){tt.querySelector('i').style.transform=`scaleX(${eo(p(t,4.0,4.35))})`;tt.querySelector('i').style.opacity=1-p(t,6.55,6.75);
@@ -277,12 +287,13 @@ function scene1(t){
   // feature callouts follow the building through the camera move
   const c=heroCam(t),on=t>4.95&&t<6.85;$('coS').style.display=on?'block':'none';
   for(let i=0;i<2;i++){const lb=$('co'+i);if(!show(lb,on))continue;const a0=5.0+i*.35,q=p(t,6.55,6.75);
-    const ax=540+(ANC[i][0]-540)*c.z+c.px,ay=960+(ANC[i][1]-960)*c.z+c.py,ly=ay+(i?0:72),lr=330;
+    const ax=540+(ANC[i][0]-540)*c.z+c.px,ay=960+(ANC[i][1]-960)*c.z+c.py,ly=ay+(ay<640?96:0),R=ax<540,lw=lb.offsetWidth;
+    const ex=R?cl(ax+70,60,1020-lw):cl(ax-70,60+lw,1020),kx=R?ax+40:ax-40;  // label edge nearest the feature
     $('coR'+i).setAttribute('cx',ax);$('coR'+i).setAttribute('cy',ay);$('coD'+i).setAttribute('cx',ax);$('coD'+i).setAttribute('cy',ay);
     const rk=back(p(t,a0,a0+.3),2);$('coR'+i).setAttribute('r',Math.max(0,17*rk));$('coD'+i).setAttribute('r',Math.max(0,7*cl(rk*1.3,0,1.2)));
     ['coR','coD','coP'].forEach(n=>$(n+i).style.opacity=1-q);
-    $('coP'+i).setAttribute('d',`M${ax-17} ${ay} L${ax-56} ${ly} H${lr}`);$('coP'+i).setAttribute('stroke-dashoffset',1-eio(p(t,a0+.12,a0+.45)));
-    lb.style.right=(1080-lr+8)+'px';lb.style.top=(ly-lb.offsetHeight/2)+'px';fadeBlur(lb,t,a0+.32,.35,0,6.55,.2);}
+    $('coP'+i).setAttribute('d',`M${ax+(R?17:-17)} ${ay} L${kx} ${ly} H${ex}`);$('coP'+i).setAttribute('stroke-dashoffset',1-eio(p(t,a0+.12,a0+.45)));
+    lb.style.left=(R?ex+8:ex-8-lw)+'px';lb.style.right='auto';lb.style.textAlign=R?'left':'right';lb.style.top=(ly-lb.offsetHeight/2)+'px';fadeBlur(lb,t,a0+.32,.35,0,6.55,.2);}
   // interior: wipe up with an accent edge, then a slow lateral move
   const iOn=show($('Lint'),t>6.74&&t<8.98);const w=eio(p(t,6.75,7.25)),Y=1920*(1-w);
   const il=$('iline');il.style.display=(t>6.74&&t<7.26)?'block':'none';il.style.top=(Y-3)+'px';
@@ -375,10 +386,15 @@ function overlays(t){
   const f=Math.round(t*30);$('grain').style.backgroundPosition=`${(f*37)%256}px ${(f*61)%256}px`;
   const v=(t>1.9&&t<8.9)||(t>17.4&&t<21.5);$('vig').style.opacity=v?1:0;
 }
+function anchors(){if(!HA)return;const r=imgRect(HA);ANC=T.callouts.map(c=>[r.x+c[2]*r.w,r.y+c[3]*r.h]);}
+// windows of fast motion: the renderer takes 12 shutter samples here instead of 4
+window.FAST=[[1.65,2.5],[6.7,7.3],[8.4,9.1],[12.8,13.6],[17.3,17.85],[20.15,20.8],[21.05,22.2],[23.2,23.7],[24.6,25.5]];
 window.seek=function(t){hook(t);hero(t);scene1(t);masterplan(t);infographic(t);construction(t);ending(t);chapter(t);overlays(t);};
 let PIN_SCR=[827,860];
 const FL=['500 50px Alex','600 50px Alex','700 50px Alex','500 20px Plex','500 20px Inter','600 20px Inter','700 20px Inter'];
-window.ready=Promise.all(FL.flatMap(f=>[document.fonts.load(f,'عربي'),document.fonts.load(f,'Ab1+')])).then(()=>document.fonts.ready)
+const SRCS=['hero','shot2','interior','site','after'].map(k=>asset(CFG.assets[k])).filter(Boolean).map(a=>a.src);
+window.ready=Promise.all(SRCS.map(s=>new Promise(res=>{const im=new Image();im.onload=()=>{IMG[s]={w:im.naturalWidth,h:im.naturalHeight};res()};im.onerror=res;im.src=s}))).then(()=>{build();anchors()})
+ .then(()=>Promise.all(FL.flatMap(f=>[document.fonts.load(f,'عربي'),document.fonts.load(f,'Ab1+')]))).then(()=>document.fonts.ready)
  .then(()=>Promise.all([...document.images].map(i=>i.decode().catch(()=>0)))).then(()=>{
   seek(12.8);const r=$('mpdot').getBoundingClientRect();PIN_SCR=[r.left+r.width/2,r.top+r.height/2];
   seek(0);return {pin:PIN_SCR.map(Math.round)};});

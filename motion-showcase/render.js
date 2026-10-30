@@ -25,13 +25,22 @@ async function page(browser) {
       await pg.screenshot({path: path.join(outdir, `prev_${String(i).padStart(2, '0')}.png`)});
     }
   } else {
-    const D = parseFloat(rest[0]), W = parseInt(rest[1] || '4'), N = Math.round(D * FPS);
+    // SUB > 1: real motion blur. Each frame is sampled SUB times across a 180° shutter (1/60 s);
+    // samples are written as one sequence (frame*SUB + k) and averaged later with ffmpeg tmix.
+    // SUB = 'adaptive': more samples where the page declares fast motion (window.FAST windows), else 4.
+    const D = parseFloat(rest[0]), W = parseInt(rest[1] || '4'), SUB = rest[2] || '1', N = Math.round(D * FPS);
     const t0 = Date.now();
     await Promise.all(Array.from({length: W}, async (_, w) => {
       const [pg] = await page(browser);
+      const fast = await pg.evaluate('window.FAST || []');
       for (let f = w; f < N; f += W) {
-        await pg.evaluate(`seek(${f / FPS})`);
-        await pg.screenshot({path: path.join(outdir, `${String(f).padStart(5, '0')}.jpg`), type: 'jpeg', quality: 94});
+        const tf = f / FPS, n = SUB === 'adaptive' ? (fast.some(([a, b]) => tf >= a && tf <= b) ? 12 : 4) : parseInt(SUB);
+        for (let k = 0; k < n; k++) {
+          const t = tf + (n > 1 ? (k / (n - 1) - .5) / (FPS * 2) : 0);
+          await pg.evaluate(`seek(${Math.min(D - 1e-3, Math.max(0, t))})`);
+          const name = n > 1 || SUB === 'adaptive' ? `${String(f).padStart(5, '0')}_${String(k).padStart(2, '0')}.jpg` : `${String(f).padStart(5, '0')}.jpg`;
+          await pg.screenshot({path: path.join(outdir, name), type: 'jpeg', quality: 95});
+        }
         if (w === 0 && f % 120 === 0) console.log(`frame ${f}/${N} ${((Date.now() - t0) / 1000).toFixed(0)}s`);
       }
     }));

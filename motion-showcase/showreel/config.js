@@ -17,12 +17,14 @@ window.CFG = {
     social: '@username',
   },
 
-  // Asset slots. null = illustrative drawing. Set a path (jpg/png) to use your own render/photo.
+  // Asset slots. null = illustrative drawing. A path, or {src, focus:[x,y]} where focus is the point
+  // (as a fraction of the image) kept in the middle of the vertical frame.
   assets: {
-    hero: null,       // exterior render, portrait or landscape
+    hero: {src: 'assets/hero.jpg', focus: [.46, .5]},        // exterior render (perspective)
+    shot2: {src: 'assets/elevation.jpg', focus: [.515, .5]}, // second shot of chapter 01 (replaces the interior drawing)
     interior: null,   // interior render
-    site: null,       // construction-site photo (BEFORE)
-    after: null,      // finished render of the same project (AFTER); falls back to hero
+    site: null,       // construction-site photo of the same project (BEFORE)
+    after: null,      // finished render for the comparison (AFTER); falls back to hero when a site photo is set
   },
 
   text: {
@@ -43,8 +45,10 @@ window.CFG = {
     project_ar: 'اسم مشروعك',
     project_en: 'YOUR PROJECT NAME',
     project_sub: 'الموقع · نوع المشروع',
-    callouts: [['سطح أخضر', 'ROOF GARDEN'], ['واجهة زجاجية', 'GLASS FAÇADE']],
+    // [arabic, english, x, y]: x/y = the feature's position as a fraction of the hero render
+    callouts: [['طابق علوي زجاجي', 'GLAZED TOP FLOOR', .47, .155], ['واجهة حجر كلاسيكية', 'CLASSIC STONE FAÇADE', .395, .56]],
     interior: ['تصاميم داخلية', 'INTERIOR SPACES'],
+    shot2: ['الواجهة الرئيسية', 'MAIN ELEVATION'],
 
     zones: [['سكني', 'RESIDENTIAL'], ['تجاري', 'COMMERCIAL'], ['مساحات خضراء', 'GREEN AREAS']],
     entrance: ['المدخل الرئيسي', 'MAIN ENTRANCE'],
