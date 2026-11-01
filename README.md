@@ -31,3 +31,13 @@ Once installed, generate an image with:
 See the [Banana Claude README](https://github.com/AgriciDaniel/banana-claude)
 and [user guide](https://github.com/AgriciDaniel/banana-claude/blob/main/docs/guide.md)
 for the full workflow, security notes, and upgrade instructions.
+
+## Skills
+
+- [`clay-rerender-fast`](.claude/skills/clay-rerender-fast/SKILL.md): turns a
+  SketchUp, Revit or render view into a real photograph in Nano Banana in one
+  generation pass. The clay and the material view are exported from the 3D
+  software, one prompt carries materials, light, sky and reflections, drifted
+  details are fixed on a crop, and finishing is done in Camera Raw. Claude Code
+  loads it automatically in this repository; to use it on claude.ai, zip the
+  `clay-rerender-fast` folder and upload it as a skill.
