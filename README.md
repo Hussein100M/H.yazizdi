@@ -31,3 +31,23 @@ Once installed, generate an image with:
 See the [Banana Claude README](https://github.com/AgriciDaniel/banana-claude)
 and [user guide](https://github.com/AgriciDaniel/banana-claude/blob/main/docs/guide.md)
 for the full workflow, security notes, and upgrade instructions.
+
+## Project skills
+
+### `interior-furniture-swap`
+
+Lives in `.claude/skills/interior-furniture-swap/` and loads automatically
+when Claude Code runs in this repository.
+
+Attach an interior render and ask in Arabic or English (for example
+«غيّر الكنبة» or "swap the armchair"). The skill:
+
+1. Reads the render: camera, light, the image's effects (shadows,
+   reflections, depth of field, colour grade, grain), and a numbered list of
+   every piece that can be swapped, with its position and orientation.
+2. Asks with short cards which piece to replace, and whether you have a
+   reference image or want it to suggest alternatives that fit the room.
+3. Writes one Nano Banana, Seedream or GPT Image prompt. The prompt replaces
+   only that piece, keeps the old piece's spot, footprint, facing and viewing
+   angle (not the angle of the reference photo), and lights and grades the new
+   piece with the render's own light and effects.
