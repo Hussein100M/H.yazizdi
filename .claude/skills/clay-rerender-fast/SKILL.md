@@ -158,6 +158,6 @@ Say so in one Arabic line and load it:
 - Copy light or mood from a reference while keeping the render's own pixels, with no redraw → `render-style-transfer`.
 - A normal map as the geometry image instead of a clay → `normal-map-material-transfer`.
 - A new camera angle → `architectural-camera-angle-planner`.
-- Separate depth, occlusion, light or reflection maps made by Nano Banana for print → `clay-rerender` (the full version, Prompt F).
+- Separate depth, occlusion, light or reflection maps made by Nano Banana for print → `clay-rerender` (the full version, Prompt E).
 
 If the skill is not installed, say so in one line and continue here.
