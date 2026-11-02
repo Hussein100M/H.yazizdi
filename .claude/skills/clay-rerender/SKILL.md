@@ -1,6 +1,6 @@
 ---
 name: "clay-rerender"
-description: "Use to redraw a render or SketchUp view as a real photo in Nano Banana, all by prompt, in three passes: the clay, then the sun and shadows on the clay, then the materials with reflections, sky and atmosphere in one prompt; then fixes and maps. Trigger: طريقة الكلاي, خلّ نانو يعيد الرسم, سكتشاب لصورة واقعية."
+description: "Use to redraw a render or SketchUp view as a real photo in Nano Banana, all by prompt, in three passes: the clay, then the sun and shadows on the clay, then the materials with reflections, sky and atmosphere in one prompt; then fixes, with Photoshop maps only on request. Trigger: طريقة الكلاي, خلّ نانو يعيد الرسم, سكتشاب لصورة واقعية."
 ---
 
 # Clay Re-render (Nano Banana)
@@ -11,12 +11,12 @@ Nano Banana is tuned to edit: it keeps the pixels it is given. Hand it a CG rend
 2. **Sun and shadows** — a second pass on the clay adds the sun of the reference (or of the chosen time): direct light and crisp shadows cast from the real geometry. Nano Banana keeps what it sees, so shadows checked on the simple white model carry into the photograph — and when they come out weak or wrong, only this pass is rerun, never the geometry. With no readable sun (an overcast reference, or no sun chosen) this pass is skipped.
 3. **Photo** — three images and one prompt. Image 1, the sunlit clay, sets the geometry, openings, camera, framing and shadows. Image 2, the material view (the render, or the model view with textures or flat colours), sets which material and colour each surface takes. Image 3, the realism reference, sets only the light, sky, atmosphere and colour grade. The same prompt carries the materials, the reflections, the sky and the air, so the finished photograph is drawn once. Glass reflects the sky that is in the photograph, so the sky and the reflections are always written together.
 4. **Fix** — local fix passes only for what drifted or what the review found; grain and vignette are sliders in Camera Raw, with no re-render.
-5. **Maps** — depth, occlusion, light-only and reflections, made by prompt from the final photograph for finishing in Photoshop; optional, and the person runs only the ones they need.
+5. **Maps (optional)** — depth, occlusion, light-only and reflections, made by prompt from the final photograph for finishing in Photoshop. They are not part of the run: the delivery offers them in one line, and they are written only when the user asks, only the ones they ask for.
 
 Every pass re-renders the whole image, which softens fine detail a little and can drift, so compatible changes share a pass, the passes stay few, the finished photograph is redrawn as little as possible, and each result is checked before the next. People, planting and props are added afterwards in their own pass (see Hand-off).
 
 - Talk to the user in Arabic (their dialect); prompts in English; notes in short Arabic.
-- Hand over every prompt in ONE message up front (A, B, C and the map prompts E), because the person runs them one after another in separate chats and gets lost when they arrive one at a time. Only the fix prompt (D) is held back: what it fixes is known only after a result comes back and is reviewed.
+- Hand over every prompt of the run in ONE message up front (A, B and C), because the person runs them one after another in separate chats and gets lost when they arrive one at a time. The fix prompt (D) is held back: what it fixes is known only after a result comes back and is reviewed. The map prompts (E) are optional and written only when the user asks for them.
 - Ask only through **AskUserQuestion** cards: max 4 questions, 2–4 options each, header ≤ 12 characters, recommended option first ending in "(مقترح)", never an "Other" option (it is built in). Skip any question the request or the images already answer and state that answer in one line.
 - Headless run: ask nothing, take every recommended option, list them under الافتراضات.
 
@@ -105,7 +105,7 @@ How fixes read: "every element that is dark grey in Image 2 returns to matte dar
 - The sky and the reflections: "Using Image 1, keep everything exactly as it is and change only the sky and the reflections: the sky becomes [the sky]; [the reflection clause]." When the sky is already right and only the reflections need work, the sky clause reads "the sky stays exactly as it is".
 - A light touch: "Using Image 1, keep everything exactly as it is and change only the light: [the touch]" — "the dappled leaf shadows fall mainly on the paving and the lower wall, leaving the upper floor in clean sunlight" · "the shadow under the projecting upper floor is deeper and crisper". A light change bigger than a touch goes back to B on the clay, then C.
 
-**Prompt E — maps** (for Photoshop; optional, handed over up front with the rest, each map in its own code block, written in full and run on the final photograph, which is Image 1 in every map prompt). One prompt per map, each starting "Convert Image 1 into … of the exact same view, with the same camera, framing and aspect:"
+**Prompt E — maps** (optional, for Photoshop; written only when the user asks, and only the maps they ask for — all four when they just say "the maps"; each map in its own code block, run on the final photograph, which is Image 1 in every map prompt, and handed over with the Photoshop notes below in short Arabic). One prompt per map, each starting "Convert Image 1 into … of the exact same view, with the same camera, framing and aspect:"
 - **Depth** — "a grayscale depth map …: brightness shows distance only — the nearest surfaces white, the farthest black, each surface one smooth gradient with no light, shadow or texture, crisp edges at every outline, the sky black."
 - **Occlusion** — "an ambient occlusion pass …: no sun and no cast shadows; every surface white, with soft dark grey only in corners, grooves, reveals, under projections and where objects meet the ground."
 - **Light only** — "a lighting pass …: every surface the same neutral matte mid-grey with no colour, keeping only the light, shadows and occlusion exactly as they fall in Image 1."
@@ -118,7 +118,7 @@ In Photoshop a map works as a layer or as a mask (select it, copy, Alt+click the
 
 ## 5 Deliver
 
-1. **All prompts in one message**, in run order, each in its own code block with its label outside: برومبت أ — الكلاي، ب — الشمس والظلال، ج — المواد والانعكاسات والجو، هـ — الماب (كل ماب في بلوك لوحده). Only D is held back (it needs a result to look at, so it comes after the review, together with whatever touch the review found). B goes in whenever the light has a sun, and drops with an overcast reference or no sun. With an exported clay that already carries the sun's shadows, drop A and B; with an exported clay without sun, drop A and keep B. C is written from the material view and doesn't wait for the clay, but runs only after the clay (and B) pass the check. E is written in full and runs on the final photograph, so the person skips the maps they don't need.
+1. **All prompts of the run in one message**, in run order, each in its own code block with its label outside: برومبت أ — الكلاي، ب — الشمس والظلال، ج — المواد والانعكاسات والجو. D is held back (it needs a result to look at, so it comes after the review, together with whatever touch the review found), and E is not in the message: the closing line offers it. B goes in whenever the light has a sun, and drops with an overcast reference or no sun. With an exported clay that already carries the sun's shadows, drop A and B; with an exported clay without sun, drop A and keep B. C is written from the material view and doesn't wait for the clay, but runs only after the clay (and B) pass the check.
 2. **ملاحظات** (Arabic, short):
    - الافتراضات.
    - ترتيب التشغيل (كل خطوة في محادثة جديدة، وانتظر فحص الخطوة قبل اللي بعدها)، مع الصور بالترتيب:
@@ -126,17 +126,17 @@ In Photoshop a map works as a layer or as a mask (select it, copy, Alt+click the
      2. ب: الكلاي فقط ← كلاي بشمس وظلال. افحص الظلال؛ لو ضعيفة أو غلط أعد ب بس، والكلاي يبقى.
      3. ج: الكلاي المشمس، ثم صورة المواد (الرندر)، ثم المرجع ← الصورة الواقعية بموادها وانعكاساتها وجوّها. أرسلها للمراجعة.
      4. د: ما تنكتب قبل المراجعة؛ بعدها: النتيجة، ثم صورة المواد (أو النتيجة بس للإصلاح اللي ما يحتاج صورة ثانية).
-     5. هـ: الصورة النهائية فقط ← الخرائط، كل ماب في محادثة جديدة (اللي تحتاجه بس).
    - المرجع: قصّ منه الشعارات والأيقونات والنصوص، والأفضل مرجع ضوءه واضح (اتجاه الشمس، الدفء، نوع الظل).
    - الإعدادات: في AI Studio اختر Nano Banana Pro، أو 2.1 مع Thinking؛ وفي تطبيق Gemini ولّد ثم من النقاط الثلاث اختر Redo with Pro (AI Pro وUltra). الناتج 2K أو 4K، وحدد النسبة نفس نسبة الرندر في كل خطوة.
    - كل محاولة في محادثة جديدة، لأن المحادثة الطويلة ترجّع صور قديمة؛ وأعد التوليد مرتين أو ثلاث قبل ما تغيّر البرومبت.
    - كل تمريرة تعيد رسم الصورة كلها وتنعّمها شوي: لو نعمت، الصق المنطقة المعدّلة بس فوق النسخة اللي قبلها في فوتوشوب.
    - Grain والـ Vignette في Camera Raw، بدون إعادة توليد.
    - النصوص والشعارات: رجّعها من صورة المواد في فوتوشوب بعد التوليد، لأن النموذج يشوّهها.
-   - الخرائط اختيارية. في فوتوشوب كل ماب يشتغل طبقة أو ماسك (انسخه، Alt+كليك على ماسك طبقة التعديل، الصق). الانعكاسات Screen بـ 20–50%، والأوكلوجن Multiply بـ 15–30%، والعمق مقلوب ماسك للضباب، والضوء فقط ماسك يدفّي المناطق المشمسة ومقلوب يبرّد الظل؛ وراجع كل ماب بوضع Difference فوق الصورة قبل الاستعمال.
    - وش تراقب: قائمة التفاصيل المعرّضة، والظلال باتجاه واحد وفي مكانها الصح وغامقة عند بدايتها والشمس برّا الصورة، وكل سطح أخذ مادته الحقيقية بدل شكل الرندر، والزجاج يعكس سماء الصورة واللي قدامه (مو أسود ولا أزرق مسطح ولا مراية وحدة على الواجهة كلها)، وما دخل من المرجع غير ضوءه.
    - لو بتصدّر من البرنامج بدل نانو: الكلاي وصورة المواد من نفس الكاميرا والنسبة، بأعلى دقة، والحواف مطفية. الكلاي من سكتشاب Face Style → Monochrome، والظلال بالوقت والتاريخ بنفس اتجاه شمس المرجع، وساعتها ما تحتاج أ ولا ب.
-3. One closing line with the next step (run A, check the clay, then B).
+3. One closing line with the next step (run A, check the clay, then B), and one line offering the maps: "لو تحتاج خرائط للطباعة (عمق، إظلال، ضوء، انعكاسات) قل لي وأكتبها لك."
+
+When the user asks for the maps, hand over Prompt E for the maps they named, each in its own code block, with these notes in short Arabic: كل ماب في محادثة جديدة، والصورة النهائية بس. في فوتوشوب كل ماب يشتغل طبقة أو ماسك (انسخه، Alt+كليك على ماسك طبقة التعديل، الصق). الانعكاسات Screen بـ 20–50%، والأوكلوجن Multiply بـ 15–30%، والعمق مقلوب ماسك للضباب، والضوء فقط ماسك يدفّي المناطق المشمسة ومقلوب يبرّد الظل؛ وراجع كل ماب بوضع Difference فوق الصورة قبل الاستعمال.
 
 ## 6 Review
 
@@ -154,7 +154,7 @@ Fix the highest level first:
 - Objects from the reference → crop the reference down to its sky and light and rerun C, or take them out with Prompt D if the rest works.
 - A flat sky, black, flat or mismatched reflections, or light that needs a touch → the one-image D fix for the sky and the reflections, or for the light.
 
-A fix is done only once the regenerated image has been checked. After D passes, the maps run on the final photograph.
+A fix is done only once the regenerated image has been checked. After D passes, the photograph is final; the maps come only if the user asks for them.
 
 ## Run (only when asked)
 
