@@ -1,0 +1,80 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Plex;font-weight:500;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-500-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Plex;font-weight:700;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-700-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Plex;font-weight:500;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-latin-500-normal.woff2);unicode-range:U+0000-024F,U+2000-206F}
+@font-face{font-family:Plex;font-weight:700;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-latin-700-normal.woff2);unicode-range:U+0000-024F,U+2000-206F}
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:transparent}
+#shade{position:absolute;inset:0;background:radial-gradient(ellipse 80% 45% at 50% 47%,rgba(3,9,10,.78),rgba(3,9,10,.5) 70%,rgba(3,9,10,.62))}
+#card{position:absolute;left:0;right:0;top:0;height:1920px;transform-origin:540px 960px}
+#logo{position:absolute;left:110px;top:740px;width:860px;overflow:visible}
+#line{position:absolute;left:540px;top:1012px;height:3px;width:0;background:linear-gradient(90deg,transparent,var(--acc),transparent);transform:translateX(-50%)}
+.tx{position:absolute;left:0;right:0;text-align:center;direction:rtl;font-family:Plex;opacity:0;white-space:nowrap}
+#name{top:1040px;font-size:46px;font-weight:700;color:#f1f5f4}
+#contact{top:1138px;font-size:32px;font-weight:500;color:#cfe2dc;display:flex;justify-content:center;gap:44px;direction:rtl}
+#contact span{display:flex;align-items:center;gap:12px;direction:ltr}
+#contact span.ar{direction:rtl}
+#contact svg{width:30px;height:30px;flex:none}
+</style></head>
+<body>
+<div id="shade"></div>
+<div id="card">
+ <svg id="logo" viewBox="__VB__">
+  <defs>
+   <linearGradient id="sh" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="700" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+   </linearGradient>
+   <filter id="glow" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="38" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+   <clipPath id="wclip"><rect id="wrect" x="0" y="0" width="0" height="2000"/></clipPath>
+   <clipPath id="dclip"><rect id="drect" x="0" y="0" width="0" height="2000"/></clipPath>
+  </defs>
+  <g id="iconG" filter="url(#glow)">
+   <path id="dark" fill="#92b1ac" d="__DARK__" clip-path="url(#dclip)"/>
+   <g id="lightG"><path id="light" fill="#cfe2dc" d="__LIGHT__"/></g>
+  </g>
+  <g clip-path="url(#wclip)"><path id="word" fill="#f1f5f4" fill-rule="evenodd" d="__WORD__"/></g>
+  <g id="shine" opacity="0"><path fill="url(#sh)" fill-rule="evenodd" d="__WORD__"/><path fill="url(#sh)" d="__LIGHT__"/><path fill="url(#sh)" d="__DARK__"/></g>
+ </svg>
+ <div id="line"></div>
+ <div class="tx" id="name">كيوب للإستشارات الهندسية و المقاولات العامة</div>
+ <div class="tx" id="contact">
+  <span class="ar"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" fill="none" stroke="var(--acc)" stroke-width="2"/><circle cx="12" cy="10" r="2.6" fill="var(--acc)"/></svg>عدن - كريتر</span>
+  <span><svg viewBox="0 0 24 24"><path d="M6.6 3.5h3l1.6 4.2-2 1.4a12 12 0 0 0 5.7 5.7l1.4-2 4.2 1.6v3a2 2 0 0 1-2.2 2A17.5 17.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linejoin="round"/></svg>781117421</span>
+  <span><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5" fill="none" stroke="var(--acc)" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="var(--acc)" stroke-width="2"/><circle cx="17.2" cy="6.8" r="1.2" fill="var(--acc)"/></svg>cube.ye</span>
+ </div>
+</div>
+<script>
+const Q = new URLSearchParams(location.search), T0 = +(Q.get('t0') || 22.8);
+document.documentElement.style.setProperty('--acc', '#' + (Q.get('accent') || '3cc8b4'));
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x)), p = (t, a, b) => cl((t - a) / (b - a)), lerp = (a, b, k) => a + (b - a) * k;
+const eo = k => 1 - Math.pow(1 - k, 3), eio = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const back = (k, s = 1.5) => { const c3 = s + 1; return 1 + c3 * Math.pow(k - 1, 3) + s * Math.pow(k - 1, 2); };
+const $ = id => document.getElementById(id);
+const [vx, vy, vw, vh] = $('logo').getAttribute('viewBox').split(' ').map(Number);
+const bb = $('dark').getBBox(), lb = $('light').getBBox(), wb = $('word').getBBox();
+function blurIn(el, t, a, d, dy) { const k = p(t, a, a + d), e = eo(k); el.style.opacity = k; el.style.filter = `blur(${(1 - e) * 12}px)`; el.style.transform = `translateY(${(1 - e) * dy}px)`; }
+window.seek = t => {
+  const u = t - T0;                                   // seconds into the end card
+  $('shade').style.opacity = eio(p(u, 0, 1.0));
+  $('card').style.transform = `scale(${lerp(.985, 1.025, p(u, 0, 4.7))})`;
+  // dark wall wipes in from the right edge
+  const dk = eio(p(u, .15, .75)); $('drect').setAttribute('x', bb.x + bb.width * (1 - dk)); $('drect').setAttribute('width', bb.width * dk + 2);
+  // light faces slide in from the left
+  const lk = back(p(u, .35, .9), 1.2); $('lightG').setAttribute('transform', `translate(${(1 - cl(lk, 0, 1.2)) * -260},0)`); $('light').style.opacity = cl(p(u, .35, .6));
+  // glow pulse when the icon locks
+  const g = Math.exp(-Math.max(0, u - .85) * 2.2) * p(u, .7, .85); $('iconG').style.filter = `drop-shadow(0 0 ${10 + 40 * g}px rgba(60,200,180,${.25 + .55 * g}))`;
+  // wordmark wipes left -> right
+  const wk = eio(p(u, .75, 1.45)); $('wrect').setAttribute('x', wb.x - 10); $('wrect').setAttribute('width', (wb.width + 20) * wk);
+  $('word').style.opacity = cl(wk * 3);
+  // shine sweep
+  const sk = p(u, 1.5, 2.2); $('shine').setAttribute('opacity', sk > 0 && sk < 1 ? .9 : 0);
+  const sx = lerp(vx - 900, vx + vw + 200, eio(sk)); const gr = $('sh'); gr.setAttribute('x1', sx); gr.setAttribute('x2', sx + 700);
+  // accent line, name, contacts
+  $('line').style.width = 520 * eio(p(u, 1.55, 2.1)) + 'px'; $('line').style.opacity = 1;
+  blurIn($('name'), u, 1.8, .55, 20);
+  blurIn($('contact'), u, 2.4, .55, 14);
+};
+window.READY = document.fonts.ready.then(() => { seek(T0); return true; });
+</script>
+</body></html>

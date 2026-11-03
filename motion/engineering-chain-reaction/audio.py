@@ -78,11 +78,22 @@ sput('data/cinematic_data', T_FIN + .25, .3)
 sput('ui/ui_open', T_LIGHT - .4, .4)
 for j in range(5): sput('ui/ui_granular_button_select', T_LIGHT + .1 + j * .2, .3, -.4 + j * .2)
 # --- sunrise + title
+T_TITLE, T_END = T['T_TITLE'], T['T_END']
 sput('whoosh/slow_and_smooth_whoosh', T_SUN, .26)
-sput('riser/premium_riser', 0, .3, end_at=D - 4.4)
-sput('whoosh/whoosh_deep_short', D - 4.45, .5)
-sput('pop/premium_and_smooth_pop', D - 4.4, .5)
-sput('whoosh/cinematic_low_whoosh', D - 3.2, .2)
+sput('riser/premium_riser', 0, .3, end_at=T_TITLE)
+sput('whoosh/whoosh_deep_short', T_TITLE - .05, .45)
+sput('pop/premium_and_smooth_pop', T_TITLE, .45)
+# --- end card: CUBE logo + office name
+sput('riser/smooth_riser', 0, .28, end_at=T_END + .85)
+sput('whoosh/cinematic_low_whoosh', T_END + .12, .3)
+sput('whoosh/epic_fast_whoosh_345469', T_END + .38, .3, -.3)
+sput('whoosh/whoosh_deep_short', T_END + .85, .5)
+sput('pop/premium_and_smooth_pop', T_END + .85, .5)
+sput('data/data_collect', T_END + 1.05, .22, .2)
+sput('pop/sweet_ui_open', T_END + 1.5, .3)
+sput('ui/ui_enter', T_END + 1.8, .3)
+sput('pop/media_pop', T_END + 2.4, .28)
+sput('whoosh/cinematic_low_whoosh_2', D - .9, .2)
 
 sfx_bus = L.copy()
 if missing: print('MISSING:', sorted(set(missing)))
@@ -103,6 +114,8 @@ pad([45, 52, 57, 60], 0, T_PLAN + 1, .05)            # Am (dark)
 pad([41, 48, 53, 57], T_PLAN - .5, T_LV + 1, .05)      # F
 pad([43, 50, 55, 59], T_LV, T_LIGHT + .5, .055)        # G
 pad([48, 55, 60, 64, 67], T_LIGHT - .2, D, .06)        # C (sunrise, opens up)
+sub = np.sin(2 * np.pi * 55 * t) * np.exp(-((t - TS) % 100) * 0) * 0
+music += lp(music, 2200) * 0
 music = lp(music, 2600)
 pulse_t = [x for x in np.arange(T_LV, T_LIGHT, .34)]
 for pt in pulse_t:

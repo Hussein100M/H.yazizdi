@@ -5,21 +5,23 @@
 @font-face{font-family:Plex;font-weight:700;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-700-normal.woff2);unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
 @font-face{font-family:Plex;font-weight:500;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-latin-500-normal.woff2);unicode-range:U+0000-024F,U+2000-206F}
 @font-face{font-family:Plex;font-weight:700;src:url(node_modules/@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-latin-700-normal.woff2);unicode-range:U+0000-024F,U+2000-206F}
+@font-face{font-family:Inter;font-weight:300;src:url(node_modules/@fontsource/inter/files/inter-latin-300-normal.woff2)}
+@font-face{font-family:Inter;font-weight:600;src:url(node_modules/@fontsource/inter/files/inter-latin-600-normal.woff2)}
 @font-face{font-family:JBM;font-weight:400;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2)}
 @font-face{font-family:JBM;font-weight:700;src:url(node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-700-normal.woff2)}
 html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
 canvas{display:block;position:absolute;left:0;top:0;width:1080px!important;height:1920px!important}
 #ov{position:absolute;inset:0;pointer-events:none}
 .t{position:absolute;left:0;right:0;text-align:center;direction:rtl;font-family:Plex;opacity:0}
-#t1{top:1450px;font-size:74px;font-weight:700;color:#fff;text-shadow:0 0 34px rgba(255,120,50,.45),0 3px 18px rgba(0,0,0,.6)}
-#t2{top:1562px;font-size:42px;font-weight:500;color:#fff2e8;text-shadow:0 2px 14px rgba(0,0,0,.55)}
-#t2 b{color:#ff8a4a;font-weight:700;margin:0 14px}
+#t1{top:1462px;font-size:62px;font-weight:600;font-family:Inter;direction:ltr;letter-spacing:10px;padding-left:10px;color:#fff;text-shadow:0 0 34px color-mix(in srgb, var(--acc) 55%, transparent),0 3px 18px rgba(0,0,0,.6)}
+#t2{top:1562px;font-size:42px;font-weight:500;color:#eafaf8;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+#t2 b{color:var(--acc);font-weight:700;margin:0 14px}
 #fade{position:absolute;inset:0;background:#000}
 </style></head>
 <body>
 <div id="ov">
- <div class="t" id="t1">من الخط الأول… إلى الواجهة</div>
- <div class="t" id="t2">أدوات<b>·</b>مخططات<b>·</b>واجهات</div>
+ <div class="t" id="t1">FRAME YOUR FUTURE</div>
+ <div class="t" id="t2"></div>
  <div id="fade"></div>
 </div>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script>

@@ -10,7 +10,7 @@ import {RoundedBoxGeometry} from 'three/addons/geometries/RoundedBoxGeometry.js'
 
 const Q = new URLSearchParams(location.search);
 const W = 1080, H = 1920, SCALE = +(Q.get('s') || 1);
-const DUR = 24;
+const DUR = 27.5, T_TITLE = 19.6, T_END = 22.8;   // end card (logo + office name) is composited over T_END..DUR
 
 // ---------------- helpers ----------------
 const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
@@ -48,23 +48,31 @@ scene.environmentIntensity = 0.3;
 const camera = new THREE.PerspectiveCamera(34, W / H, 0.1, 2500);
 
 // palette
-const ORANGE = 0xff5a1f;
-const OR = a => `rgba(255,104,40,${a})`;
+// brand accent (turquoise by default) -> ?accent=RRGGBB
+const ACC_HEX = '#' + (Q.get('accent') || '3cc8b4').replace('#', '');
+const ACC = new THREE.Color(ACC_HEX);                       // linear
+const ORANGE = ACC.getHex();
+const ACC_RGB = [1, 3, 5].map(i => parseInt(ACC_HEX.slice(i, i + 2), 16));
+const OR = a => `rgba(${ACC_RGB.join(',')},${a})`;
+const ACC_LUM = .2126 * ACC.r + .7152 * ACC.g + .0722 * ACC.b;
+const GK = cl(.24 / ACC_LUM, .35, 1.2);                      // keep glow/bloom similar for brighter hues
+const accMix = (k, m = 1) => ACC.clone().lerp(new THREE.Color(1, 1, 1), k).multiplyScalar(m);
+document.documentElement.style.setProperty('--acc', ACC_HEX);
 
 // sky dome (night -> sunrise)
-const skyU = {uWarm: {value: 0}, uSunDir: {value: new THREE.Vector3(1, 0, 0)}};
+const skyU = {uWarm: {value: 0}, uSunDir: {value: new THREE.Vector3(1, 0, 0)}, uAcc: {value: ACC.clone()}, uHalo: {value: accMix(.45)}};
 const sky = new THREE.Mesh(new THREE.SphereGeometry(1200, 48, 24), new THREE.ShaderMaterial({
   side: THREE.BackSide, depthWrite: false, uniforms: skyU,
   vertexShader: `varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
-  fragmentShader: `uniform float uWarm; uniform vec3 uSunDir; varying vec3 vP;
+  fragmentShader: `uniform float uWarm; uniform vec3 uSunDir; uniform vec3 uAcc; uniform vec3 uHalo; varying vec3 vP;
   void main(){
     float h = max(vP.y, 0.);
     vec3 night = vec3(.0016,.0017,.0022);
-    vec3 zen = vec3(.012,.008,.009), mid = vec3(.22,.07,.025), hor = vec3(.8,.27,.08);
+    vec3 zen = vec3(.002,.004,.009) + uAcc*.006, mid = uAcc*.1, hor = uAcc*.5;
     vec3 day = mix(zen, mid, exp(-h*3.));
     day = mix(day, hor, exp(-h*11.));
     float s = max(dot(normalize(vP), normalize(uSunDir)), 0.);
-    day += vec3(1.,.4,.12) * (pow(s, 10.)*.35 + pow(s, 90.)*1.0);
+    day += uHalo * (pow(s, 10.)*.22 + pow(s, 90.)*.7);
     gl_FragColor = vec4(mix(night, day, uWarm), 1.);
   }`
 }));
@@ -85,10 +93,10 @@ key.position.set(-30, 80, 75); key.target.position.set(50, 0, 0); scene.add(key,
 key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
 Object.assign(key.shadow.camera, {left: -85, right: 85, top: 85, bottom: -85, near: 10, far: 320});
 key.shadow.bias = -0.0004; key.shadow.normalBias = .04;
-const sunLight = new THREE.DirectionalLight(0xffa060, 0); scene.add(sunLight, sunLight.target);
-const L1 = new THREE.PointLight(0xff6a2a, 0, 0, 2); scene.add(L1);   // pencil tip -> facade fill
-const L2 = new THREE.PointLight(0xff6a2a, 0, 0, 2); scene.add(L2);   // ball
-const L3 = new THREE.PointLight(0xff7a38, 0, 0, 2); scene.add(L3);   // plan glow
+const sunLight = new THREE.DirectionalLight(accMix(.5), 0); scene.add(sunLight, sunLight.target);
+const L1 = new THREE.PointLight(ORANGE, 0, 0, 2); scene.add(L1);   // pencil tip -> facade fill
+const L2 = new THREE.PointLight(ORANGE, 0, 0, 2); scene.add(L2);   // ball
+const L3 = new THREE.PointLight(accMix(.15).getHex(), 0, 0, 2); scene.add(L3);   // plan glow
 
 // materials
 const M = {
@@ -100,7 +108,7 @@ const M = {
   gun: new THREE.MeshStandardMaterial({color: 0x5d6168, roughness: .38, metalness: .9, envMapIntensity: .8}),
   glass: new THREE.MeshStandardMaterial({color: 0x06080b, roughness: .07, metalness: .9, envMapIntensity: 2.2}),
 };
-const glowMat = (c = ORANGE, i = 3) => new THREE.MeshStandardMaterial({color: 0x000000, emissive: c, emissiveIntensity: i, roughness: 1});
+const glowMat = (c = ORANGE, i = 3) => new THREE.MeshStandardMaterial({color: 0x000000, emissive: c, emissiveIntensity: i * GK, roughness: 1});
 const add = (parent, geo, mat, x = 0, y = 0, z = 0, cast = true) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = cast; m.receiveShadow = true; parent.add(m); return m; };
 const mkCanvas = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
 const mkTex = c => { const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 8; return t; };
@@ -120,7 +128,7 @@ add(pb, new THREE.CylinderGeometry(.35, .35, 2.0, 40), M.silver, 0, 9.3);
 for (let k = 0; k < 10; k++) add(pb, new THREE.CylinderGeometry(.356, .356, .05, 40), M.black, 0, 8.5 + k * .18, 0, false);
 add(pb, new THREE.CylinderGeometry(.07, .35, 1.1, 40), M.gun, 0, 10.85);
 add(pb, new THREE.CylinderGeometry(.045, .045, .45, 16), M.gun, 0, 11.62);
-const tipMat = glowMat(0xff6a2a, 6);
+const tipMat = glowMat(ORANGE, 6);
 add(pb, new THREE.CylinderGeometry(.02, .03, .2, 12), tipMat, 0, 11.94, 0, false);
 
 // ================= 2. DRAWING SHEETS (dominoes) =================
@@ -195,14 +203,14 @@ const RA = Math.atan2(3, 22.2), R_LEN = Math.hypot(22.2, 3);
     if (s % 8 === 0 && s > 0) { x.fillStyle = OR(.9); x.font = '700 34px JBM'; x.textAlign = 'center'; x.fillText(String(s / 4), px, 292 - 88); }
   }
   x.fillStyle = OR(.5); x.font = '400 26px JBM'; x.textAlign = 'left'; x.fillText('1:100', 24, 48);
-  const top = new THREE.MeshStandardMaterial({map: mkTex(c), emissiveMap: mkTex(e), emissive: 0xffffff, emissiveIntensity: 1.3, roughness: .35, metalness: .4});
+  const top = new THREE.MeshStandardMaterial({map: mkTex(c), emissiveMap: mkTex(e), emissive: 0xffffff, emissiveIntensity: 1.3 * GK, roughness: .35, metalness: .4});
   const ramp = new THREE.Mesh(new THREE.BoxGeometry(R_LEN, .35, 3.2), [M.graphite, M.graphite, top, M.graphite, M.graphite, M.graphite]);
   ramp.castShadow = ramp.receiveShadow = true;
   ramp.position.set(44 + 11.1 - Math.sin(RA) * .175, 1.5 - Math.cos(RA) * .175, 0); ramp.rotation.z = -RA; scene.add(ramp);
   const edgeM = glowMat(ORANGE, 2.2);
   for (const z of [-1.62, 1.62]) { const e = new THREE.Mesh(new THREE.BoxGeometry(R_LEN, .06, .06), edgeM); e.position.set(0, .16, z); ramp.add(e); }
 }
-const ballMat = glowMat(0xff8a45, 2.6);
+const ballMat = glowMat(accMix(.25).getHex(), 2.6);
 const ball = add(scene, new THREE.SphereGeometry(1, 48, 32), ballMat, 40.6, 4, 0, false);
 // ball kinematics
 const A_LEN = 44 - 40.6, vA = 7, aR = 14;
@@ -322,7 +330,7 @@ function drawPlan(t, bx) {
   }
   planEmTex.needsUpdate = true;
 }
-const ring = new THREE.Mesh(new THREE.RingGeometry(.94, 1, 128), new THREE.MeshBasicMaterial({color: 0xff6a2a, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false}));
+const ring = new THREE.Mesh(new THREE.RingGeometry(.94, 1, 128), new THREE.MeshBasicMaterial({color: ORANGE, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false}));
 ring.rotation.x = -Math.PI / 2; ring.position.set(96, .06, 0); scene.add(ring);
 
 // ================= 5. THE BUILDING =================
@@ -373,7 +381,7 @@ const _m = new THREE.Matrix4(), _q = new THREE.Quaternion(), _s = new THREE.Vect
 wins.forEach((w, i) => { _q.setFromEuler(_e.set(0, w.r, 0)); _m.compose(_v.set(...w.p), _q, _s.set(w.w, w.h, 1)); winMesh.setMatrixAt(i, _m); winMesh.setColorAt(i, _c.setRGB(0, 0, 0)); });
 
 // ================= 6. SUN =================
-const sun = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), new THREE.MeshBasicMaterial({color: new THREE.Color(2.6, 1.0, .28), fog: false}));
+const sun = new THREE.Mesh(new THREE.SphereGeometry(26, 48, 24), new THREE.MeshBasicMaterial({color: accMix(.55, 1.8), fog: false}));
 scene.add(sun);
 const T_SUN = T_LIGHT + 1.2;
 
@@ -422,21 +430,21 @@ function seek(t) {
   for (let i = NS - 2; i >= 0; i--) th[i] = Math.min(sheetFree(i, t), lean(th[i + 1]));
   const pen = Math.min(penFree(t), penLimit(th[0]), 84);
   pencil.rotation.z = -pen * DEG;
-  sheets.forEach((s, i) => { s.g.rotation.z = -th[i] * DEG; const hit = t - S0[i]; s.face.emissiveIntensity = hit < 0 ? .9 : 1.25 + 2.6 * Math.exp(-hit * 3.2); });
+  sheets.forEach((s, i) => { s.g.rotation.z = -th[i] * DEG; const hit = t - S0[i]; s.face.emissiveIntensity = GK * (hit < 0 ? .9 : 1.25 + 2.6 * Math.exp(-hit * 3.2)); });
   const tip = pb.localToWorld(lookTmp.set(0, 13.0, 0)); L1.position.copy(tip); L1.intensity = 2.2 * (1 - p(t, 3, 4.5));
-  tipMat.emissiveIntensity = 6 + 4 * Math.sin(t * 6) * (1 - p(t, 1, 1.6));
+  tipMat.emissiveIntensity = GK * (6 + 4 * Math.sin(t * 6) * (1 - p(t, 1, 1.6)));
   // ball
   const sink = p(t, TS + .35, TS + .9);
   ball.position.set(ball3[0], ball3[1] - sink * 1.2, ball3[2]); ball.scale.setScalar(1 - eio(sink) * .999);
   ball.visible = sink < 1;
   const flare = Math.exp(-Math.max(0, t - TS) * 4) * p(t, TS - .1, TS);
-  ballMat.emissiveIntensity = 2.6 + 5 * flare;
+  ballMat.emissiveIntensity = GK * (2.6 + 5 * flare);
   L2.position.set(ball3[0], ball3[1] + 1.6, ball3[2]); L2.intensity = (lerp(10, 18, p(t, TB, TB + .5)) + 90 * flare) * (1 - sink);
   // plan
   if (t < TS + 4 || planDrawnAt < TS + 4) { drawPlan(t, ball3[0]); planDrawnAt = t; }
   const pulse = p(t, TS + .15, TS + 1.3);
-  ring.visible = pulse > 0 && pulse < 1; ring.scale.setScalar(1 + eo(pulse) * 34); ring.material.color.setRGB(3, 1.2, .45).multiplyScalar(1 - pulse);
-  planMat.emissiveIntensity = (t < T_PLAN ? 1.6 : 1.6 + 2.4 * Math.exp(-Math.max(0, t - TS - .2) * 2.5) * p(t, TS, TS + .2)) * lerp(1, .75, p(t, T_LV, T_FIN));
+  ring.visible = pulse > 0 && pulse < 1; ring.scale.setScalar(1 + eo(pulse) * 34); ring.material.color.copy(ACC).multiplyScalar(3 * (1 - pulse));
+  planMat.emissiveIntensity = GK * (t < T_PLAN ? 1.6 : 1.6 + 2.4 * Math.exp(-Math.max(0, t - TS - .2) * 2.5) * p(t, TS, TS + .2)) * lerp(1, .75, p(t, T_LV, T_FIN));
   L3.position.set(lerp(80, 96, p(t, T_PLAN, TS)), 9, 0); L3.intensity = 80 * p(t, T_PLAN, T_PLAN + 1.5) * (1 - .6 * p(t, T_LV, T_FIN)) + 160 * flare;
   // building levels
   levels.forEach(({g, a}) => { const k = p(t, a, a + .42); g.visible = k > 0; g.scale.y = Math.max(.001, back(k, 1.2)); });
@@ -444,19 +452,19 @@ function seek(t) {
     const on = t > f.a ? 1 : 0; _m.compose(_v.set(f.x, f.base + hh / 2, f.z), _q.identity(), _s.set(f.sx * on, hh * on, f.sz * on)); finMesh.setMatrixAt(i, _m); });
   finMesh.instanceMatrix.needsUpdate = true;
   wins.forEach((w, i) => { const k = p(t, w.on, w.on + .22); const fl = k > 0 && k < 1 ? (Math.sin(t * 90 + i) > 0 ? 1 : .4) : 1;
-    const v = w.i * k * fl * 1.35; winMesh.setColorAt(i, _c.setRGB(v, v * .5 * w.tint, v * .2)); });
+    const v = w.i * k * fl * .85; winMesh.setColorAt(i, _c.setRGB(v, v * .84 * w.tint, v * .64)); });
   winMesh.instanceColor.needsUpdate = true;
-  ledMat.emissiveIntensity = 2.2 * p(t, T_LIGHT - .4, T_LIGHT + .6) + 1.2 * levels.reduce((s, {a}) => s + Math.exp(-Math.max(0, t - a - .35) * 5) * p(t, a + .3, a + .36), 0);
+  ledMat.emissiveIntensity = GK * 2.2 * p(t, T_LIGHT - .4, T_LIGHT + .6) + 1.2 * levels.reduce((s, {a}) => s + Math.exp(-Math.max(0, t - a - .35) * 5) * p(t, a + .3, a + .36), 0);
   if (t > T_LV) { L1.position.set(78, 5, 6); L1.intensity = 140 * p(t, T_LIGHT - .2, T_LIGHT + 1.5); }
   // sunrise
-  const w = eio(p(t, T_SUN, T_SUN + 5.5)), fl2 = eio(p(t, DUR - 3.2, DUR - .6));
+  const w = eio(p(t, T_SUN, T_SUN + 5.5)), fl2 = 0, endk = eio(p(t, T_END, T_END + 1.2));
   const sunPos = _v.copy(SUN.base).setY(SUN.y0 + SUN.dist * Math.tan(lerp(2, 19.5, w) * DEG)); sun.position.copy(sunPos); sun.visible = w > 0;
   skyU.uWarm.value = w; skyU.uSunDir.value.copy(sunPos).sub(C).normalize();
   sunLight.position.copy(sunPos); sunLight.target.position.copy(C); sunLight.intensity = 1.0 * w; key.intensity = .7 * (1 - .65 * w);
-  scene.fog.color.setRGB(0.008, .0085, .011).lerp(_c.setRGB(.13, .045, .016), w * .85 + .15 * fl2);
+  scene.fog.color.setRGB(0.008, .0085, .011).lerp(_c.copy(ACC).multiplyScalar(.13), w * .85);
   scene.fog.density = lerp(.0075, .0045, w) + .0015 * fl2;
-  hemi.color.setHex(0x8a96a8).lerp(_c.setHex(0xffa070), w); hemi.intensity = .22 + .06 * w;
-  renderer.toneMappingExposure = 1 + .1 * fl2;
+  hemi.color.setHex(0x8a96a8).lerp(accMix(.4), w); hemi.intensity = .22 + .06 * w;
+  renderer.toneMappingExposure = 1 - .6 * endk;
   bloom.strength = lerp(.85, .5, w) + .25 * fl2; bloom.threshold = lerp(.74, .92, w) - .1 * fl2;
   // camera
   const c = spline(CAM, t);
@@ -468,17 +476,17 @@ function seek(t) {
   camera.position.set(c[0] + Math.sin(t * 1.31) * sh, c[1] + Math.sin(t * 1.73 + 1) * sh * .8, c[2] + Math.sin(t * .97 + 2) * sh * .6);
   lookTmp.set(c[3] + Math.sin(t * 1.1 + 3) * sh * .5, c[4] + Math.sin(t * 1.43) * sh * .4, c[5]);
   camera.lookAt(lookTmp); camera.fov = c[6]; camera.updateProjectionMatrix();
-  bokeh.uniforms.focus.value = camera.position.distanceTo(lookTmp);
-  bokeh.uniforms.aperture.value = c[7];
+  bokeh.uniforms.focus.value = lerp(camera.position.distanceTo(lookTmp), 9, endk);
+  bokeh.uniforms.aperture.value = lerp(c[7], .0005, endk);
   // overlays
-  fade.style.opacity = 1 - p(t, 0, .7) + p(t, DUR - .5, DUR);
-  const a1 = eo(p(t, DUR - 4.4, DUR - 3.5)), a2 = eo(p(t, DUR - 3.7, DUR - 3.0));
-  t1.style.opacity = a1; t1.style.filter = `blur(${(1 - a1) * 14}px)`; t1.style.transform = `translateY(${(1 - a1) * 26}px)`;
+  fade.style.opacity = 1 - p(t, 0, .7);
+  const out = p(t, T_END - .5, T_END + .1), a1 = eo(p(t, T_TITLE, T_TITLE + .9)) * (1 - out), a2 = eo(p(t, T_TITLE + .7, T_TITLE + 1.4)) * (1 - out);
+  t1.style.opacity = a1; t1.style.filter = `blur(${(1 - a1) * 14 + out * 10}px)`; t1.style.transform = `translateY(${(1 - a1) * 26}px)`;
   t2.style.opacity = a2; t2.style.transform = `translateY(${(1 - a2) * 16}px)`;
   renderer.shadowMap.needsUpdate = true;
   composer.render();
 }
 window.seek = seek;
-window.TIMES = {S0, TB, T_PLAN, TS, T_LV, T_FIN, T_LIGHT, T_SUN, DUR};
+window.TIMES = {S0, TB, T_PLAN, TS, T_LV, T_FIN, T_LIGHT, T_SUN, T_TITLE, T_END, DUR, ACC_HEX};
 seek(0);
 window.READY = true;
