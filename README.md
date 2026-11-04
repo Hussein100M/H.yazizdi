@@ -35,9 +35,10 @@ for the full workflow, security notes, and upgrade instructions.
 ## Skills
 
 - [`clay-rerender`](.claude/skills/clay-rerender/SKILL.md): turns a render or
-  SketchUp view into a real photograph in Nano Banana in three passes: the
-  clay, then the sun and shadows on the clay, then the materials with the
-  reflections, sky and atmosphere in one prompt; then fixes and optional maps.
+  SketchUp view into a real photograph in Nano Banana in two passes: a lit
+  clay that carries the sun and shadows, the sky and air, the artificial
+  lighting and added people, then the materials with their reflections; then
+  fixes, with Photoshop maps only on request.
 - [`clay-rerender-fast`](.claude/skills/clay-rerender-fast/SKILL.md): turns a
   SketchUp, Revit or render view into a real photograph in Nano Banana in one
   generation pass. The clay and the material view are exported from the 3D
