@@ -47,7 +47,13 @@ Attach an interior render and ask in Arabic or English (for example
    every piece that can be swapped, with its position and orientation.
 2. Asks with short cards which piece to replace, and whether you have a
    reference image or want it to suggest alternatives that fit the room.
-3. Writes one Nano Banana, Seedream or GPT Image prompt. The prompt replaces
-   only that piece, keeps the old piece's spot, footprint, facing and viewing
-   angle (not the angle of the reference photo), and lights and grades the new
-   piece with the render's own light and effects.
+3. Reads the reference piece part by part (exact counts, proportions,
+   materials and colours per part, details, and features it does not have)
+   and shows you that description to correct.
+4. Writes one Nano Banana, Seedream or GPT Image prompt. The prompt removes the
+   old piece and puts an exact copy of the reference piece in its place, not
+   the old shape re-covered in the new materials. The copy is sized to fit the
+   space, keeps the old piece's spot, facing and viewing angle (not the angle
+   of the reference photo), and takes the render's own light and effects. When
+   the two shapes differ a lot, the skill splits the edit into two steps: first
+   erase the old piece, then place the copy.

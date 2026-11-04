@@ -1,24 +1,42 @@
 # Furniture vocabulary
 
-Read this when describing a reference piece, writing a suggestion, or sizing a piece against the room. Image models rebuild what is named precisely and reinvent what is named loosely: "a sofa" gets redesigned, "a low three-seat sofa with a deep plinth base, two loose seat cushions and sloped track arms" survives.
+Read this when writing the spec sheet of a reference piece or a suggestion, or sizing a piece against the room. Image models copy what is named precisely and redesign what is named loosely: "a beige sofa" comes back as the model's own sofa; "a three-seat sofa with three loose seat cushions, square track arms level with the back and a recessed black plinth" comes back as that sofa.
 
 ## Contents
-1. Describing a piece (order)
+1. The spec sheet: method, order and an example
 2. Parts by type
 3. Typical sizes
 4. Materials by look
 5. Arabic ↔ English names
 
-## 1 Describing a piece (order)
+## 1 The spec sheet
 
-Write the design in this order, and only what the image shows (✓); a ≈ detail is written by its look, a ? detail is left out:
+### Method
+- **Count, don't summarise.** Every countable thing gets a number: legs, seat and back cushions, buttons (and their grid, e.g. 4 × 3), channels, drawers, doors, slats, flutes, shelves, arms of a chandelier, tiers. "Several" or "some" invites the model to choose.
+- **Proportions as ratios of the piece itself**, because the reference has no room to measure against: "the back is about two thirds of the overall height", "the legs are about a quarter of the height", "the seat cushion is about as thick as the arm is wide", "the top overhangs the base by about one leg width".
+- **Part by part, from the floor up**: base → body or frame → seat or top → arms → back → cushions → hardware and details. One sentence per part: shape, size relative to the piece, material, colour, finish.
+- **Material and colour per part**, never one colour for the whole piece unless it really is one colour: "oatmeal bouclé body, walnut legs, brushed brass foot caps".
+- **Name what is absent.** "No piping, no buttons, no skirt, no visible legs" stops the model adding its favourite details.
+- **Evidence.** Only ✓ details go in by name. A ≈ detail is written by its look ("a warm mid-brown wood", not "walnut"). A ? detail is left out and covered by "hidden parts continue the visible design".
+- **Hidden sides.** When the render shows a side the reference does not, say what continues there: the same material, seams and edge treatment; no new features.
 
-1. **Type and silhouette** — low and deep / upright / curved / boxy / floating on legs / sitting on a plinth.
-2. **Proportions** — length against depth, back height against arm height, seat thickness.
-3. **Base** — legs (count, shape, material, splay) or plinth / sled / pedestal / trestle.
-4. **Body parts** — arms, back, cushions (count, loose or fixed), headboard, top, drawers, shade.
-5. **Surface** — upholstery or material, colour, finish (matte, satin, gloss), texture.
-6. **Details** — piping, welt, channel stitching, tufting, buttons, fluting, reeding, edge profile, handles, visible joints.
+### Order
+1. **Type and silhouette** — low and deep / upright / curved / boxy / floating on legs / sitting on a plinth; overall size (L × D × H).
+2. **Proportions** — the ratios above.
+3. **Base** — legs (exact count, shape, section, taper, splay, height, how far in from the corners, material, colour) or plinth / recessed plinth / sled / pedestal / trestle.
+4. **Body parts** — arms (type, width, height relative to the back, top shape), back (height, shape, fixed or cushioned), seat, top, headboard, frame, drawers and doors (count and layout), shade.
+5. **Cushions** — exact count of seat and back cushions, loose or fixed, thickness, seam type (welt, piping, flange, knife edge), how they sit (crisp or relaxed).
+6. **Surface per part** — material, colour, finish (matte, satin, gloss), texture, pattern direction and scale.
+7. **Details** — piping, welts, stitching lines, channel tufting (channel count), deep buttoning (button count and grid), fluting or reeding (count), edge profiles, handles (type, count, position), visible joints and hardware.
+8. **Absent features** — what it does not have.
+
+### Example (three-seat sofa)
+
+> A three-seat sofa about 230 cm long, 95 cm deep and 72 cm high: low, deep and boxy, with a flat, even top line. The back is about two thirds of the overall height and the arms are level with the back. It sits on a recessed black plinth about 8 cm high, set back about 5 cm on every side so the body seems to float; no legs are visible. Two square track arms about 18 cm wide with flat tops and crisp corners. Three loose seat cushions of equal width, each about as thick as an arm is wide, and three matching loose back cushions, all with a single flat welt seam along every edge, sitting crisp and slightly plump. The whole body and every cushion are upholstered in oatmeal bouclé with small tight loops and a matte finish. No piping, no buttons, no skirt, no scatter cushions.
+
+### Example (dining chair)
+
+> A dining chair about 52 cm wide, 55 cm deep and 80 cm high, seat at 46 cm. Four round solid-oak legs, natural light oak with a matte oil finish, slightly tapered toward the floor and splayed a little outward; the front pair is joined by no stretcher, the side pairs by one thin round stretcher each, about a third of the way up. A curved backrest made of one bent oak band about 6 cm deep, wrapping around the back of the seat, held by six evenly spaced thin vertical oak spindles. The seat is woven natural paper cord in a tight diagonal pattern, framed by oak rails. No upholstery, no arms, no metal parts.
 
 ## 2 Parts by type
 
