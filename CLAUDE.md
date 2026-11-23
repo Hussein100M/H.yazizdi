@@ -37,14 +37,14 @@ Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic
 6. **The owner's note is the strongest signal.** A pattern the owner names in their note scores 2; one only observed scores 1.
 7. **Credits:** tests follow the pipeline and weekly cap in `benchmark/README.md` (≤ 350 OpenArt credits a week, ≤ 1050 for the month); check the balance and quote each job with `openart_model_cost` before running, and report credits used and the balance left.
 8. **Never invent.** If a step can't run (no new refs, connector missing, network blocked, no credits), say so in one line and skip that step. No mocked results.
-9. **Gmail:** read only threads tagged `#ref`, `#bench`, `#test`; the only change made there is the `ref-done` label. Never send, delete or forward email.
+9. **Gmail:** read only the image emails the owner sends to themselves from 2026-11-23 on (the query in Daily run step 1); the only change made there is the `ref-done` label (id `Label_2`). Never send, delete or forward email.
 
 ## Daily run (every morning, ~06:40 Riyadh time)
 
-1. **Collect.** Gmail `search_threads` with `subject:(#ref OR #bench OR #test) has:attachment -label:ref-done`. For each thread, `get_thread`, then `download_gmail_attachment` for each image:
-   - `#ref` → `research/inbox/YYYY-MM-DD/NN.<ext>`; keep the email body (the owner's note: account name, what they liked) with it.
+1. **Collect.** Gmail `search_threads` with `from:me to:me has:attachment (filename:png OR filename:jpg OR filename:jpeg OR filename:heic OR filename:webp) after:2026/11/23 -label:ref-done` — every image email the owner sends themselves, whatever the subject (the first one came without `#ref`). For each thread, `get_thread`, then `download_gmail_attachment` for each image, and sort by subject:
    - `#bench` → `benchmark/images/B<n>.<ext>`, and add a row to the registry in `benchmark/README.md`.
    - `#test` → `benchmark/runs/week-N/`; score them as in the weekly run, step 4.
+   - anything else is a reference → `research/inbox/YYYY-MM-DD/NN.<ext>`; keep the email body (the owner's note) with it. Instagram screenshots show the source account at the top; read it from there when the note doesn't name it. Slides of one carousel count as one source.
    If nothing is new: one Arabic line ("ما وصلت مراجع جديدة اليوم"), no commit, stop.
 2. **Analyse** each reference with `research/TEMPLATE.md`. For more than 5 images, hand the batch to the `reference-analyst` subagent (if that type isn't available, a general-purpose agent given `.claude/agents/reference-analyst.md`) so the image reads stay out of the main context. Output: `research/log/YYYY-MM-DD.md`.
 3. **Tally** in `research/patterns.md`: match each transferable rule to an existing pattern (add its score, source and log link) or add a new row. Record contradictions in the Notes column — two opposite patterns can both be right for different project types; split them by type rather than averaging.
