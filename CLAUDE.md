@@ -35,7 +35,7 @@ Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic
 4. **Every rule fits a slot of the clay method** — A: sun & time, artificial lighting, sky & air, people · B: material description, reflections, people's dress, plants, grade, deliverable — or names another skill as its target (composition and camera → `architectural-camera-angle-planner` / `arch-prompt-interviewer`; more planting → `landscape-enhancement-passes`). A rule never adds architecture or elements the design lacks: in Nano Banana a listed element tends to appear.
 5. **Keep SKILL.md lean.** Knowledge goes into `references/luxury-gulf.md`; SKILL.md gets one pointer line at most (proposed with the first approved rule — text in `skills/CHANGELOG.md`).
 6. **The owner's note is the strongest signal.** A pattern the owner names in their note scores 2; one only observed scores 1.
-7. **Credits:** at most 20 generations a week for tests; check the balance and the model cost before running, and report credits used and the balance left.
+7. **Credits:** tests follow the pipeline and weekly cap in `benchmark/README.md` (≤ 350 OpenArt credits a week, ≤ 1050 for the month); check the balance and quote each job with `openart_model_cost` before running, and report credits used and the balance left.
 8. **Never invent.** If a step can't run (no new refs, connector missing, network blocked, no credits), say so in one line and skip that step. No mocked results.
 9. **Gmail:** read only threads tagged `#ref`, `#bench`, `#test`; the only change made there is the `ref-done` label. Never send, delete or forward email.
 
@@ -56,7 +56,7 @@ Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic
 
 1. **Distil.** A candidate is a pattern with score ≥ 4, from ≥ 2 different source accounts, with no unresolved contradiction for its project type.
 2. **Draft** the edit to `luxury-gulf.md` (or another target skill — copy it first from `/root/.claude/skills/synced/*/<name>/` into `skills/<name>/`) as a diff in `research/weekly/week-N.md`.
-3. **Test (A/B)** following `benchmark/README.md`: 2 benchmark images the candidates affect, each run twice through the clay prompts — baseline (current `skills/`) and candidate — with the same model, reference and aspect. If the candidates only touch Prompt B slots, both versions share one clay. Run on OpenArt when the connected account has the credits; otherwise give the owner the prompt pairs to run in Gemini and send back by email with subject `#test week-N`.
+3. **Test (A/B)** following `benchmark/README.md`: 2 benchmark images the candidates affect, each run twice through the clay prompts — baseline (current `skills/`) and candidate — with the same model, reference and aspect. If the candidates only touch Prompt B slots, both versions share one clay. Run on OpenArt with the pipeline in `benchmark/README.md` (clay on Nano Banana 2.1 at 1K, materials on Seedream 5 Pro at 2K, `@id` mentions instead of "Image 1/2"); check each clay before its materials pass, as clay-rerender says. If OpenArt can't run (credits, connector, network), give the owner the prompt pairs to run themselves and send back by email with subject `#test week-N`.
 4. **Score** each result with clay-rerender's review — مطابقة التصميم /10 and الواقعية /10 — plus الفخامة /10 from the rubric in `luxury-gulf.md`. A candidate that costs design fidelity is rejected however luxurious it looks.
 5. **Report** in `research/weekly/week-N.md` (candidates, evidence, scores, recommendation: adopt / reject / retest) and a short Arabic summary in chat; ask the owner to approve each candidate.
 6. **On approval:** apply to `skills/`, record it in `skills/CHANGELOG.md` with a new version, set the pattern's status to `adopted`, zip the changed skill into `dist/<skill>.zip`, and tell the owner to upload it in place of the current version on their claude.ai skills page. Rejected → status `rejected` with the reason.
@@ -70,7 +70,9 @@ Write `research/FINAL.md`: the luxury guide (adopted rules by slot with their be
 - Started 2026-11-24 · ends 2026-12-24 · weekly on Thursdays from 2026-12-03.
 - Session branch: `claude/dreamy-edison-65hokr`.
 - Daily scheduled task: "Render research daily", id `trig_0137nj9PWstEXw1MJxsYZFv4`, `CRON_TZ=Asia/Riyadh 40 6 * * *`, fires into session `session_01DWRF5jWYqNQaGWtcYjaHJL`. The owner asked for 7:00; 06:40 keeps it off the busy top of the hour.
-- OpenArt: the connected account is on the Free plan with 10 credits (2026-11-23). The owner has credits on another OpenArt account; tests move there once it is reconnected. Test project/folder: not chosen yet — ask once, then record it here.
+- OpenArt: reconnected on 2026-11-23 to the owner's paid account (Starter, 1411 credits). The connector reloaded inside this same session, so the scheduled task stays here. Tests go in project "احلام الشرق" (`x6v3Oftgh079X5YV5p0e`), folder "احلام الشرق" (`jYhSsB4mq00Azn7ebBva`).
+- Network: uploads go through `storage.googleapis.com` (reachable); results download from `cdn.openart.ai` (added to the Default environment's allowed hosts on 2026-11-23).
+- The owner's own production (folder "فيلا الملكي" in Personal Project): materials pass on Seedream 5 Pro at 2K, images referred to as `@id` in the prompt, sometimes a third image as a material sample (e.g. the stone), "calm and still, no people and no vehicles" in some shots. The test pipeline mirrors this.
 - Nim: 0 credits.
 - Benchmark images: none yet (the owner sends them with subject `#bench`).
 - People in Gulf villa renders: learn from the owner's references; until then the skill's current rule (smart-casual and modest) stands.
