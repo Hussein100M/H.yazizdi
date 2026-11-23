@@ -6,7 +6,7 @@ analyses them, finds what keeps recurring, tests it, and — only with the owner
 approval — turns it into improvements to the owner's skills, starting with
 `clay-rerender`, the method that has improved their renders the most.
 
-Focus: modern Gulf luxury villas first, other luxury projects second.
+Scope: **architectural renders in general**, not villas only — towers, interiors, hospitality, commercial, masterplans, landscape. The question for every reference is what makes it read as a real, luxurious photograph, and which of that carries over to any project. Rules are general by default; a rule is tied to a project type only when the references show it belongs to that type.
 The owner's picks define "luxury"; the agent learns their taste, it does not impose its own.
 
 Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic notes allowed.
@@ -23,7 +23,7 @@ Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic
 | `benchmark/README.md` | Benchmark set registry and the A/B test protocol |
 | `benchmark/images/`, `benchmark/runs/` | Benchmark images and test results (images gitignored) |
 | `skills/clay-rerender/SKILL.md` | Working copy of the skill (baseline = account version of 2026-11-04) |
-| `skills/clay-rerender/references/luxury-gulf.md` | The luxury library the skill will read; grows only through approved rules |
+| `skills/clay-rerender/references/render-library.md` | The render library the skill will read: general rules first, type-specific ones under their type; grows only through approved rules |
 | `skills/CHANGELOG.md` | Every approved change, with version and evidence |
 | `.claude/agents/reference-analyst.md` | Subagent that analyses a batch of images |
 
@@ -33,7 +33,7 @@ Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic
 2. **No edit to `skills/` without the owner's approval in chat.** Proposed changes live in the weekly report as a diff until approved.
 3. **Learn principles, not copies.** No studio or artist names and no "in the style of …" in skill text; nothing that reproduces one specific design.
 4. **Every rule fits a slot of the clay method** — A: sun & time, artificial lighting, sky & air, people · B: material description, reflections, people's dress, plants, grade, deliverable — or names another skill as its target (composition and camera → `architectural-camera-angle-planner` / `arch-prompt-interviewer`; more planting → `landscape-enhancement-passes`). A rule never adds architecture or elements the design lacks: in Nano Banana a listed element tends to appear.
-5. **Keep SKILL.md lean.** Knowledge goes into `references/luxury-gulf.md`; SKILL.md gets one pointer line at most (proposed with the first approved rule — text in `skills/CHANGELOG.md`).
+5. **Keep SKILL.md lean.** Knowledge goes into `references/render-library.md`; SKILL.md gets one pointer line at most (proposed with the first approved rule — text in `skills/CHANGELOG.md`).
 6. **The owner's note is the strongest signal.** A pattern the owner names in their note scores 2; one only observed scores 1.
 7. **Credits:** tests follow the pipeline and weekly cap in `benchmark/README.md` (≤ 350 OpenArt credits a week, ≤ 1050 for the month); check the balance and quote each job with `openart_model_cost` before running, and report credits used and the balance left.
 8. **Never invent.** If a step can't run (no new refs, connector missing, network blocked, no credits), say so in one line and skip that step. No mocked results.
@@ -55,9 +55,9 @@ Talk to the owner in short Arabic (Gulf dialect is fine). Files: English, Arabic
 ## Weekly run (the Thursday daily run, from 2026-12-03)
 
 1. **Distil.** A candidate is a pattern with score ≥ 4, from ≥ 2 different source accounts, with no unresolved contradiction for its project type.
-2. **Draft** the edit to `luxury-gulf.md` (or another target skill — copy it first from `/root/.claude/skills/synced/*/<name>/` into `skills/<name>/`) as a diff in `research/weekly/week-N.md`.
+2. **Draft** the edit to `render-library.md` (or another target skill — copy it first from `/root/.claude/skills/synced/*/<name>/` into `skills/<name>/`) as a diff in `research/weekly/week-N.md`.
 3. **Test (A/B)** following `benchmark/README.md`: 2 benchmark images the candidates affect, each run twice through the clay prompts — baseline (current `skills/`) and candidate — with the same model, reference and aspect. If the candidates only touch Prompt B slots, both versions share one clay. Run on OpenArt with the pipeline in `benchmark/README.md` (clay on Nano Banana 2.1 at 1K, materials on Seedream 5 Pro at 2K, `@id` mentions instead of "Image 1/2"); check each clay before its materials pass, as clay-rerender says. If OpenArt can't run (credits, connector, network), give the owner the prompt pairs to run themselves and send back by email with subject `#test week-N`.
-4. **Score** each result with clay-rerender's review — مطابقة التصميم /10 and الواقعية /10 — plus الفخامة /10 from the rubric in `luxury-gulf.md`. A candidate that costs design fidelity is rejected however luxurious it looks.
+4. **Score** each result with clay-rerender's review — مطابقة التصميم /10 and الواقعية /10 — plus الفخامة /10 from the rubric in `render-library.md`. A candidate that costs design fidelity is rejected however luxurious it looks.
 5. **Report** in `research/weekly/week-N.md` (candidates, evidence, scores, recommendation: adopt / reject / retest) and a short Arabic summary in chat; ask the owner to approve each candidate.
 6. **On approval:** apply to `skills/`, record it in `skills/CHANGELOG.md` with a new version, set the pattern's status to `adopted`, zip the changed skill into `dist/<skill>.zip`, and tell the owner to upload it in place of the current version on their claude.ai skills page. Rejected → status `rejected` with the reason.
 
@@ -75,7 +75,8 @@ Write `research/FINAL.md`: the luxury guide (adopted rules by slot with their be
 - The owner's own production (folder "فيلا الملكي" in Personal Project): materials pass on Seedream 5 Pro at 2K, images referred to as `@id` in the prompt, sometimes a third image as a material sample (e.g. the stone), "calm and still, no people and no vehicles" in some shots. The test pipeline mirrors this.
 - Nim: 0 credits.
 - Benchmark images: none yet (the owner sends them with subject `#bench`).
-- People in Gulf villa renders: learn from the owner's references; until then the skill's current rule (smart-casual and modest) stands.
+- People: learn from the owner's references, per project type; until then the skill's current rule (smart-casual and modest) stands.
+- 2026-11-23: the owner widened the scope from villas to renders in general; the library was renamed from `luxury-gulf.md` to `render-library.md`.
 
 ## Resume in a new session
 

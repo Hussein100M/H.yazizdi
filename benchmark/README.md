@@ -6,13 +6,15 @@
 
 أرسل من 6 إلى 8 صور من مشاريعك، إيميلاً لنفسك بعنوان يبدأ بـ `#bench`. اكتب في نص الرسالة وصفاً قصيراً لكل صورة بالترتيب. الأفضل أن تكون **صور مواد**، أي رندر أو لقطة SketchUp أو Revit، مثل ما تبدأ بها طريقة الكلاي:
 
-1. واجهة فيلا أمامية، نهار.
-2. المدخل عن قرب.
-3. جهة الحديقة أو المسبح.
-4. لقطة تصلح للمساء أو الليل.
-5. لقطة جوية أو من زاوية مرتفعة.
-6. داخلي: مجلس أو صالة.
-7. و8. اختياري: مشروع غير الفلل.
+1. واجهة فيلا، نهار.
+2. لقطة تصلح للمساء أو الليل، من أي مشروع.
+3. برج أو مبنى تجاري أو مكتبي.
+4. داخلي: مجلس أو صالة أو لوبي.
+5. لقطة جوية أو مخطط عام.
+6. مشروع ضيافة أو مطعم أو منتجع.
+7. و8. اختياري: لاندسكيب، أو مدخل عن قرب، أو أي نوع تشتغل عليه كثيراً.
+
+الهدف أن تكون الصور متنوعة، حتى تُختبر القاعدة على أكثر من نوع مشروع قبل اعتمادها.
 
 وإذا عندك صورة مرجعية للإضاءة تستخدمها دائماً، أرسلها معها.
 
@@ -38,6 +40,6 @@
 - If the candidates only touch Prompt B slots, both versions share one lit clay (A).
 - **Weekly cap:** 2 images × 2 versions × 2 passes = 4 × 27 + 4 × 60 = **348 credits** at most (294 with a shared clay). One rerun of a failed clay fits inside the 350 cap; anything more waits for the owner. Three test weeks (3, 10, 17 December) → **≤ 1050 credits** for the month.
 - **Watch:** a 1K clay can soften fine details (grooves, insets, lettering) before the 2K materials pass. If مطابقة التصميم keeps losing points on the watch-list for that reason, tell the owner and suggest a 2K clay (Nano Banana 2.1 at 2K costs 37).
-- Each result gets three scores: مطابقة التصميم /10 and الواقعية /10 from clay-rerender's review, and الفخامة /10 from the rubric in `skills/clay-rerender/references/luxury-gulf.md`.
+- Each result gets three scores: مطابقة التصميم /10 and الواقعية /10 from clay-rerender's review, and الفخامة /10 from the rubric in `skills/clay-rerender/references/render-library.md`.
 - A candidate is recommended only if it raises الفخامة or الواقعية on both images without lowering مطابقة التصميم.
 - Results go in `benchmark/runs/week-N/` (images gitignored) and the scores in `research/weekly/week-N.md`.

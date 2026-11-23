@@ -1,11 +1,11 @@
-# Luxury library — modern Gulf villas (and other luxury projects)
+# Render library — what makes a render read as a real, luxurious photograph
 
 **Version 0.1 — structure and scoring rubric only. No rule is adopted yet.**
 Rules enter this file only after they recur in the owner's references, pass an A/B test on the benchmark, and are approved by the owner (see `skills/CHANGELOG.md`).
 
 ## How clay-rerender uses this file (once wired in)
 
-Read it when the project is a luxury home or the user says فخم. Apply the adopted rules to the slots they name, inside the sentences the skill already writes. The user's words, the attached images and the skill's own rules come first; a rule here never adds an element the design lacks, and never overrides a reference image the user attached.
+Read it on every run. Apply the adopted general rules, plus those under the project's type in section T, to the slots they name, inside the sentences the skill already writes. The user's words, the attached images and the skill's own rules come first; a rule here never adds an element the design lacks, and never overrides a reference image the user attached.
 
 ## A — Lit clay
 
@@ -36,6 +36,12 @@ _No adopted rules yet._
 _No adopted rules yet._
 
 ### B5 Grade
+_No adopted rules yet._
+
+## T — By project type
+
+Rules that hold for one type only. Each sub-section is opened when its first rule is adopted: villa (by style), residential tower, office and commercial, hospitality, interior (by room), masterplan and aerial, landscape.
+
 _No adopted rules yet._
 
 ## R — Luxury score (الفخامة /10), rubric v0

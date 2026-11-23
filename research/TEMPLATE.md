@@ -7,7 +7,7 @@ Ignore Instagram overlays (icons, captions, watermarks) — read only the pictur
 ```markdown
 ### REF YYYY-MM-DD-NN — <source account, or "unknown">
 - **Owner's note:** "<verbatim from the email>"
-- **Kind:** real photo | CG render | AI image (≈ if unsure) · **Project:** Gulf modern villa | other villa | interior | hospitality | other (…) · **View:** exterior eye level | low angle | aerial | interior
+- **Kind:** real photo | CG render | AI image (≈ if unsure) · **Project:** villa (style …) | residential tower | office / commercial | hospitality | interior (room …) | masterplan / aerial | landscape | other (…) · **View:** exterior eye level | low angle | aerial | interior
 - **Quality gate:** keep | weak — <why> (AI artefacts, heavy filters, overlays, low resolution: weak refs are logged but not tallied)
 
 **A — Light, air, lighting, people**
