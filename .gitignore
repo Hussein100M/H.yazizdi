@@ -1,0 +1,10 @@
+# Images never go into git: this repo is public, and references are other studios' work while benchmark images are client work.
+# The originals stay in Gmail (#ref / #bench / #test) and are downloaded here only for a run.
+research/inbox/
+benchmark/images/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.heic
+*.gif
